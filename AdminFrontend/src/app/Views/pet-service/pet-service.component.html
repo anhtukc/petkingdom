@@ -1,0 +1,119 @@
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">eCommerce</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary">Settings</button>
+                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                        <a class="dropdown-item" href="javascript:;">Another action</a>
+                        <a class="dropdown-item" href="javascript:;">Something else here</a>
+                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">
+                    <div class="position-relative">
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                    </div>
+                    <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="openCreateForm()"><i class="bx bxs-plus-square"></i>Tạo dịch vụ</a></div>
+                    
+                </div>
+                
+           
+
+                <app-service-options></app-service-options>
+                <app-create-modal-pet-service></app-create-modal-pet-service>
+                <div class="table-responsive" id="#">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('name')">
+                                    <span class="col">Tên </span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'name'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'name'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'name'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><span >Icon</span></th>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('briefDescription')">
+                                    <span class="col">Miêu tả cơ bản </span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'briefDescription'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'briefDescription'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'briefDescription'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('status')">
+                                    <span class="col">trạng thái </span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'status'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'status'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'status'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><span >Xem chi tiết</span></th>
+                                <th><span >Hành động</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | paginate
+                            : {
+                                itemsPerPage:page.pageSize,
+                                currentPage: page.currentPage,
+                                totalItems: totalData
+                              }">
+                            
+                                <td>{{item.name}}</td>
+                                <td>{{item.icon}}</td>
+                                <td>{{item.briefDescription}}</td>
+                                <td>{{statusMeaning[item.status]}}</td>
+                                <td><button type="button" class="btn btn-primary btn-sm radius-30 px-4">View Details</button></td>
+                                <td>
+                                    <div class="d-flex order-actions">
+                                        <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
+                                        <a href="javascript:;" class="ms-3"><i class='bx bxs-trash'></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+                   
+
+                </div>
+                <div class="form-group" class="d-flex" >
+                    <p style="margin-top: 25px;">Tổng số: {{totalData}} bản ghi</p>
+                    <div class="input-group" style="justify-content: right; margin-top: 10px;">
+                        <select class="form-select" aria-label="Default select example" style=" max-height: 45px;max-width: 20%;" [(ngModel)]="page.pageSize" (change)="fetchData()">
+                            <option  value="10" >10 bản ghi trên 1 trang</option>
+                            <option  value="20" selected>20 bản ghi trên 1 trang</option>
+                            <option  value="30">30 bản ghi trên 1 trang</option>
+                            <option  value="50">50 bản ghi trên 1 trang</option>
+                            <option  value="100">100 bản ghi trên 1 trang</option>
+
+                          </select>
+                        <pagination-controls
+                        style="padding-top: 10px;"
+                            class="pagi"
+                            (pageChange)="renderPage($event)">
+                        </pagination-controls>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+</div>

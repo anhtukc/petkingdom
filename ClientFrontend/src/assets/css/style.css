@@ -21,8 +21,15 @@
   Typography CSS
 -----------------------------------------------------------------------
 */
+.single-product{
+  height: 320px !important;
+  width: 280px !important;
+}
 .header-area{
   background-color: purple;
+}
+.briefDescription li{
+  list-style: circle;
 }
 body {
   color: #181818;

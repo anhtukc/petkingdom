@@ -31,6 +31,33 @@
 .briefDescription li{
   list-style: circle;
 }
+.btn-schedule{
+  background-color: #ffd868;
+    border: none;
+    border-radius: 5px;
+    color: #080b06;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    height: 40px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    width: 130px;
+}
+.service-option{
+  font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4em;
+    margin-bottom: 10px;
+}
+.select-custom{
+ border: 1px solid rgb(38, 38, 38) !important;
+}
+.price{
+  color:rgb(202, 33, 14) !important;
+  font-size: 24px;
+}
 body {
   color: #181818;
   font-size: 16px;

@@ -1,0 +1,59 @@
+
+
+.booking-flow-step {
+    display: flex;
+    max-width: 1240px;
+    background-color: #f2f2f2;
+    border: 1px solid #c8c6c6;
+    color: #003b49;
+  padding: 20px;
+}
+.btn-login{
+    background-color: #ffd868;
+    border: none;
+    border-radius: 5px;
+    color: #080b06;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    height: 40px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    width: 130px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.signin-booking{
+    margin-bottom: 10px;
+}
+.choose-content{
+    border: 1px solid gray;
+    padding: 10px;
+}
+.center{
+    text-align: center;
+}
+.hide{
+    display: none;
+}
+.icon-booking{
+    display: flex;
+
+}
+.icon-booking img{
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+.booking-name{
+    flex: 8;
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    margin: 5px auto;
+    font-size: 20px;
+    font-weight: 700;
+}
+

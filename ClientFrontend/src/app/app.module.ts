@@ -8,6 +8,9 @@ import { SharedModule } from './Views/shared/shared.module';
 import { AboutComponent } from './Views/about/about.component';
 import { ProductListComponent } from './Views/product-list/product-list.component';
 import { ProductSingleComponent } from './Views/product-single/product-single.component';
+import { ServiceSingleComponent } from './Views/service-single/service-single.component';
+import { BookingComponent } from './Views/booking/booking.component';
+import { LoginComponent } from './Views/login/login.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { ProductSingleComponent } from './Views/product-single/product-single.co
     HomeComponent,
     AboutComponent,
     ProductListComponent,
-    ProductSingleComponent
+    ProductSingleComponent,
+    ServiceSingleComponent,
+    BookingComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

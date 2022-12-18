@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetKingdomFN.BusEntities;
 using PetKingdomFN.Interfaces;
 using System.Net;
 
@@ -15,12 +16,12 @@ namespace PetKingdomFN.Controllers
             _repository = repository;
         }
         [HttpPost("Authenticate")]
-        public async Task<ActionResult> Authenticate(string username, string password)
+        public async Task<ActionResult> Authenticate([FromBody] Login acc)
         {
             try
             {           
 
-                string result = await _repository.GenerateJwtToken(username, password);
+                string result = await _repository.GenerateJwtToken(acc.username, acc.password);
                 if (result == "Invalid account")
                 {
                     return Json(new { message = "fail", details = result });

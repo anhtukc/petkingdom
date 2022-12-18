@@ -1,2 +1,2 @@
-<app-header></app-header>
+<app-header *ngif="router.url !== '/login' "></app-header>
 <router-outlet></router-outlet>

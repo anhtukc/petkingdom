@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateModalPetServiceComponent } from './create-modal-pet-service/create-modal-pet-service.component';
 import { PetServiceComponent } from './pet-service.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -24,7 +25,8 @@ import { PetServiceComponent } from './pet-service.component';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CKEditorModule
   ]
 })
 export class PetServiceModule { }

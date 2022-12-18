@@ -13,6 +13,8 @@ import { PetServiceModule } from './Views/pet-service/pet-service.module';
 import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 import { LoginComponent } from './Views/login/login.component';
 import { DashboardComponent } from './Views/dashboard/dashboard.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { DashboardComponent } from './Views/dashboard/dashboard.component';
     NgxPaginationModule,
     FormsModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

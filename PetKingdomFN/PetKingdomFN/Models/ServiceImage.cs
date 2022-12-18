@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PetKingdomFN.Models;
 
-public partial class ProductImage
+public partial class ServiceImage
 {
     public string Id { get; set; } = null!;
 
@@ -11,7 +11,7 @@ public partial class ProductImage
 
     public int? Status { get; set; }
 
-    public string? ProductId { get; set; }
+    public string? ServiceId { get; set; }
 
-    public virtual Product? Product { get; set; }
+    public virtual PetService? Service { get; set; }
 }

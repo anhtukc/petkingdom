@@ -32,7 +32,7 @@ namespace PetKingdomFN.Controllers
             return Json(new { list, numberOfRecords });
         }
 
-        [HttpPost("AddPetService")]
+        [HttpPost("Add")]
         public async Task<JsonResult> AddPetService([FromBody]PetService service)
         {
             if (service is null)
@@ -42,9 +42,38 @@ namespace PetKingdomFN.Controllers
            
             await _PetServiceRepository.AddPetService(service);
 
-            return Json(new { service });
+            return Json(new { result = service , message = "fail" });
+        }
+        [HttpGet("getById")]
+        public async Task<JsonResult> GetPetServiceById([FromQuery] string id)
+        {
+            var obj = await _PetServiceRepository.GetPetServiceById(id);
+            if (obj is null)
+            {
+                return Json(new { message = "fail", details = "Not found" });
+            }
+            return Json(new { result = obj, message = "success" });
         }
 
-       
+        [HttpPost("update")]
+        public async Task<JsonResult> UpdatePetService([FromBody] PetService service)
+        {
+            var obj = await _PetServiceRepository.UpdatePetService(service);
+            if (obj is null)
+            {
+                return Json(new { message = "fail", details = "Not found" });
+            }
+            return Json(new { result = obj, message = "success" });
+        }
+        [HttpPost("delete")]
+        public async Task<JsonResult> DeletePetService([FromBody] string  id)
+        {
+            var obj = await _PetServiceRepository.DeletePetService(id);
+            if (obj == "Not found")
+            {
+                return Json(new { message = "fail", details = "Not found" });
+            }
+            return Json(new { message = "success" });
+        }
     }
 }

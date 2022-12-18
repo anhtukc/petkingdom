@@ -33,7 +33,7 @@ namespace PetKingdomFN.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<PetService>> SearchList(Pagination page, string name, int? status)
+        public async Task<List<PetService>> SearchPetService(Pagination page, string name, int? status)
         {
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<PetService> list = await _DbContext.PetServices
@@ -51,13 +51,31 @@ namespace PetKingdomFN.Repositories
             await _DbContext.SaveChangesAsync();
             return result.Result.Entity;
         }
-        public async Task<PetService> ChangePetService(PetService service)
+        public async Task<PetService> UpdatePetService(PetService service)
         {
             var obj = await _DbContext.PetServices.Where(x=>x.Id == service.Id).FirstAsync();
             obj = service;
             _DbContext.SaveChanges();
             return obj;
+        }
+        public async Task<PetService> GetPetServiceById(string id)
+        {
+            var obj = await _DbContext.PetServices.Where(x => x.Id == id).FirstAsync();
+           
+            return obj;
+        }
+        public async Task<string> DeletePetService(string id)
+        {
+            var petService = await _DbContext.PetServices.FindAsync(id);
+            if(petService is null)
+            {
+                return "Not found";
+            }
+             _DbContext.PetServices.Remove(petService);
+            await _DbContext.SaveChangesAsync();
+            return "success";
 
         }
+       
     }
 }

@@ -27,8 +27,9 @@
         <form>
           <div class="form-group">
             <label for="name" class="form-label">Tên dịch vụ</label>
+           
             <input type="text" id="name" name="name" class="form-control" required minlength="4" appForbiddenName="bob"
-              [(ngModel)]="petService.name" #name="ngModel">
+              [(ngModel)]="petService.name" #name="ngModel" >
 
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert ">
 
@@ -36,6 +37,22 @@
                 *Tên không được để trống
               </div>
               <div *ngIf="name.errors?.['minlength']">
+                *Tên phải có độ dài tối thiểu 4 ký tự.
+              </div>
+
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name" class="form-label">Tên dịch vụ</label>
+            <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" #briefDescription="ngModel" [ngModelOptions]="{standalone: true}" ></ckeditor>            
+
+            <div *ngIf="briefDescription.invalid && (briefDescription.dirty || briefDescription.touched)" class="alert ">
+
+              <div *ngIf="briefDescription.errors?.['required']">
+                *Tên không được để trống
+              </div>
+              <div *ngIf="briefDescription.errors?.['minlength']">
                 *Tên phải có độ dài tối thiểu 4 ký tự.
               </div>
 
@@ -52,6 +69,7 @@
   </div>
 
   <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="check()">Check</button>
     <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Save</button>
   </div>
 

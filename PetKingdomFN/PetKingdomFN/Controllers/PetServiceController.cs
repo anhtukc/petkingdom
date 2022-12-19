@@ -8,6 +8,7 @@ using PetKingdomFN.Repositories;
 using PetKingdomFN.BusEntities;
 using PetKingdomFN.Models;
 using Microsoft.AspNetCore.Authorization;
+using Google.Api.Gax.ResourceNames;
 
 namespace PetKingdomFN.Controllers
 {
@@ -17,6 +18,7 @@ namespace PetKingdomFN.Controllers
     {
         private readonly IPetServiceRepository _PetServiceRepository;
         private readonly ICloudStorageService _cloud;
+        private readonly string folder = "img";
 
         public PetServiceController(IPetServiceRepository repo, ICloudStorageService cloud)
         {
@@ -24,7 +26,7 @@ namespace PetKingdomFN.Controllers
             _cloud = cloud;
         }
 
-        [HttpPost("GetPage")]
+        [HttpPost("getPage")]
         public async Task<JsonResult> Index([FromBody]Pagination page)
         {
             IEnumerable<PetService> list = await _PetServiceRepository.GetPageList(page);
@@ -32,17 +34,25 @@ namespace PetKingdomFN.Controllers
             return Json(new { list, numberOfRecords });
         }
 
-        [HttpPost("Add")]
-        public async Task<JsonResult> AddPetService([FromBody]PetService service)
+        [HttpPost("add")]
+        [DisableRequestSizeLimit]
+        public async Task<JsonResult> AddPetService([FromForm] PetService service)
         {
             if (service is null)
             {
                 return Json(new { message = "fail", details = "Empty object" });
             }
-           
+            if(service.id is null)
+            {
+                service.id = Guid.NewGuid().ToString("N");
+            }
+            if(!(service.iconFile is null))
+            {
+                service.icon = await _cloud.UploadFileAsync(service.iconFile, service.id,folder);
+            }
             await _PetServiceRepository.AddPetService(service);
 
-            return Json(new { result = service , message = "fail" });
+            return Json(new { obj = service , message = "success" });
         }
         [HttpGet("getById")]
         public async Task<JsonResult> GetPetServiceById([FromQuery] string id)
@@ -52,7 +62,7 @@ namespace PetKingdomFN.Controllers
             {
                 return Json(new { message = "fail", details = "Not found" });
             }
-            return Json(new { result = obj, message = "success" });
+            return Json(new { obj = obj, message = "success" });
         }
 
         [HttpPost("update")]
@@ -63,7 +73,7 @@ namespace PetKingdomFN.Controllers
             {
                 return Json(new { message = "fail", details = "Not found" });
             }
-            return Json(new { result = obj, message = "success" });
+            return Json(new { obj = obj, message = "success" });
         }
         [HttpPost("delete")]
         public async Task<JsonResult> DeletePetService([FromBody] string  id)

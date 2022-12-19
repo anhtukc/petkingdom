@@ -2,28 +2,17 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">eCommerce</div>
+          
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                        <li class="breadcrumb-item active" aria-current="page">Dịch vụ</li>
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Settings</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
         <!--end breadcrumb-->
       
@@ -35,16 +24,14 @@
                     </div>
                     <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="openCreateForm()"><i class="bx bxs-plus-square"></i>Tạo dịch vụ</a></div>
                     
-                </div>
-                
-           
-
+                </div>                 
                 <app-service-options></app-service-options>
-                <app-create-modal-pet-service></app-create-modal-pet-service>
-                <div class="table-responsive" id="#">
-                    <table class="table mb-0">
+                <app-create-modal-pet-service (addEvent) ="addNew($event)" ></app-create-modal-pet-service>
+                <div class="table-responsive " id="#">
+                    <table class="table mb-0 table-bordered">
                         <thead class="table-light">
                             <tr>
+                                <th>STT</th>
                                 <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('name')">
                                     <span class="col">Tên </span>
                                     <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'name'"></i>
@@ -69,15 +56,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of data | paginate
+                            <tr *ngFor="let i = index;let item of data | paginate
                             : {
                                 itemsPerPage:page.pageSize,
                                 currentPage: page.currentPage,
                                 totalItems: totalData
                               }">
-                            
+                                <td>{{page.currentPage  +i}}</td>
                                 <td>{{item.name}}</td>
-                                <td>{{item.icon}}</td>
+                                <td><img src="{{item.icon}}" alt="" srcset="" style="max-height:150px;max-width: 150px;"></td>
                                 <td>{{item.briefDescription}}</td>
                                 <td>{{statusMeaning[item.status]}}</td>
                                 <td><button type="button" class="btn btn-primary btn-sm radius-30 px-4">View Details</button></td>
@@ -95,7 +82,7 @@
 
                 </div>
                 <div class="form-group" class="d-flex" >
-                    <p style="margin-top: 25px;">Tổng số: {{totalData}} bản ghi</p>
+                    <p style="margin-top: 25px;width: 150px;">Tổng số: {{totalData}} bản ghi</p>
                     <div class="input-group" style="justify-content: right; margin-top: 10px;">
                         <select class="form-select" aria-label="Default select example" style=" max-height: 45px;max-width: 20%;" [(ngModel)]="page.pageSize" (change)="fetchData()">
                             <option  value="10" >10 bản ghi trên 1 trang</option>

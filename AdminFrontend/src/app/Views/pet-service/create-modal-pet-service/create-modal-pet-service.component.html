@@ -7,70 +7,43 @@
     </button>
   </div>
 
-  <div class="modal-body" >
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-          role="tab" aria-controls="home" aria-selected="true">Home</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-          role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-          role="tab" aria-controls="contact" aria-selected="false">Contact</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <form>
-          <div class="form-group">
-            <label for="name" class="form-label">Tên dịch vụ</label>
-           
-            <input type="text" id="name" name="name" class="form-control" required minlength="4" appForbiddenName="bob"
-              [(ngModel)]="petService.name" #name="ngModel" >
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="name" class="form-label">Mã dịch vụ: </label>
 
-            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert ">
+        <input type="text" id="name" name="name" class="form-control" [(ngModel)]="petService.id"
+          placeholder="Tự động tạo mã nếu để trống...">
 
-              <div *ngIf="name.errors?.['required']">
-                *Tên không được để trống
-              </div>
-              <div *ngIf="name.errors?.['minlength']">
-                *Tên phải có độ dài tối thiểu 4 ký tự.
-              </div>
-
-
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="name" class="form-label">Tên dịch vụ</label>
-            <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" #briefDescription="ngModel" [ngModelOptions]="{standalone: true}" ></ckeditor>            
-
-            <div *ngIf="briefDescription.invalid && (briefDescription.dirty || briefDescription.touched)" class="alert ">
-
-              <div *ngIf="briefDescription.errors?.['required']">
-                *Tên không được để trống
-              </div>
-              <div *ngIf="briefDescription.errors?.['minlength']">
-                *Tên phải có độ dài tối thiểu 4 ký tự.
-              </div>
-
-
-            </div>
-          </div>
-        </form>
       </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-    </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Tên dịch vụ:</label>
+        <input type="text" id="name" name="name" class="form-control" 
+          [(ngModel)]="petService.name" >
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Mô tả tóm tắt:</label>
+        <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" [ngModelOptions]="{standalone: true}">
+        </ckeditor>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Mô tả chi tiết:</label>
+        <ckeditor [editor]="Editor" [(ngModel)]="petService.fullDescription" [ngModelOptions]="{standalone: true}">
+        </ckeditor>
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Icon dịch vụ:</label>
+        <input type="file" id="icon" name="icon" class="form-control"  (change)="upload($event)">
+        <img id="iconImg" [src]="previewImg| sanitizerUrl"  />
+      </div>
+    </form>
 
 
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="check()">Check</button>
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="save()">Lưu</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
   </div>
 
 </ng-template>

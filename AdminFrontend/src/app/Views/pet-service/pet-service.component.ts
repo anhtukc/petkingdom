@@ -26,7 +26,9 @@ export class PetServiceComponent implements OnInit  {
   @ViewChild(CreateModalPetServiceComponent) createForm!: CreateModalPetServiceComponent;
   @ViewChild(ServiceOptionsComponent) option!: ServiceOptionsComponent;
 
-
+  addNew(service:petService){
+    this.data.push(service);
+  }
   public totalData:number = 0;
   constructor(private api:PetServiceApiService,
     public http: HttpClient,
@@ -42,7 +44,7 @@ export class PetServiceComponent implements OnInit  {
     this.option.openModal();
   }
   fetchData() {
-    this.api.GetPage(this.page).subscribe((result)=>{
+    this.api.getPage(this.page).subscribe((result)=>{
        this.data = result.list;
        this.totalData = result.numberOfRecords;} 
    );

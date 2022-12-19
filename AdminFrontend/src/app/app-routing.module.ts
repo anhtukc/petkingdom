@@ -13,7 +13,9 @@ const routes: Routes = [
   canActivate:[RoleGuard],
   data:{expectedRole:'admin'||'managementStaff'||'caringStaff'}},
 
-  {path:"login", component:LoginComponent}
+  {path:"login", component:LoginComponent},
+  {path:"",  pathMatch: 'full',redirectTo: 'login'},
+
 ];
 
 @NgModule({

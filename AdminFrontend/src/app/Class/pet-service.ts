@@ -2,10 +2,10 @@ import { Guid } from "guid-typescript";
 export interface petService{
     id:string;
     name:string;
-    fullDesciption:string;
+    fullDescription:string;
     briefDescription:string;
     icon?:string;
     status: number;
-    iconlFile?:File;
+    iconFile?:File;
 }
 

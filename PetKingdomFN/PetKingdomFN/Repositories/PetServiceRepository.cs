@@ -37,8 +37,8 @@ namespace PetKingdomFN.Repositories
         {
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<PetService> list = await _DbContext.PetServices
-                .Where(x => (string.IsNullOrEmpty(name) || x.Name.Contains(name)) 
-                && (!status.HasValue || x.Status == status))
+                .Where(x => (string.IsNullOrEmpty(name) || x.name.Contains(name)) 
+                && (!status.HasValue || x.status == status))
                 .OrderBy(sortQuery)
                 .Skip(page.pageSize * (page.currentPage - 1))
                 .Take(page.pageSize)
@@ -53,14 +53,14 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<PetService> UpdatePetService(PetService service)
         {
-            var obj = await _DbContext.PetServices.Where(x=>x.Id == service.Id).FirstAsync();
+            var obj = await _DbContext.PetServices.Where(x=>x.id == service.id).FirstAsync();
             obj = service;
             _DbContext.SaveChanges();
             return obj;
         }
         public async Task<PetService> GetPetServiceById(string id)
         {
-            var obj = await _DbContext.PetServices.Where(x => x.Id == id).FirstAsync();
+            var obj = await _DbContext.PetServices.Where(x => x.id == id).FirstAsync();
            
             return obj;
         }

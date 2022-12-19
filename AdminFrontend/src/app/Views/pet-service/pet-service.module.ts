@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateModalPetServiceComponent } from './create-modal-pet-service/create-modal-pet-service.component';
 import { PetServiceComponent } from './pet-service.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SanitizerUrlPipe } from 'src/app/Helper/sanitizer-url.pipe';
 
 
 
@@ -16,7 +17,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   declarations: [
     PetServiceComponent,
     ServiceOptionsComponent,
-    CreateModalPetServiceComponent
+    CreateModalPetServiceComponent,
+    SanitizerUrlPipe
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     NgbModule,
     ReactiveFormsModule,
     CKEditorModule
-  ]
+  ],
+  exports:[SanitizerUrlPipe]
+ 
 })
 export class PetServiceModule { }

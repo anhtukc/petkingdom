@@ -431,25 +431,22 @@ public partial class PetKingdomContext : DbContext
 
         modelBuilder.Entity<PetService>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("pk_pet_service");
+            entity.HasKey(e => e.id).HasName("pk_pet_service");
 
             entity.ToTable("pet_service");
 
-            entity.Property(e => e.Id)
+            entity.Property(e => e.id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
-            entity.Property(e => e.BriefDescription).HasColumnName("brief_description");
-            entity.Property(e => e.FullDesciption).HasColumnName("full_desciption");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(100)
+            entity.Property(e => e.briefDescription).HasColumnName("brief_description");
+            entity.Property(e => e.fullDescription).HasColumnName("full_description");
+            entity.Property(e => e.icon)
+                .HasMaxLength(400)
                 .HasColumnName("icon");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
-            entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Thumbnail)
-                .HasMaxLength(300)
-                .HasColumnName("thumbnail");
+            entity.Property(e => e.status).HasColumnName("status");        
         });
 
         modelBuilder.Entity<ProcessShift>(entity =>

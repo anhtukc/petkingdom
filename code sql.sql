@@ -56,7 +56,6 @@ Create table product(
 	weight int not null,
 	brief_description nvarchar(max),
 	full__description nvarchar(max) null,
-	thumbnail nvarchar(300) not null,
 	total_quatity int not null,
 	lowest_inventory_level int,
 	highest_inventory_level int,
@@ -296,6 +295,13 @@ link nvarchar(200) not null,
 created_date date not null,
 status int,
 shift_id  nvarchar(50) foreign key(shift_id) references shift(id),
+
+)
+Create table service_image(
+	id nvarchar(50) constraint pk_service_image primary key,
+	link nvarchar(200),
+	status int,
+	service_id nvarchar(50) foreign key(service_id) references Pet_service(id),
 
 )
 

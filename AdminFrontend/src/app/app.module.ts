@@ -14,6 +14,7 @@ import { ProfileEditorComponent } from './profile-editor/profile-editor.componen
 import { LoginComponent } from './Views/login/login.component';
 import { DashboardComponent } from './Views/dashboard/dashboard.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SanitizerUrlPipe } from './Helper/sanitizer-url.pipe';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     HeaderComponent,
     ProfileEditorComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     PetServiceModule,
@@ -36,7 +37,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     NgbModule,
     CKEditorModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

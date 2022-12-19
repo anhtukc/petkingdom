@@ -1,0 +1,38 @@
+.img-wrap {
+    position: relative;
+    display: inline-block;
+    border: 1px rgb(216, 216, 216) solid;
+    font-size: 0;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px slid rgb(212, 212, 212);
+}
+.img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+    border: 1px solid black;
+    background-color: #FFF;
+    padding: 5px 2px 2px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: .2;
+    text-align: center;
+    font-size: 22px;
+    line-height: 10px;
+    border-radius: 50%;
+}
+.img-wrap:hover .close {
+    opacity: 1;
+}
+.img-wrap:hover{
+    border: 1px rgb(13, 218, 214) solid;
+    background-color: rgb(13, 218, 214) ;
+}
+.img-wrap img{
+    width: 150px;
+    height: 150px;
+    
+}

@@ -431,22 +431,22 @@ public partial class PetKingdomContext : DbContext
 
         modelBuilder.Entity<PetService>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("pk_pet_service");
+            entity.HasKey(e => e.Id).HasName("pk_pet_service");
 
             entity.ToTable("pet_service");
 
-            entity.Property(e => e.id)
+            entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
-            entity.Property(e => e.briefDescription).HasColumnName("brief_description");
-            entity.Property(e => e.fullDescription).HasColumnName("full_description");
-            entity.Property(e => e.icon)
+            entity.Property(e => e.BriefDescription).HasColumnName("brief_description");
+            entity.Property(e => e.FullDescription).HasColumnName("full_description");
+            entity.Property(e => e.Icon)
                 .HasMaxLength(400)
                 .HasColumnName("icon");
-            entity.Property(e => e.name)
+            entity.Property(e => e.Name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
-            entity.Property(e => e.status).HasColumnName("status");        
+            entity.Property(e => e.Status).HasColumnName("status");
         });
 
         modelBuilder.Entity<ProcessShift>(entity =>
@@ -577,6 +577,9 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Link)
                 .HasMaxLength(200)
                 .HasColumnName("link");
+            entity.Property(e => e.Name)
+                .HasMaxLength(200)
+                .HasColumnName("name");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(50)
                 .HasColumnName("product_id");
@@ -874,6 +877,9 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Link)
                 .HasMaxLength(200)
                 .HasColumnName("link");
+            entity.Property(e => e.Name)
+                .HasMaxLength(200)
+                .HasColumnName("name");
             entity.Property(e => e.ServiceId)
                 .HasMaxLength(50)
                 .HasColumnName("service_id");

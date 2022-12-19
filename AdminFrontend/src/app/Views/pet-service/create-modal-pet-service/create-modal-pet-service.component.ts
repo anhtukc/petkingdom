@@ -62,17 +62,19 @@ export class CreateModalPetServiceComponent implements OnInit {
     const data = editor.getData();
     this.petService.briefDescription = data;
   }
-  public save(){
+   public async save(){
     this.api.addNew(this.petService).subscribe(result=>{
       if(result.message == "fail"){
         alert("Lưu thất bại")
       }
       if(result.message=="success"){
         alert("Lưu thành công")
+        this.petService = result.obj;
+      this.addEvent.emit(this.petService);
       }
-      this.petService = result.obj;
+      
     })
-    this.addEvent.emit(this.petService);
+   
   }
  
   public openModal(){

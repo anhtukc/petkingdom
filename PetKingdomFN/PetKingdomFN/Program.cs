@@ -38,6 +38,7 @@ builder.Services.AddScoped<IPetServiceRepository, PetServiceRepository>();
 builder.Services.AddScoped<IAuthentication, AccountRepository>();
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<ICloudStorageService, CloudStorageService>();
+builder.Services.AddScoped<IServiceImage, ServiceImageRepository>();
 
 
 

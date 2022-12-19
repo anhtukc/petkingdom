@@ -54,7 +54,7 @@ namespace PetKingdomFN.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPetService(string id, PetService petService)
         {
-            if (id != petService.id)
+            if (id != petService.Id)
             {
                 return BadRequest();
             }
@@ -96,7 +96,7 @@ namespace PetKingdomFN.Controllers
             }
             catch (DbUpdateException)
             {
-                if (PetServiceExists(petService.id))
+                if (PetServiceExists(petService.Id))
                 {
                     return Conflict();
                 }
@@ -106,7 +106,7 @@ namespace PetKingdomFN.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPetService", new { id = petService.id }, petService);
+            return CreatedAtAction("GetPetService", new { id = petService.Id }, petService);
         }
 
         // DELETE: api/PetServicemock/5
@@ -131,7 +131,7 @@ namespace PetKingdomFN.Controllers
 
         private bool PetServiceExists(string id)
         {
-            return (_context.PetServices?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.PetServices?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

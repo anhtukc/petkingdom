@@ -1,0 +1,39 @@
+<ng-template #ModalPetServiceImage let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+      <h4 class="modal-title" id="modal-basic-title">Ảnh dịch vụ</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+            <label for="name" class="form-label">Ảnh dịch vụ:</label>
+            <input type="file" id="icon" name="icon" class="form-control" (change)="upload($event)" multiple>
+            <div>
+                <button type="button" class="btn btn-outline-dark" style="margin-top:10px" (click)="addNew()">Lưu</button>       
+            </div>
+            <div class="d-flex">
+                <div class="img-wrap"*ngFor="let i = index;let item of imageList">
+                    <span class="close" (click)="removePreviewImage(i)">&times;</span>
+                    <img  [src]="item| sanitizerUrl" >
+                </div>
+            </div>
+        </div>          
+      </form>
+      <hr>
+      <div class="img-wrap"*ngFor="let i = index;let img of data">
+        <span class="close" (click)="removeImage(img.id)">&times;</span>
+        <img  [src]="img.link" >
+    </div>
+  
+    </div>
+  
+    <div class="modal-footer">
+      
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
+    </div>
+  
+  </ng-template>

@@ -34,7 +34,7 @@ namespace PetKingdomFN.Services
                 throw;
             }
         }
-        public async Task<string> UploadFileAsync(IFormFile fileToUpload, string fileNameToSave, string folder)
+        public async Task<string> UploadFileAsync(IFormFile fileToUpload, string fileNameToSave)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace PetKingdomFN.Services
                     await fileToUpload.CopyToAsync(memoryStream);
                     using (var storageClient = StorageClient.Create(_googleCredential))
                     {
-                        var uploadedFile = await storageClient.UploadObjectAsync(_options.GoogleCloudStorageBucketName, folder+"/"+ fileNameToSave, fileToUpload.ContentType, memoryStream);
+                        var uploadedFile = await storageClient.UploadObjectAsync(_options.GoogleCloudStorageBucketName,  fileNameToSave, fileToUpload.ContentType, memoryStream);
                         return uploadedFile.MediaLink;
                     }
                 }

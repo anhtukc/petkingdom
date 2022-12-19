@@ -18,7 +18,7 @@ namespace PetKingdomFN.Controllers
     {
         private readonly IPetServiceRepository _PetServiceRepository;
         private readonly ICloudStorageService _cloud;
-        private readonly string folder = "img";
+        private readonly string folder = "img/";
 
         public PetServiceController(IPetServiceRepository repo, ICloudStorageService cloud)
         {
@@ -42,13 +42,13 @@ namespace PetKingdomFN.Controllers
             {
                 return Json(new { message = "fail", details = "Empty object" });
             }
-            if(service.id is null)
+            if(service.Id is null)
             {
-                service.id = Guid.NewGuid().ToString("N");
+                service.Id = Guid.NewGuid().ToString("N");
             }
             if(!(service.iconFile is null))
             {
-                service.icon = await _cloud.UploadFileAsync(service.iconFile, service.id,folder);
+                service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder+service.Id);
             }
             await _PetServiceRepository.AddPetService(service);
 

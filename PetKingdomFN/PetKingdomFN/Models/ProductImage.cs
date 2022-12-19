@@ -5,6 +5,8 @@ namespace PetKingdomFN.Models;
 
 public partial class ProductImage
 {
+    public string Name { get; set; } = null!;
+
     public string Id { get; set; } = null!;
 
     public string? Link { get; set; }

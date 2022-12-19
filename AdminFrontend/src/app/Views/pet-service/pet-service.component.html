@@ -26,6 +26,7 @@
                     
                 </div>                 
                 <app-service-options></app-service-options>
+                <app-modal-service-image-management ></app-modal-service-image-management>
                 <app-create-modal-pet-service (addEvent) ="addNew($event)" ></app-create-modal-pet-service>
                 <div class="table-responsive " id="#">
                     <table class="table mb-0 table-bordered">
@@ -70,7 +71,8 @@
                                 <td><button type="button" class="btn btn-primary btn-sm radius-30 px-4">View Details</button></td>
                                 <td>
                                     <div class="d-flex order-actions">
-                                        <a href="javascript:;" class=""><i class='bx bxs-edit'></i></a>
+                                        <a href="javascript:;" (click)="openModalImage(item.id)"><i class="bx bxs-file-image"></i> </a>
+                                        <a href="javascript:;" class="ms-3"><i class='bx bxs-edit'></i></a>
                                         <a href="javascript:;" class="ms-3"><i class='bx bxs-trash'></i></a>
                                     </div>
                                 </td>

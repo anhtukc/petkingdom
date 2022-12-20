@@ -1,0 +1,43 @@
+<ng-template #modalUpdatePetService let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+      <h4 class="modal-title" id="modal-basic-title">Sửa dịch vụ thú cưng</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+      <form>      
+        <div class="form-group">
+          <label for="name" class="form-label">Tên dịch vụ:</label>
+          <input type="text" id="name" name="name" class="form-control" 
+            [(ngModel)]="petService.name" >
+        </div>
+        <div class="form-group">
+          <label for="name" class="form-label">Mô tả tóm tắt:</label>
+          <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" [ngModelOptions]="{standalone: true}">
+          </ckeditor>
+        </div>
+        <div class="form-group">
+          <label for="name" class="form-label">Mô tả chi tiết:</label>
+          <ckeditor [editor]="Editor" [(ngModel)]="petService.fullDescription" [ngModelOptions]="{standalone: true}">
+          </ckeditor>
+        </div>
+        <div class="form-group">
+          <label for="name" class="form-label">Icon dịch vụ:</label>
+          <input type="file" id="icon" name="icon" class="form-control"  (change)="upload($event)">
+          <img  [src]="previewImg| sanitizerUrl" *ngIf="petService.icon==''" />
+          <img [src]="petService.icon"  />
+        </div>
+      </form>
+  
+  
+    </div>
+  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="save()">Lưu</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
+    </div>
+  
+  </ng-template>

@@ -11,6 +11,7 @@ import { PetServiceComponent } from './pet-service.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SanitizerUrlPipe } from 'src/app/Helper/sanitizer-url.pipe';
 import { ModalServiceImageManagementComponent } from './modal-service-image-management/modal-service-image-management.component';
+import { ModalUpdatePetServiceComponent } from './modal-update-pet-service/modal-update-pet-service.component';
 
 
 
@@ -20,7 +21,8 @@ import { ModalServiceImageManagementComponent } from './modal-service-image-mana
     ServiceOptionsComponent,
     CreateModalPetServiceComponent,
     SanitizerUrlPipe,
-    ModalServiceImageManagementComponent
+    ModalServiceImageManagementComponent,
+    ModalUpdatePetServiceComponent
   ],
   imports: [
     CommonModule,

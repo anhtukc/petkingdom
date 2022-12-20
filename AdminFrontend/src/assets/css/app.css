@@ -60,6 +60,9 @@ a {
 
 
 }
+.modal-body label{
+	margin-top: 10px;
+	}
 .blank-link{
 	color:black;
 }

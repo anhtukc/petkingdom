@@ -6,7 +6,7 @@ namespace PetKingdomFN.Models;
 
 public partial class PetService
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 

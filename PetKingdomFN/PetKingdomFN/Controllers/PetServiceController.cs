@@ -46,10 +46,7 @@ namespace PetKingdomFN.Controllers
             {
                 service.Id = Guid.NewGuid().ToString("N");
             }
-            if(!(service.iconFile is null))
-            {
-                service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder+service.Id);
-            }
+           
             await _PetServiceRepository.AddPetService(service);
 
             return Json(new { obj = service , message = "success" });
@@ -57,6 +54,7 @@ namespace PetKingdomFN.Controllers
         [HttpGet("getById")]
         public async Task<JsonResult> GetPetServiceById([FromQuery] string id)
         {
+
             var obj = await _PetServiceRepository.GetPetServiceById(id);
             if (obj is null)
             {
@@ -66,8 +64,12 @@ namespace PetKingdomFN.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<JsonResult> UpdatePetService([FromBody] PetService service)
+        public async Task<JsonResult> UpdatePetService([FromForm] PetService service)
         {
+            if (!(service.iconFile is null))
+            {
+                service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
+            }
             var obj = await _PetServiceRepository.UpdatePetService(service);
             if (obj is null)
             {
@@ -76,7 +78,7 @@ namespace PetKingdomFN.Controllers
             return Json(new { obj = obj, message = "success" });
         }
         [HttpPost("delete")]
-        public async Task<JsonResult> DeletePetService([FromBody] string  id)
+        public async Task<JsonResult> DeletePetService([FromForm] string  id)
         {
             var obj = await _PetServiceRepository.DeletePetService(id);
             if (obj == "Not found")

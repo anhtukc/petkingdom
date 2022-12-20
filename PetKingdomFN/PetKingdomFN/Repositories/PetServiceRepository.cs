@@ -53,10 +53,9 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<PetService> UpdatePetService(PetService service)
         {
-            var obj = await _DbContext.PetServices.Where(x=>x.Id == service.Id).FirstAsync();
-            obj = service;
-            _DbContext.SaveChanges();
-            return obj;
+            _DbContext.Entry(service).State = EntityState.Modified;
+            await _DbContext.SaveChangesAsync();
+            return service;
         }
         public async Task<PetService> GetPetServiceById(string id)
         {

@@ -27,5 +27,9 @@ public partial class Employee
 
     public string? AccountId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Account? Account { get; set; }
 }

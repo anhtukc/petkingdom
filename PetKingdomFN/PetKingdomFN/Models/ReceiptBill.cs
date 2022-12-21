@@ -17,6 +17,8 @@ public partial class ReceiptBill
 
     public int? Status { get; set; }
 
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Account? EmployeeAccount { get; set; }
 
     public virtual Provider? Provider { get; set; }

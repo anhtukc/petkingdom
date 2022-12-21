@@ -27,6 +27,10 @@ public partial class Pet
 
     public string? CustomerId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<Schedule> Schedules { get; } = new List<Schedule>();

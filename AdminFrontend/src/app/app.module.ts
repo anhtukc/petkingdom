@@ -15,6 +15,7 @@ import { LoginComponent } from './Views/login/login.component';
 import { DashboardComponent } from './Views/dashboard/dashboard.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SanitizerUrlPipe } from './Helper/sanitizer-url.pipe';
+import { PetServiceOptionsComponent } from './Views/pet-service-options/pet-service-options.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { SanitizerUrlPipe } from './Helper/sanitizer-url.pipe';
     ProfileEditorComponent,
     LoginComponent,
     DashboardComponent,
+    PetServiceOptionsComponent,
   ],
   imports: [
     PetServiceModule,

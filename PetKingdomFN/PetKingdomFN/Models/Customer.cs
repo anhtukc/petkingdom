@@ -25,6 +25,10 @@ public partial class Customer
 
     public string? AccountId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Account? Account { get; set; }
 
     public virtual ICollection<Pet> Pets { get; } = new List<Pet>();

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ServiceOptionsComponent } from './service-options/service-options.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import { ModalUpdatePetServiceComponent } from './modal-update-pet-service/modal
 @NgModule({
   declarations: [
     PetServiceComponent,
-    ServiceOptionsComponent,
     CreateModalPetServiceComponent,
     SanitizerUrlPipe,
     ModalServiceImageManagementComponent,

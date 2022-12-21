@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
@@ -16,6 +17,12 @@ public partial class ServiceOption
     public int? EstimatedCompletionTime { get; set; }
 
     public int? Status { get; set; }
+    [NotMapped]
+    public string PetServiceName { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
 
     public virtual PetService? PetService { get; set; }
 

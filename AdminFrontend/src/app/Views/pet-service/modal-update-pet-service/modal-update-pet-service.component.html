@@ -25,10 +25,16 @@
           </ckeditor>
         </div>
         <div class="form-group">
+            <label for="name" class="form-label">Trạng thái:</label>
+            <select name="" id="" [(ngModel)]="petService.status" [ngModelOptions]="{standalone: true}" class="form-control col-12">
+                <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+            </select>
+          </div>
+        <div class="form-group">
           <label for="name" class="form-label">Icon dịch vụ:</label>
           <input type="file" id="icon" name="icon" class="form-control"  (change)="upload($event)">
-          <img  [src]="previewImg| sanitizerUrl" *ngIf="petService.icon==''" />
-          <img [src]="petService.icon"  />
+          <img  [src]="previewImg| sanitizerUrl" />
+          <img [src]="petService.icon"/>
         </div>
       </form>
   

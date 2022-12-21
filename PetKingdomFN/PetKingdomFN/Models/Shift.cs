@@ -19,6 +19,10 @@ public partial class Shift
 
     public int? Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Account? CaringStaff { get; set; }
 
     public virtual ICollection<ProcessShift> ProcessShifts { get; } = new List<ProcessShift>();

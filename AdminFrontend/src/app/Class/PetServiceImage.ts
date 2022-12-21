@@ -1,7 +1,12 @@
+import { Guid } from "guid-typescript";
 export interface PetServiceImage{
     id:string;
     name:string;
     link:string;
     status:number;
-    serviceId:string;
+    petServiceId:string;
+    createdDate:Date;
+    updateDate:Date;
+
 }
+

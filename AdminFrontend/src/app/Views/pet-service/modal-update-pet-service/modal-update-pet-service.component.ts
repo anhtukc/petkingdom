@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { petService } from 'src/app/Class/pet-service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -11,6 +11,7 @@ import { PetServiceApiService } from '../pet-service-api.service';
   styleUrls: ['./modal-update-pet-service.component.css']
 })
 export class ModalUpdatePetServiceComponent implements OnInit {
+  @Input() statusMeaning;
   public Editor = ClassicEditor;
   @ViewChild('modalUpdatePetService') optionModal : TemplateRef<any>; 
   @Output() updateEvent = new EventEmitter();

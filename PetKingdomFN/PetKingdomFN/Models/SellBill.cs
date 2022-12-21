@@ -17,6 +17,8 @@ public partial class SellBill
 
     public int? Status { get; set; }
 
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Account? CustomerAccount { get; set; }
 
     public virtual Account? EmployeeAccount { get; set; }

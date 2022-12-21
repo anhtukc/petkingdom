@@ -25,6 +25,10 @@ public partial class SellBillDetail
 
     public string? SellBillId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Product? Product { get; set; }
 
     public virtual SellBill? SellBill { get; set; }

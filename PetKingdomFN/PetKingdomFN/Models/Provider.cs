@@ -19,5 +19,9 @@ public partial class Provider
 
     public int? Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual ICollection<ReceiptBill> ReceiptBills { get; } = new List<ReceiptBill>();
 }

@@ -18,7 +18,7 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<List<ServiceImage>> GetAllById(string serviceId)
         {
-            return await _DbContext.ServiceImages.Where(x=>x.ServiceId==serviceId).ToListAsync();
+            return await _DbContext.ServiceImages.Where(x=>x.PetServiceId == serviceId).ToListAsync();
         }
         public async Task<List<ServiceImage>> GetPageList(Pagination page)
         {
@@ -39,10 +39,12 @@ namespace PetKingdomFN.Repositories
             for (int i = 0;i<files.Count;i++) {
                 ServiceImage obj = new ServiceImage();
                 obj.Id = Guid.NewGuid().ToString("N");
-                obj.ServiceId = serviceId;
+                obj.PetServiceId = serviceId;
                 obj.Name = folder + obj.Id;
                 obj.Link = await _cloud.UploadFileAsync(files[i], obj.Name);
                 obj.Status = 1;
+                obj.CreatedDate = DateTime.Now;
+                obj.UpdateDate = DateTime.Now;
                 list.Add(obj);
             }
             await _DbContext.ServiceImages.AddRangeAsync(list);

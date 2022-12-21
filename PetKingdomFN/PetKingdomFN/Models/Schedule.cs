@@ -23,6 +23,10 @@ public partial class Schedule
 
     public string? PetId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Pet? Pet { get; set; }
 
     public virtual SellBill? SellBill { get; set; }

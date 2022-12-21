@@ -71,10 +71,10 @@ a {
 }
 
 .modal-content{
-	width: 200% !important;
+	width: 250% !important;
 }
 .modal-content{
-	margin-left: -50% !important;
+	margin-left: -75% !important;
 }
 .alert{
 	color:rgb(172, 37, 37) !important;
@@ -83,6 +83,18 @@ a{
 	text-decoration: none !important;
 
 }
+.table-responsive {
+	white-space: break-spaces !important;
+}
+.text-limit{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 4; 
+			line-clamp: 2; 
+	-webkit-box-orient: vertical;
+ }
+
 .wrapper {
 
 

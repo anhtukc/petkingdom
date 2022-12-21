@@ -11,8 +11,8 @@ const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "about", component: AboutComponent },
   { path: "productlist", component: ProductListComponent, children: [] },
-  {path: "product-single", component: ProductSingleComponent},
-  {path: "service-single", component: ServiceSingleComponent},
+  {path: "product-single/:id", component: ProductSingleComponent},
+  {path: "service-single/:id", component: ServiceSingleComponent},
   {path: "booking", component: BookingComponent},
 
   

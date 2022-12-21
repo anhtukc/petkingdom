@@ -13,11 +13,7 @@ public partial class Banner
 
     public DateTime? CreatedDate { get; set; }
 
+    public DateTime? UpdateDate { get; set; }
+
     public int? Status { get; set; }
-
-    public bool? ActiveAsSlide { get; set; }
-
-    public string? ProductCategoryId { get; set; }
-
-    public virtual ProductCategory? ProductCategory { get; set; }
 }

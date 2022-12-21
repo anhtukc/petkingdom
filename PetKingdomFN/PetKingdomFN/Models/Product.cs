@@ -15,13 +15,9 @@ public partial class Product
 
     public string? FullDescription { get; set; }
 
-    public string Thumbnail { get; set; } = null!;
-
     public int TotalQuatity { get; set; }
 
     public int? LowestInventoryLevel { get; set; }
-
-    public int? HighestInventoryLevel { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

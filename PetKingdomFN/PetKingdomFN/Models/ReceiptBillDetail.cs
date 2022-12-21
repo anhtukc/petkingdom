@@ -23,6 +23,10 @@ public partial class ReceiptBillDetail
 
     public string? ReceiptBillId { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Product? Product { get; set; }
 
     public virtual ReceiptBill? ReceiptBill { get; set; }

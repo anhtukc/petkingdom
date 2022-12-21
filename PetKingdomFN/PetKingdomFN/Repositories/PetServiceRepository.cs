@@ -47,20 +47,22 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<PetService> AddPetService(PetService service)
         {
-            var result = _DbContext.PetServices.AddAsync(service);
+            service.CreatedDate = DateTime.Now;
+            service.UpdateDate = DateTime.Now;
+            var obj =  _DbContext.PetServices.AddAsync(service);
             await _DbContext.SaveChangesAsync();
-            return result.Result.Entity;
+            return obj.Result.Entity;
         }
         public async Task<PetService> UpdatePetService(PetService service)
         {
+            service.UpdateDate = DateTime.Now;
             _DbContext.Entry(service).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();
             return service;
         }
         public async Task<PetService> GetPetServiceById(string id)
         {
-            var obj = await _DbContext.PetServices.Where(x => x.Id == id).FirstAsync();
-           
+            var obj = await _DbContext.PetServices.Where(x => x.Id == id).FirstAsync();           
             return obj;
         }
         public async Task<string> DeletePetService(string id)

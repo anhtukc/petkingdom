@@ -22,6 +22,19 @@ namespace PetKingdomFN.Repositories
         {
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             return await _DbContext.ServiceOptions
+                .Join(_DbContext.PetServices,
+                x=>x.PetServiceId,
+                y=>y.Id,
+                (x, y) => new ServiceOption
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    EstimatedCompletionTime = x.EstimatedCompletionTime,
+                    Status = x.Status,
+                    PetServiceId = y.Id,
+                    PetServiceName = y.Name
+                })
                 .OrderBy(sortQuery)
                 .Skip(page.pageSize * (page.currentPage - 1))
                 .Take(page.pageSize)

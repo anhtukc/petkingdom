@@ -4,9 +4,6 @@ import { PetServiceApiService } from './pet-service-api.service';
 import { sortingService } from 'src/app/Helper/sorting-helper';
 import { pagination } from 'src/app/Class/pagination';
 import { petService } from 'src/app/Class/pet-service';
-import { Product } from 'src/app/Class/product';
-import { ProductComponent } from '../product/product.component';
-import { ServiceOptionsComponent } from './service-options/service-options.component';
 import { CreateModalPetServiceComponent } from './create-modal-pet-service/create-modal-pet-service.component';
 import { ModalServiceImageManagementComponent } from './modal-service-image-management/modal-service-image-management.component';
 import { ModalUpdatePetServiceComponent } from './modal-update-pet-service/modal-update-pet-service.component';
@@ -17,7 +14,6 @@ import { ModalUpdatePetServiceComponent } from './modal-update-pet-service/modal
 })
 export class PetServiceComponent implements OnInit  {
   @ViewChild(CreateModalPetServiceComponent) createForm!: CreateModalPetServiceComponent;
-  @ViewChild(ServiceOptionsComponent) option!: ServiceOptionsComponent;
   @ViewChild(ModalServiceImageManagementComponent) imageModal!: ModalServiceImageManagementComponent;
   @ViewChild(ModalUpdatePetServiceComponent) updateForm!: ModalUpdatePetServiceComponent;
   PetServiceId:string ="";
@@ -55,9 +51,7 @@ export class PetServiceComponent implements OnInit  {
   openUpdateForm(id:string){
     this.updateForm.openModal(id);
   }
-  OpenOption(){
-    this.option.openModal();
-  }
+
   openModalImage(id:string){
     this.imageModal.openModal(id);
   }

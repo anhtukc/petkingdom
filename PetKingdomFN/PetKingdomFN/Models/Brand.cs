@@ -15,5 +15,9 @@ public partial class Brand
 
     public int Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

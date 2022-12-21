@@ -25,5 +25,9 @@ public partial class Rating
 
     public int Status { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual Product? Product { get; set; }
 }

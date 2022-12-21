@@ -23,55 +23,18 @@
                                 <li class="has-submenu">
                                     <a href="/"><span>Home</span></a>                                  
                                 </li>
-                                <li><a href="about-us.html"><span>GIỚI THIỆU</span></a></li>
-                                <li class="has-submenu position-static"><a href="#/"><span>SẢN PHẨM</span></a>
-                                    <ul class="submenu-nav submenu-nav-mega column-3">
-                                        <li class="mega-menu-item"><a href="#/" class="mega-title"><span>Shop
-                                                    Layout</span></a>
-                                            <ul>
-                                                <li><a href="shop-three-columns.html"><span>Shop 3 Column</span></a>
-                                                </li>
-                                                <li><a href="shop-four-columns.html"><span>Shop 4 Column</span></a></li>
-                                                <li><a href="shop-left-sidebar.html"><span>Shop Left Sidebar</span></a>
-                                                </li>
-                                                <li><a href="shop.html"><span>Shop Right Sidebar</span></a></li>
-                                            </ul>
-                                        </li>                                
-                                    </ul>
+                                <li><a href="/about"><span>GIỚI THIỆU</span></a></li>
+                                <li class="has-submenu position-static"><a href="/productlist"><span>SẢN PHẨM</span></a>
+                                   
                                 </li>
                                 <li class="has-submenu position-static"><a href="#/"><span>DỊCH VỤ</span></a>
-                                    <ul class="submenu-nav submenu-nav-mega column-3">
-                                        <li class="mega-menu-item"><a href="#/" class="mega-title"><span>Shop
-                                                    Layout</span></a>
-                                            <ul>
-                                                <li><a href="shop-three-columns.html"><span>Shop 3 Column</span></a>
-                                                </li>
-                                                <li><a href="shop-four-columns.html"><span>Shop 4 Column</span></a></li>
-                                                <li><a href="shop-left-sidebar.html"><span>Shop Left Sidebar</span></a>
-                                                </li>
-                                                <li><a href="shop.html"><span>Shop Right Sidebar</span></a></li>
-                                            </ul>
-                                        </li>                                
+                                    <ul class="submenu-nav submenu-nav-mega">
+                                        <li><a href="/service-single/sv001"><span>Vệ sinh thú cưng</span></a>
+                                        </li>                             
                                     </ul>
                                 </li>
                                 <li class="has-submenu"><a href="#/"><span>Blog</span></a>
-                                    <ul class="submenu-nav submenu-nav-mega">
-                                        <li class="mega-menu-item"><a href="#/" class="mega-title">Blog Layout</a>
-                                            <ul>
-                                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                                <li><a href="blog.html">Blog Left Sidebar</a></li>
-                                                <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-menu-item"><a href="#/" class="mega-title">Single Blog</a>
-                                            <ul>
-                                                <li><a href="blog-details-no-sidebar.html">Blog Details</a></li>
-                                                <li><a href="blog-details.html">Blog Details Left Sidebar</a></li>
-                                                <li><a href="blog-details-right-sidebar.html">Blog Details Right
-                                                        Sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                  
                                 </li>
                               
                             </ul>
@@ -94,7 +57,7 @@
                                 <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#AsideOffcanvasCart" aria-controls="AsideOffcanvasCart">
                                     <i class="pe-7s-shopbag icon"></i>
-                                    <sup class="shop-count">2</sup>
+                                    <!-- <sup class="shop-count">2</sup> -->
                                 </button>
                             </div>
                             <div class="shopping-wishlist">
@@ -167,26 +130,9 @@
                     </ul>
                 </li>
 
-                <li class="offcanvas-nav-parent">
+                <li class="">
                     <a class="offcanvas-nav-item" href="javascript:void(0)">Blog</a>
-                    <ul>
-                        <li>
-                            <a class="offcanvas-nav-item" href="javascript:void(0)">Blog Layout</a>
-                            <ul>
-                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                <li><a href="blog.html">Blog Left Sidebar</a></li>
-                                <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="offcanvas-nav-item" href="javascript:void(0)">Single Blog</a>
-                            <ul>
-                                <li><a href="blog-details-no-sidebar.html">Blog Details</a></li>
-                                <li><a href="blog-details.html">Blog Details Left Sidebar</a></li>
-                                <li><a href="blog-details-right-sidebar.html">Blog Details Right Sidebar</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                 
                 </li>
 
                 <li class="offcanvas-nav-parent">
@@ -204,3 +150,33 @@
         </nav>
     </div>
 </aside>
+
+<aside class="aside-cart-wrapper offcanvas offcanvas-end" tabindex="-1" id="AsideOffcanvasCart" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h1 class="d-none" id="offcanvasRightLabel">Shopping Cart</h1>
+      <button class="btn-aside-cart-close" data-bs-dismiss="offcanvas" aria-label="Close">Shopping Cart <i class="fa fa-chevron-right"></i></button>
+    </div>
+    <div class="offcanvas-body">
+      <!-- <ul class="aside-cart-product-list">
+        <li class="aside-product-list-item">
+          <a href="#/" class="remove">×</a>
+          <a href="single-product.html">
+            <img src="assets/img/shop/product-mini/1.webp" width="90" height="110" alt="Image-HasTech">
+            <span class="product-title">Leather Mens Slipper</span>
+          </a>
+          <span class="product-price">1 × £69.99</span>
+        </li>
+        <li class="aside-product-list-item">
+          <a href="#/" class="remove">×</a>
+          <a href="single-product.html">
+            <img src="assets/img/shop/product-mini/2.webp" width="90" height="110" alt="Image-HasTech">
+            <span class="product-title">Quickiin Mens shoes</span>
+          </a>
+          <span class="product-price">1 × £20.00</span>
+        </li>
+      </ul>
+      <p class="cart-total"><span>Subtotal:</span><span class="amount">20000đ</span></p> -->
+      <a class="btn-total" href="shop-cart.html">View cart</a>
+      
+    </div>
+  </aside>

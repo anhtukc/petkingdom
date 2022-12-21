@@ -25,6 +25,10 @@ public partial class Account
 
     public bool PhoneConfirmed { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
+
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();
 
     public virtual ICollection<Employee> Employees { get; } = new List<Employee>();

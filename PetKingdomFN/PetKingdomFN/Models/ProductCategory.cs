@@ -13,7 +13,9 @@ public partial class ProductCategory
 
     public int Status { get; set; }
 
-    public virtual ICollection<Banner> Banners { get; } = new List<Banner>();
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdateDate { get; set; }
 
     public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

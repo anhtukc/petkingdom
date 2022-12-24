@@ -9,13 +9,13 @@ public partial class Product
 
     public string Name { get; set; } = null!;
 
+    public string? ShortName { get; set; }
+
     public int Weight { get; set; }
 
     public string? BriefDescription { get; set; }
 
     public string? FullDescription { get; set; }
-
-    public int TotalQuatity { get; set; }
 
     public int? LowestInventoryLevel { get; set; }
 

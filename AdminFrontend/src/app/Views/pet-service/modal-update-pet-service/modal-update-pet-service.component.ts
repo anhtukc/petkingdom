@@ -4,6 +4,7 @@ import { petService } from 'src/app/Class/pet-service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 import { PetServiceApiService } from '../pet-service-api.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-update-pet-service',
@@ -13,16 +14,16 @@ import { PetServiceApiService } from '../pet-service-api.service';
 export class ModalUpdatePetServiceComponent implements OnInit {
   @Input() statusMeaning;
   public Editor = ClassicEditor;
-  @ViewChild('modalUpdatePetService') optionModal : TemplateRef<any>; 
+  @ViewChild('modalUpdatePetService') optionModal: TemplateRef<any>;
   @Output() updateEvent = new EventEmitter();
   previewImg = '';
-  public petService:petService = {
-    id:'',
-    name:'',
-    fullDescription:'',
-    briefDescription:'',
-    icon:'',
-    iconFile:null,
+  public petService: petService = {
+    id: '',
+    name: '',
+    fullDescription: '',
+    briefDescription: '',
+    icon: '',
+    iconFile: null,
     status: 0
   };
   // public heroForm = new FormGroup({
@@ -48,46 +49,65 @@ export class ModalUpdatePetServiceComponent implements OnInit {
     const files = target.files as FileList;
     this.petService.iconFile = files[0];
     if (files.length > 0) {
-      this.previewImg= URL.createObjectURL(files[0]);
+      this.previewImg = URL.createObjectURL(files[0]);
     }
-}
-  constructor(private modalService: NgbModal, private api:PetServiceApiService) { }
+  }
+  constructor(private modalService: NgbModal, private api: PetServiceApiService) { }
   ngOnInit(): void {
-    
+
   }
 
-   onChange( { editor }: ChangeEvent ) {
+  onChange({ editor }: ChangeEvent) {
     const data = editor.getData();
     this.petService.briefDescription = data;
   }
-   public async save(){
-    this.api.update(this.petService).subscribe(result=>{
-      if(result.message == "fail"){
+  public formGroup = new FormGroup({
+    name: new FormControl(this.petService.name, [
+      Validators.required,
+      Validators.minLength(4)
+    ]),
+    fullDescription: new FormControl(this.petService.fullDescription, [
+      Validators.required,
+      Validators.minLength(10)
+    ]),
+    briefDescription: new FormControl(this.petService.briefDescription, [
+      Validators.required,
+      Validators.minLength(10)
+    ])
+   
+  });
+  
+  public name = this.formGroup.get('name');
+  public briefDescription = this.formGroup.get('briefDescription');
+  public fullDescription = this.formGroup.get('fullDescription');
+
+  public async save() {
+    this.api.update(this.petService).subscribe(result => {
+      if (result.status == 0) {
         alert("Lưu thất bại")
       }
-      if(result.message=="success"){
+      if (result.status == 1) {
         alert("Lưu thành công")
         this.petService = result.obj;
-      this.updateEvent.emit(this.petService);
-      this.modalSetUp();
-      
+        this.updateEvent.emit(this.petService);
+        this.modalSetUp();
       }
-      
     })
-   
   }
- 
-   public async openModal(id:string){
+
+  public async openModal(id: string) {
+
     this.modalService.open(this.optionModal);
     this.api.getById(id).subscribe(
-      result=>{
+      result => {
         this.petService = result.obj;
       }
     )
+    console.log(this.petService);
   }
 
-  modalSetUp(){
-    this.previewImg ='';
+  modalSetUp() {
+    this.previewImg = '';
   }
 
 }

@@ -13,10 +13,9 @@ public partial class ServiceImage
     public string? Link { get; set; }
 
     public int? Status { get; set; }
-
-    public string? PetServiceId { get; set; }
     [NotMapped]
     public IFormFile img { get; set; }
+    public string? PetServiceId { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

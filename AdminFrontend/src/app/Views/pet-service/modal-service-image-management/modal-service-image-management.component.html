@@ -24,7 +24,9 @@
         </div>          
       </form>
       <hr>
+      <h3>Danh sách ảnh</h3>
       <div class="img-wrap"*ngFor="let i = index;let img of data">
+      
         <span class="close" (click)="removeImage(img.id)">&times;</span>
         <img  [src]="img.link" >
     </div>

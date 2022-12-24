@@ -87,7 +87,7 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("account");
 
-            entity.HasIndex(e => e.Username, "UQ__account__F3DBC572C05805C6").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__account__F3DBC5723B742705").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -97,7 +97,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("concurrency_stamp");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.LockAccount).HasColumnName("lock_account");
             entity.Property(e => e.LockTime)
@@ -114,7 +114,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("security_stamp");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
@@ -131,8 +131,8 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
-                .HasColumnName("created_date");
+                .HasColumnType("datetime")
+                .HasColumnName("Created_date");
             entity.Property(e => e.Link)
                 .HasMaxLength(300)
                 .HasColumnName("link");
@@ -141,7 +141,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("thumbnail");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -151,7 +151,7 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("blog");
 
-            entity.HasIndex(e => e.Name, "UQ__blog__72E12F1BA03613C8").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__blog__72E12F1B371E4651").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -164,7 +164,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("blog_category_id");
             entity.Property(e => e.Content).HasColumnName("content");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
@@ -174,7 +174,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(300)
                 .HasColumnName("thumbnail");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.BlogCategory).WithMany(p => p.Blogs)
@@ -188,13 +188,13 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("blog_category");
 
-            entity.HasIndex(e => e.Name, "UQ__blog_cat__72E12F1B0B076D7A").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__blog_cat__72E12F1BF9486255").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
@@ -204,7 +204,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -214,13 +214,13 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("brand");
 
-            entity.HasIndex(e => e.Name, "UQ__brand__72E12F1B61CAED6B").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__brand__72E12F1B75FAC6B8").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
@@ -233,7 +233,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(300)
                 .HasColumnName("thumbnail");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -251,7 +251,7 @@ public partial class PetKingdomContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("content");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.ParentCommentId)
                 .HasMaxLength(50)
@@ -270,7 +270,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("product_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Comments)
@@ -294,7 +294,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("address");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Email)
                 .HasMaxLength(200)
@@ -317,7 +317,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("sex");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Customers)
@@ -344,7 +344,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("birthday");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Email)
                 .HasMaxLength(200)
@@ -367,7 +367,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("sex");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Employees)
@@ -381,13 +381,13 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("group_product");
 
-            entity.HasIndex(e => e.Name, "UQ__group_pr__72E12F1B5775FDF5").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__group_pr__72E12F1B1261495F").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
@@ -397,7 +397,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -411,8 +411,9 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
+            entity.Property(e => e.CurrentQuantity).HasColumnName("current_quantity");
             entity.Property(e => e.ExpirationDate)
                 .HasColumnType("date")
                 .HasColumnName("expiration_date");
@@ -423,9 +424,10 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("product_id");
             entity.Property(e => e.ReceiptPrice).HasColumnName("receipt_price");
+            entity.Property(e => e.ReceiptQuantity).HasColumnName("receipt_quantity");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Inventories)
@@ -449,7 +451,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("breed");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(50)
@@ -469,7 +471,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("specices");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
             entity.Property(e => e.Weight).HasColumnName("weight");
 
@@ -489,18 +491,18 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.BriefDescription).HasColumnName("brief_description");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
-            entity.Property(e => e.FullDesciption).HasColumnName("full_desciption");
+            entity.Property(e => e.FullDescription).HasColumnName("full_description");
             entity.Property(e => e.Icon)
-                .HasMaxLength(100)
+                .HasMaxLength(300)
                 .HasColumnName("icon");
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -514,8 +516,8 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
-                .HasColumnName("created_date");
+                .HasColumnType("datetime")
+                .HasColumnName("Created_date");
             entity.Property(e => e.Link)
                 .HasMaxLength(300)
                 .HasColumnName("link");
@@ -528,7 +530,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("shift_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Shift).WithMany(p => p.ProcessShifts)
@@ -550,7 +552,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("brand_id");
             entity.Property(e => e.BriefDescription).HasColumnName("brief_description");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.FullDescription).HasColumnName("full__description");
             entity.Property(e => e.GroupProductId)
@@ -563,10 +565,12 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.ProductCategoryId)
                 .HasMaxLength(50)
                 .HasColumnName("product_category_id");
+            entity.Property(e => e.ShortName)
+                .HasMaxLength(100)
+                .HasColumnName("short_name");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.TotalQuatity).HasColumnName("total_quatity");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
             entity.Property(e => e.Weight).HasColumnName("weight");
 
@@ -589,13 +593,13 @@ public partial class PetKingdomContext : DbContext
 
             entity.ToTable("product_category");
 
-            entity.HasIndex(e => e.Name, "UQ__product___72E12F1B64B3479D").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__product___72E12F1B014D176D").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
@@ -605,7 +609,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -619,7 +623,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.DiscountAmount).HasColumnName("discount_amount");
             entity.Property(e => e.ProductId)
@@ -627,7 +631,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("product_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductDiscounts)
@@ -645,7 +649,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Link)
                 .HasMaxLength(300)
@@ -659,7 +663,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("product_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
@@ -677,7 +681,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(50)
@@ -685,7 +689,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UnitPrice).HasColumnName("unit_price");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductSellPrices)
@@ -706,7 +710,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(500)
                 .HasColumnName("address");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
@@ -722,7 +726,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(30)
                 .HasColumnName("tax_number");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
         });
 
@@ -739,7 +743,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(300)
                 .HasColumnName("content");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.MadePurchase).HasColumnName("made_purchase");
             entity.Property(e => e.PosterEmail)
@@ -758,7 +762,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Score).HasColumnName("score");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Ratings)
@@ -776,7 +780,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.EmployeeAccountId)
                 .HasMaxLength(50)
@@ -787,7 +791,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TotalPaid).HasColumnName("Total_paid");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.EmployeeAccount).WithMany(p => p.ReceiptBills)
@@ -809,7 +813,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Discount).HasColumnName("discount");
             entity.Property(e => e.GrandPaid).HasColumnName("grand_paid");
@@ -826,7 +830,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UnitPrice).HasColumnName("unit_price");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ReceiptBillDetails)
@@ -852,7 +856,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("booking_date");
             entity.Property(e => e.BookingHour).HasColumnName("booking_hour");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.GrandPaid).HasColumnName("grand_paid");
             entity.Property(e => e.PetId)
@@ -869,7 +873,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("service_option_name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Pet).WithMany(p => p.Schedules)
@@ -896,7 +900,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.AvailableHour).HasColumnName("available_hour");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.EndedDate)
                 .HasColumnType("date")
@@ -909,7 +913,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("started_date");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.ServiceOption).WithMany(p => p.ScheduleAvailables)
@@ -927,7 +931,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.CustomerAccountId)
                 .HasMaxLength(50)
@@ -938,7 +942,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TotalPaid).HasColumnName("Total_paid");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.CustomerAccount).WithMany(p => p.SellBillCustomerAccounts)
@@ -960,7 +964,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Discount).HasColumnName("discount");
             entity.Property(e => e.GrandPaid).HasColumnName("grand_paid");
@@ -978,7 +982,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UnitPrice).HasColumnName("unit_price");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.Product).WithMany(p => p.SellBillDetails)
@@ -1000,7 +1004,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Link)
                 .HasMaxLength(300)
@@ -1014,12 +1018,12 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("pet_service_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.PetService).WithMany(p => p.ServiceImages)
                 .HasForeignKey(d => d.PetServiceId)
-                .HasConstraintName("FK__service_i__pet_s__03F0984C");
+                .HasConstraintName("FK__service_i__pet_s__7E37BEF6");
         });
 
         modelBuilder.Entity<ServiceOption>(entity =>
@@ -1032,7 +1036,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EstimatedCompletionTime).HasColumnName("estimated_completion_time");
@@ -1044,7 +1048,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("pet_service_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.PetService).WithMany(p => p.ServiceOptions)
@@ -1062,7 +1066,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.PetMaximumWeight).HasColumnName("pet_maximum_weight");
             entity.Property(e => e.PetMinimumWeight).HasColumnName("pet_minimum_weight");
@@ -1072,7 +1076,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UnitPrice).HasColumnName("unit_price");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
 
             entity.HasOne(d => d.ServiceOption).WithMany(p => p.ServiceSellPrices)
@@ -1093,7 +1097,7 @@ public partial class PetKingdomContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("caring_staff_id");
             entity.Property(e => e.CreatedDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Created_date");
             entity.Property(e => e.EndedHour).HasColumnName("ended_hour");
             entity.Property(e => e.ScheduleId)
@@ -1102,7 +1106,7 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.StartedHour).HasColumnName("started_hour");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdateDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Update_date");
             entity.Property(e => e.WorkingDate)
                 .HasColumnType("date")

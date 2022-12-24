@@ -13,7 +13,6 @@ using Google.Api.Gax.ResourceNames;
 namespace PetKingdomFN.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class PetServiceController : Controller
     {
         private readonly IPetServiceRepository _PetServiceRepository;
@@ -27,66 +26,132 @@ namespace PetKingdomFN.Controllers
         }
 
         [HttpPost("getPage")]
-        public async Task<JsonResult> Index([FromBody]Pagination page)
+        [Authorize]
+        public async Task<JsonResult> Index([FromBody] Pagination page)
         {
-            IEnumerable<PetService> list = await _PetServiceRepository.GetPageList(page);
-            int numberOfRecords = await _PetServiceRepository.GetNumberOfRecords();
-            return Json(new { list, numberOfRecords });
+            try
+            {
+                PetServiceDataList result = await _PetServiceRepository.GetPageList(page);
+                return Json(new
+                {
+                    list = result.list,
+                    numberOfRecords = result.numberOfRecords,
+                    status  = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                   status  = 0,
+                    details = ex.Message
+                });
+            }
         }
 
         [HttpPost("add")]
+        [Authorize]
         [DisableRequestSizeLimit]
         public async Task<JsonResult> AddPetService([FromForm] PetService service)
         {
-            if (service is null)
+            try
             {
-                return Json(new { message = "fail", details = "Empty object" });
+                if (!(service.iconFile is null))
+                {
+                    service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
+                }
+                PetService obj = await _PetServiceRepository.AddPetService(service);
+
+                return Json(new { obj = obj, status  = 1 });
             }
-            if(service.Id is null)
+            catch (Exception ex)
             {
-                service.Id = Guid.NewGuid().ToString("N");
+                return Json(new {status  = 0, details = ex.Message });
             }
-           
 
-            await _PetServiceRepository.AddPetService(service);
-
-            return Json(new { obj = service , message = "success" });
         }
         [HttpGet("getById")]
+        [Authorize]
         public async Task<JsonResult> GetPetServiceById([FromQuery] string id)
         {
-
-            var obj = await _PetServiceRepository.GetPetServiceById(id);
-            if (obj is null)
+            try
             {
-                return Json(new { message = "fail", details = "Not found" });
+                var obj = await _PetServiceRepository.GetPetServiceById(id);              
+                return Json(new { obj = obj, status  = 1 });
             }
-            return Json(new { obj = obj, message = "success" });
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                   status  = 0,
+                    details = ex.Message
+                });
+            }
         }
 
         [HttpPost("update")]
+        [Authorize]
         public async Task<JsonResult> UpdatePetService([FromForm] PetService service)
         {
-            if (!(service.iconFile is null))
+            try
             {
-                service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
+                if (!(service.iconFile is null))
+                {
+                    service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
+                }
+                var obj = await _PetServiceRepository.UpdatePetService(service);
+                return Json(new { obj = obj, status  = 1 });
             }
-            var obj = await _PetServiceRepository.UpdatePetService(service);
-            if (obj is null)
+            catch (Exception ex)
             {
-                return Json(new { message = "fail", details = "Not found" });
+                return Json(new
+                {
+                   status  = 0,
+                    details = ex.Message
+                });
             }
-            return Json(new { obj = obj, message = "success" });
         }
         [HttpPost("delete")]
-        public async Task<JsonResult> DeletePetService([FromForm] string  id)
+        [Authorize]
+        public async Task<JsonResult> DeletePetService([FromForm] string id)
         {
-            var obj = await _PetServiceRepository.DeletePetService(id);
-            if (obj == "Not found")
+            try
             {
-                return Json(new { message = "fail", details = "Not found" });
+                var obj = await _PetServiceRepository.DeletePetService(id);
+                if(obj == 0)
+                {
+                    return Json(new { status = 0 ,details="not found"});
+                }
+                return Json(new { status  = 1 });
             }
-            return Json(new { message = "success" });
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                   status  = 0,
+                    details = ex.Message
+                });
+            }
+        }
+
+        [HttpPost("search")]
+        [Authorize]
+        public async Task<JsonResult> SearchPetService([FromBody] postingObject pObject)
+        {
+            try
+            {
+                PetServiceDataList result = await _PetServiceRepository.SearchPetService(pObject.page, pObject.searchObj);
+                return Json(new
+                {
+                    list = result.list,
+                    numberOfRecords = result.numberOfRecords,
+                    status  = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new {status  = 0, details = ex.Message });
+            }
         }
     }
 }

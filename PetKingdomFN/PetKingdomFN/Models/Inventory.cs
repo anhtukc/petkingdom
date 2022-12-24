@@ -13,6 +13,10 @@ public partial class Inventory
 
     public int? ReceiptPrice { get; set; }
 
+    public int? CurrentQuantity { get; set; }
+
+    public int? ReceiptQuantity { get; set; }
+
     public DateTime? CreatedDate { get; set; }
 
     public int? Status { get; set; }

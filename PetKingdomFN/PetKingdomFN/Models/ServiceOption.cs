@@ -8,7 +8,7 @@ public partial class ServiceOption
 {
     public string Id { get; set; } = null!;
 
-    public string? PetServiceId { get; set; }
+    public string PetServiceId { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 
@@ -17,13 +17,12 @@ public partial class ServiceOption
     public int? EstimatedCompletionTime { get; set; }
 
     public int? Status { get; set; }
-    [NotMapped]
-    public string PetServiceName { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }
-
+    [NotMapped]
+    public string PetServiceName { get; set; }
     public virtual PetService? PetService { get; set; }
 
     public virtual ICollection<ScheduleAvailable> ScheduleAvailables { get; } = new List<ScheduleAvailable>();

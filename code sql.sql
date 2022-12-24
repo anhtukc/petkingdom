@@ -306,11 +306,14 @@ Create table service_image(
 )
 
 Insert into pet_service(id, name, full_desciption, brief_description, thumbnail, icon, status)
-values(NEWID(), N'Tắm - vệ sinh thú cưng', N'Dịch vụ tắm thú cưng', N'Dịch vụ tắm thú cưng','/default.png', '/default.png', 0),
-(NEWID(), N'Cắt tỉa lông thú cưng', N'Cắt tỉa lông thú cưng', N'Cắt tỉa lông thú cưng','/default.png', '/default.png', 0),
-(NEWID(), N'Dắt chó đi dạo', N'Dắt chó đi dạo', N'Dắt chó đi dạo','/default.png', '/default.png', 0)
+values('petsv1', N'Tắm - vệ sinh thú cưng', N'Dịch vụ tắm thú cưng', N'Dịch vụ tắm thú cưng','/default.png', '/default.png', 0),
+('petsv2', N'Cắt tỉa lông thú cưng', N'Cắt tỉa lông thú cưng', N'Cắt tỉa lông thú cưng','/default.png', '/default.png', 0),
+('petsv3', N'Dắt chó đi dạo', N'Dắt chó đi dạo', N'Dắt chó đi dạo','/default.png', '/default.png', 0)
 
 Insert into account(id,permission,username,password,phone_confirmed)
 values(NEWID(), N'Admin', 'anhtukc', '01663616371HY', 0),
 (NEWID(), N'CaringStaff', 'mailinh98', '12345678', 0),
 (NEWID(), N'ManagementStaff', 'thuylinh', '12345678', 0)
+
+insert into service_option(id, pet_service_id, name, description,estimated_completion_time,Created_date, Update_date, status)
+values (NEWID(), 'petsv1', 'Tắm cơ bản', 'Tắm cơ bản', 1, GETDATE(),GETDATE(), 0)

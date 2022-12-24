@@ -7,14 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using  PetKingdomFN.Helpers;
 namespace PetKingdomFN.Repositories
 {
     public class PetServiceRepository:IPetServiceRepository
     {
 
         private readonly PetKingdomContext _DbContext;
-
+        IdGeneration GenerationId = new IdGeneration();
         public PetServiceRepository(PetKingdomContext DBContext)
         {
             _DbContext = DBContext;
@@ -23,30 +23,44 @@ namespace PetKingdomFN.Repositories
         {
             return await _DbContext.PetServices.CountAsync();
         }
-        public async Task<List<PetService>> GetPageList(Pagination page)
+        public async Task<PetServiceDataList> GetPageList(Pagination page)
         {
+            PetServiceDataList result = new PetServiceDataList();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
-            return await _DbContext.PetServices
-                .OrderBy(sortQuery)
-                .Skip(page.pageSize * (page.currentPage - 1))
+            List<PetService> allData = await _DbContext.PetServices.OrderBy(sortQuery).ToListAsync();
+            result.numberOfRecords = allData.Count();
+            result.list = allData.Skip((page.currentPage - 1) * page.pageSize)
                 .Take(page.pageSize)
-                .ToListAsync();
+                .ToList();
+            return result;
         }
 
-        public async Task<List<PetService>> SearchPetService(Pagination page, string name, int? status)
+        public async Task<PetServiceDataList> SearchPetService(Pagination page, basedSearchObject searchObj)
         {
+            PetServiceDataList result = new PetServiceDataList();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
-            List<PetService> list = await _DbContext.PetServices
-                .Where(x => (string.IsNullOrEmpty(name) || x.Name.Contains(name)) 
-                && (!status.HasValue || x.Status == status))
-                .OrderBy(sortQuery)
-                .Skip(page.pageSize * (page.currentPage - 1))
-                .Take(page.pageSize)
+
+            List<PetService> allData= await _DbContext.PetServices
+                .Where(x => (string.IsNullOrEmpty(searchObj.name) || x.Name.Contains(searchObj.name)) 
+                && (searchObj.status == -1 || x.Status == searchObj.status)).OrderBy(sortQuery)
                 .ToListAsync();
-            return list;  
+            if(allData.Count() > 0)
+            {
+                result.numberOfRecords = allData.Count();
+
+                result.list = allData.Skip((page.currentPage - 1) * page.pageSize)
+                    .Take(page.pageSize)
+                    .ToList();
+            }
+           
+            return result;  
         }
         public async Task<PetService> AddPetService(PetService service)
         {
+            PetService priviousId = await _DbContext.PetServices
+                .OrderBy("id desc")
+                .FirstAsync();
+            service.Id = await GenerationId.generateId(priviousId.Id.ToString());
             service.CreatedDate = DateTime.Now;
             service.UpdateDate = DateTime.Now;
             var obj =  _DbContext.PetServices.AddAsync(service);
@@ -65,16 +79,16 @@ namespace PetKingdomFN.Repositories
             var obj = await _DbContext.PetServices.Where(x => x.Id == id).FirstAsync();           
             return obj;
         }
-        public async Task<string> DeletePetService(string id)
+        public async Task<int> DeletePetService(string id)
         {
             var petService = await _DbContext.PetServices.FindAsync(id);
             if(petService is null)
             {
-                return "Not found";
+                return 0;
             }
              _DbContext.PetServices.Remove(petService);
             await _DbContext.SaveChangesAsync();
-            return "success";
+            return 1;
 
         }
        

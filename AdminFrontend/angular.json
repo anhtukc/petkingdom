@@ -10,9 +10,10 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+        "build": {   
+          "builder": "@angular-devkit/build-angular:browser",      
           "options": {
+            "allowedCommonJsDependencies": ["@ckeditor/ckeditor5-build-classic"],
             "outputPath": "dist/admin-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -23,8 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+             
               "src/styles.css"
             ],
             "scripts": []

@@ -35,10 +35,12 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 builder.Services.AddScoped<IPetServiceRepository, PetServiceRepository>();
-builder.Services.AddScoped<IAuthentication, AccountRepository>();
+builder.Services.AddScoped<IPetServiceOptions, PetServiceOptionRepository>();
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<ICloudStorageService, CloudStorageService>();
 builder.Services.AddScoped<IServiceImage, ServiceImageRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 
 

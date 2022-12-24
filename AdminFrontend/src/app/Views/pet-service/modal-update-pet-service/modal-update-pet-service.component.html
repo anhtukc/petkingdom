@@ -8,21 +8,54 @@
     </div>
   
     <div class="modal-body">
-      <form>      
+      <form [formGroup]="formGroup">
+        <div class="form-group">
+          <label for="name" class="form-label">Mã dịch vụ: </label>
+  
+          <input type="text" id="name" name="name" class="form-control" [(ngModel)]="petService.id"
+            placeholder="Tự động tạo mã ..." disabled="petService.id">
+  
+        </div>
         <div class="form-group">
           <label for="name" class="form-label">Tên dịch vụ:</label>
           <input type="text" id="name" name="name" class="form-control" 
-            [(ngModel)]="petService.name" >
+            [(ngModel)]="petService.name" formControlName="name" >
+            <div *ngIf="name.invalid && name.touched" class="error">
+              <div *ngIf="name.errors['required'] ">
+                *Vui lòng nhập tên
+           </div>
+             <div *ngIf="name.errors['minlength'] ">
+                  *Tên cần tối thiểu 4 ký tự
+             </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="name" class="form-label">Mô tả tóm tắt:</label>
-          <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" [ngModelOptions]="{standalone: true}">
+          <ckeditor [editor]="Editor" [(ngModel)]="petService.briefDescription" 
+            name="briefDescription"
+           formControlName="briefDescription">
           </ckeditor>
+          <div *ngIf="briefDescription.invalid && briefDescription.touched" class="error">
+            <div *ngIf="briefDescription.errors['required'] ">
+              *Vui lòng nhập mô tả ngắn gọn
+         </div>
+            <div *ngIf="briefDescription.errors['minlength'] ">
+                 *Cần nhập ít nhất 10 ký tự
+            </div>
+           </div>
         </div>
         <div class="form-group">
           <label for="name" class="form-label">Mô tả chi tiết:</label>
-          <ckeditor [editor]="Editor" [(ngModel)]="petService.fullDescription" [ngModelOptions]="{standalone: true}">
+          <ckeditor [editor]="Editor" [(ngModel)]="petService.fullDescription" formControlName="fullDescription">
           </ckeditor>
+          <div *ngIf="fullDescription.invalid && fullDescription.touched" class="error">
+             <div *ngIf="fullDescription.errors['required'] ">
+              *Vui lòng nhập mô tả ngắn gọn
+         </div>
+            <div *ngIf="fullDescription.errors['minlength'] ">
+                 *Cần nhập ít nhất 10 ký tự
+            </div>
+           </div>
         </div>
         <div class="form-group">
             <label for="name" class="form-label">Trạng thái:</label>

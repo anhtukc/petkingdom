@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="main-content col-10" style="margin:30px auto 30px; padding: 30px;">
     <div class="signin-booking">
         <div class="center"><p>Vui lòng đăng nhập để bắt đầu đặt lịch</p></div>
@@ -56,4 +56,30 @@
     <div class="choose-content hide">
 
     </div>
-</div>
+</div> -->
+
+<div class="progress-bar">
+    <div class="completed" [style.width]="(completedTests / totalTests) * 100 + '%'"></div>
+    <div class="step-number">Step {{ currentStep }}</div>
+  </div>
+  <form  (ngSubmit)="onSubmit()">
+    <div *ngIf="currentStep === 1" [@stepTransition]>
+     kkkk
+      <button type="button" (click)="nextStep()">Next</button>
+    </div>
+    <div *ngIf="currentStep === 2" [@stepTransition]>
+     kkkdfhf
+      <button type="button" (click)="prevStep()">Back</button>
+      <button type="button" (click)="nextStep()">Next</button>
+    </div>
+    <div *ngIf="currentStep === 3" [@stepTransition]>
+     fghkfghkf
+      <button type="button" (click)="prevStep()">Back</button>
+      <button type="button" (click)="nextStep()">Next</button>
+    </div>
+    <div *ngIf="currentStep === 4" [@stepTransition]>
+     fghkhgkfk
+      <button type="button" (click)="prevStep()">Back</button>
+      <button type="submit">Submit</button>
+    </div>
+  </form>

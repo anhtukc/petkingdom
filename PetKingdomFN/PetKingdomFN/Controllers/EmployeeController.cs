@@ -7,13 +7,13 @@ using PetKingdomFN.Models;
 namespace PetKingdomFN.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountsController : Controller
+    public class EmployeesController : Controller
     {
-        
-        private readonly IAccountRepository _repo;
+
+        private readonly IEmployeeRepository _repo;
 
 
-        public AccountsController(IAccountRepository repo)
+        public EmployeesController(IEmployeeRepository repo)
         {
             this._repo = repo;
         }
@@ -24,7 +24,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                AccountDataList result = await _repo.GetPageList(page);
+                EmployeeDataList result = await _repo.GetPageList(page);
                 return Json(new
                 {
                     list = result.list,
@@ -44,12 +44,12 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("add")]
         [Authorize]
-        public async Task<JsonResult> AddAccount([FromForm] Account acc)
+        public async Task<JsonResult> AddEmployee([FromForm] Employee emp)
         {
             try
             {
-              
-                Account obj = await _repo.AddAccount(acc);
+
+                Employee obj = await _repo.AddEmployee(emp);
 
                 return Json(new { obj = obj, status = 1 });
             }
@@ -61,11 +61,11 @@ namespace PetKingdomFN.Controllers
         }
         [HttpGet("getById")]
         [Authorize]
-        public async Task<JsonResult> GetAccountById([FromQuery] string id)
+        public async Task<JsonResult> GetEmployeeById([FromQuery] string id)
         {
             try
             {
-                var obj = await _repo.GetAccountById(id);
+                var obj = await _repo.GetEmployeeById(id);
                 return Json(new { obj = obj, status = 1 });
             }
             catch (Exception ex)
@@ -80,11 +80,11 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("update")]
         [Authorize]
-        public async Task<JsonResult> UpdateAccount([FromForm] Account acc)
+        public async Task<JsonResult> UpdateEmployee([FromForm] Employee emp)
         {
             try
-            {            
-                var obj = await _repo.UpdateAccount(acc);
+            {
+                var obj = await _repo.UpdateEmployee(emp);
                 return Json(new { obj = obj, status = 1 });
             }
             catch (Exception ex)
@@ -98,11 +98,11 @@ namespace PetKingdomFN.Controllers
         }
         [HttpPost("delete")]
         [Authorize]
-        public async Task<JsonResult> DeleteAccount([FromForm] string id)
+        public async Task<JsonResult> DeleteEmployee([FromForm] string id)
         {
             try
             {
-                var obj = await _repo.DeleteAccount(id);
+                var obj = await _repo.DeleteEmployee(id);
                 if (obj == 0)
                 {
                     return Json(new { status = 0, details = "not found" });
@@ -121,11 +121,11 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("search")]
         [Authorize]
-        public async Task<JsonResult> SearchAccount([FromBody] postingObject pObject)
+        public async Task<JsonResult> SearchEmployee([FromBody] postingObject pObject)
         {
             try
             {
-                AccountDataList result = await _repo.SearchAccount(pObject.page, pObject.searchObj);
+                EmployeeDataList result = await _repo.SearchEmployee(pObject.page, pObject.searchObj);
                 return Json(new
                 {
                     list = result.list,

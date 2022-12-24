@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetKingdomFN.BusEntities;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
@@ -21,50 +22,53 @@ namespace PetKingdomFN.Controllers
             _cloud = cloud;
         }
         [HttpPost("getall")]
+        [Authorize]
         public async Task<JsonResult> Index([FromForm] string serviceId)
         {
             try
             {
                 IEnumerable<ServiceImage> list = await _repo.GetAllById(serviceId);
-                return Json(new { list, message = "success" });
+                return Json(new { list, status  = 1 });
             }
             catch(Exception ex) {
-                return Json(new {  message = "fail", details=ex.Message });
+                return Json(new {  status  = 0, details=ex.Message });
             }
         }
         [HttpPost("add")]
         [DisableRequestSizeLimit]
+        [Authorize]
         public async Task<JsonResult> AddPetServiceImage([FromForm] List<IFormFile> files, [FromForm] string serviceId)
         {
             try
             {
                 if (files is null)
                 {
-                    return Json(new { message = "fail", details = "Empty object" });
+                    return Json(new { status  = 0, details = "Empty object" });
                 }
                 List<ServiceImage> list = await _repo.UploadImage(files, serviceId);
-                return Json(new { list = list, message = "success" });
+                return Json(new { list = list, status  = 1 });
             }
             catch(Exception ex)
             {
-                return Json(new { message = "fail", details = ex.Message });
+                return Json(new { status  = 0, details = ex.Message });
             }
         }
         [HttpPost("delete")]
+        [Authorize]
         public async Task<JsonResult> DeleteServiceImage([FromForm]string id)
         {
             try
             {
                 if (id is null)
                 {
-                    return Json(new { message = "fail", details = "Empty object" });
+                    return Json(new { status  = 0, details = "Empty object" });
                 }
                 await _repo.DeleteImage(id);
-                return Json(new { message = "success" });
+                return Json(new { status  = 1 });
             }
             catch (Exception ex)
             {
-                return Json(new { message = "fail", details = ex.Message });
+                return Json(new { status  = 0, details = ex.Message });
             }
         }
     }

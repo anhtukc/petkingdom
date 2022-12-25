@@ -16,16 +16,9 @@ namespace PetKingdomFN.Repositories
         public AccountRepository(PetKingdomContext DbContext) {
             _DbContext = DbContext;
         }
-        public async Task<Account> CheckAccount(string username, string password)
+        public async Task<DataList<Account>> GetPageList(Pagination page)
         {
-            Account acc = new Account();
-            acc = await _DbContext.Accounts.Where(x => x.Username == username && x.Password == password).FirstAsync();
-            return  acc;
-     
-        }
-        public async Task<AccountDataList> GetPageList(Pagination page)
-        {
-            AccountDataList result = new AccountDataList();
+            DataList<Account> result = new DataList<Account>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<Account> allData = await _DbContext.Accounts.OrderBy(sortQuery).ToListAsync();
             result.numberOfRecords = allData.Count();
@@ -35,9 +28,9 @@ namespace PetKingdomFN.Repositories
             return result;
         }
 
-        public async Task<AccountDataList> SearchAccount(Pagination page, basedSearchObject searchObj)
+        public async Task<DataList<Account>> SearchAccount(Pagination page, basedSearchObject searchObj)
         {
-            AccountDataList result = new AccountDataList();
+            DataList<Account> result = new DataList<Account>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
 
             List<Account> allData = await _DbContext.Accounts
@@ -55,21 +48,21 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
-        public async Task<Account> AddAccount(Account service)
+        public async Task<Account> AddAccount(Account acc)
         {          
-            service.Id = Guid.NewGuid().ToString("D");
-            service.CreatedDate = DateTime.Now;
-            service.UpdateDate = DateTime.Now;
-            var obj = _DbContext.Accounts.AddAsync(service);
+            acc.Id = Guid.NewGuid().ToString();
+            acc.CreatedDate = DateTime.Now;
+            acc.UpdateDate = DateTime.Now;
+            var obj = _DbContext.Accounts.AddAsync(acc);
             await _DbContext.SaveChangesAsync();
             return obj.Result.Entity;
         }
-        public async Task<Account> UpdateAccount(Account service)
+        public async Task<Account> UpdateAccount(Account acc)
         {
-            service.UpdateDate = DateTime.Now;
-            _DbContext.Entry(service).State = EntityState.Modified;
+            acc.UpdateDate = DateTime.Now;
+            _DbContext.Entry(acc).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();
-            return service;
+            return acc;
         }
         public async Task<Account> GetAccountById(string id)
         {

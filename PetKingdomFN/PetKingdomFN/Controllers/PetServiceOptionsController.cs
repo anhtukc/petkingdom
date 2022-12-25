@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PetKingdomFN.BusEntities;
 using PetKingdomFN.Interfaces;
@@ -7,22 +8,25 @@ using PetKingdomFN.Models;
 namespace PetKingdomFN.Controllers
 {
     [Route("api/[controller]")]
-    public class PetServiceOptionOptionsController : Controller
+    public class PetServiceOptionController : Controller
     {
         private readonly IPetServiceOptions _repo;
+        private readonly IPetServiceRepository _petService;
 
-
-        public PetServiceOptionOptionsController(IPetServiceOptions repo)
+        public PetServiceOptionController(IPetServiceOptions repo, IPetServiceRepository petService)
         {
             this._repo = repo;
+            this._petService = petService;
         }
 
+
         [HttpPost("getPage")]
+        [Authorize]
         public async Task<JsonResult> Index([FromBody] Pagination page)
         {
             try
             {
-                PetServiceOptionsDataList result = await _repo.GetPageList(page);
+                DataList<ServiceOption> result = await _repo.GetPageList(page);
                 return Json(new
                 {
                     list = result.list,
@@ -42,13 +46,14 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("add")]
         [DisableRequestSizeLimit]
+        [Authorize]
         public async Task<JsonResult> AddPetServiceOption([FromForm] ServiceOption service)
         {
             try
             {
-                await _repo.AddPetServiceOption(service);
+                var obj = await _repo.AddPetServiceOption(service);
 
-                return Json(new { obj = service, status = 1 });
+                return Json(new { obj = obj, status = 1 });
             }
             catch (Exception ex)
             {
@@ -60,6 +65,7 @@ namespace PetKingdomFN.Controllers
             }
         }
         [HttpGet("getById")]
+        [Authorize]
         public async Task<JsonResult> GetPetServiceOptionById([FromQuery] string id)
         {
             try
@@ -78,6 +84,7 @@ namespace PetKingdomFN.Controllers
         }
 
         [HttpPost("update")]
+        [Authorize]
         public async Task<JsonResult> UpdatePetServiceOption([FromForm] ServiceOption service)
         {
             try
@@ -96,6 +103,7 @@ namespace PetKingdomFN.Controllers
             }
         }
         [HttpPost("delete")]
+        [Authorize]
         public async Task<JsonResult> DeletePetServiceOption([FromForm] string id)
         {
             try
@@ -114,11 +122,12 @@ namespace PetKingdomFN.Controllers
         }
 
         [HttpPost("search")]
+        [Authorize]
         public async Task<JsonResult> SearchPetServiceOption([FromBody] postingObject pObject)
         {
             try
             {
-                PetServiceOptionsDataList result = await _repo.SearchPetServiceOption(pObject.page, pObject.searchObj);
+                DataList<ServiceOption> result = await _repo.SearchPetServiceOption(pObject.page, pObject.searchObj);
                 return Json(new
                 {
                     list = result.list,

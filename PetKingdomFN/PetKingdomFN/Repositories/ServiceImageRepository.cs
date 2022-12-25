@@ -20,10 +20,11 @@ namespace PetKingdomFN.Repositories
         {
             return await _DbContext.ServiceImages.Where(x=>x.PetServiceId == serviceId).ToListAsync();
         }
-        public async Task<List<ServiceImage>> GetPageList(Pagination page)
+        public async Task<List<ServiceImage>> GetPageList(Pagination page, string serviceId)
         {
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             return await _DbContext.ServiceImages
+                .Where(x => x.PetServiceId == serviceId)
                 .OrderBy(sortQuery)
                 .Skip(page.pageSize * (page.currentPage - 1))
                 .Take(page.pageSize)
@@ -51,16 +52,16 @@ namespace PetKingdomFN.Repositories
             await _DbContext.SaveChangesAsync();
             return list.ToList();
         }
-        public async Task<string> DeleteImage(string id) {
+        public async Task<int> DeleteImage(string id) {
             ServiceImage obj =  await _DbContext.ServiceImages.FindAsync(id);    
             if(obj is null) {
-                return "not found";
+                return 0;
             }
             await _cloud.DeleteFileAsync(obj.Name);
 
             _DbContext.ServiceImages.Remove(obj);
             await _DbContext.SaveChangesAsync();
-            return "success";
+            return 1;
         }
     }
 }

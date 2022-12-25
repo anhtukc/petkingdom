@@ -5,11 +5,12 @@ import { petService } from 'src/app/Class/pet-service';
 import { basedSearchObject } from 'src/app/Class/SearchObjects';
 import { environment } from 'src/environments/environment';
 import { localStorageJwtHelper } from 'src/app/Helper/local-storage-helper';
+import { ServiceOption } from 'src/app/Class/PetServiceOptions';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiServiceOptionsService {
-  private controllerName: string = "PetService/";
+export class ApiServiceOptions {
+  private controllerName: string = "PetServiceOption/";
   constructor(public http: HttpClient, private localJwtHelper: localStorageJwtHelper) { }
 
   getPage(page: pagination) {
@@ -31,28 +32,23 @@ export class ApiServiceOptionsService {
     return this.http.post<any>(environment.apiUrl + this.controllerName + "delete", formData, httpOptions);
   }
 
-  addNew(service: petService) {
+  addNew(service: ServiceOption) {
     const httpOptions = this.localJwtHelper.getHttpOptions("default");
 
     const formData: FormData = new FormData();
     for (var key in service) {
       formData.append(key, service[key]);
     }
-
-    formData.set('iconFile', service.iconFile, service.iconFile.name);
     return this.http.post<any>(environment.apiUrl + this.controllerName + "add", formData, httpOptions)
   }
 
 
-  update(service: petService) {
+  update(service: ServiceOption) {
     const HttpOptions = this.localJwtHelper.getHttpOptions("default");
 
     const formData: FormData = new FormData();
     for (var key in service) {
       formData.append(key, service[key]);
-    }
-    if (service.iconFile !== null) {
-      formData.set('iconFile', service.iconFile, service.iconFile.name);
     }
     return this.http.post<any>(environment.apiUrl + this.controllerName + "update", formData, HttpOptions)
   }

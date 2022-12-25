@@ -25,13 +25,36 @@ namespace PetKingdomFN.Controllers
             _cloud = cloud;
         }
 
+        [HttpGet("getAll")]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetAll()
+        {
+            try
+            {
+                List<PetService> list = await _PetServiceRepository.GetAll();
+                return Json(new
+                {
+                    list = list,
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+
         [HttpPost("getPage")]
         [Authorize]
         public async Task<JsonResult> Index([FromBody] Pagination page)
         {
             try
             {
-                PetServiceDataList result = await _PetServiceRepository.GetPageList(page);
+                DataList<PetService> result = await _PetServiceRepository.GetPageList(page);
                 return Json(new
                 {
                     list = result.list,
@@ -140,7 +163,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                PetServiceDataList result = await _PetServiceRepository.SearchPetService(pObject.page, pObject.searchObj);
+                DataList<PetService> result = await _PetServiceRepository.SearchPetService(pObject.page, pObject.searchObj);
                 return Json(new
                 {
                     list = result.list,

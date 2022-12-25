@@ -18,9 +18,9 @@ namespace PetKingdomFN.Repositories
             _DbContext = DbContext;
         }
     
-        public async Task<EmployeeDataList> GetPageList(Pagination page)
+        public async Task<DataList<Employee>> GetPageList(Pagination page)
         {
-            EmployeeDataList result = new EmployeeDataList();
+            DataList<Employee> result = new DataList<Employee>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<Employee> allData = await _DbContext.Employees.OrderBy(sortQuery).ToListAsync();
             result.numberOfRecords = allData.Count();
@@ -30,9 +30,9 @@ namespace PetKingdomFN.Repositories
             return result;
         }
 
-        public async Task<EmployeeDataList> SearchEmployee(Pagination page, basedSearchObject searchObj)
+        public async Task<DataList<Employee>> SearchEmployee(Pagination page, basedSearchObject searchObj)
         {
-            EmployeeDataList result = new EmployeeDataList();
+            DataList<Employee> result = new DataList<Employee>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
 
             List<Employee> allData = await _DbContext.Employees
@@ -52,7 +52,7 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<Employee> AddEmployee(Employee emp)
         {
-            emp.Id = Guid.NewGuid().ToString("D");
+            emp.Id = Guid.NewGuid().ToString();
             emp.CreatedDate = DateTime.Now;
             emp.UpdateDate = DateTime.Now;
             var obj = _DbContext.Employees.AddAsync(emp);

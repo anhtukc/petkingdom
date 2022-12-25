@@ -23,9 +23,17 @@ namespace PetKingdomFN.Repositories
         {
             return await _DbContext.PetServices.CountAsync();
         }
-        public async Task<PetServiceDataList> GetPageList(Pagination page)
+        public async Task<List<PetService>> GetAll()
         {
-            PetServiceDataList result = new PetServiceDataList();
+            List<PetService> allData = await _DbContext
+                .PetServices
+                .OrderBy("name asc")
+                .ToListAsync();
+            return allData;
+        }
+        public async Task<DataList<PetService>> GetPageList(Pagination page)
+        {
+            DataList<PetService> result = new DataList<PetService>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<PetService> allData = await _DbContext.PetServices.OrderBy(sortQuery).ToListAsync();
             result.numberOfRecords = allData.Count();
@@ -35,9 +43,9 @@ namespace PetKingdomFN.Repositories
             return result;
         }
 
-        public async Task<PetServiceDataList> SearchPetService(Pagination page, basedSearchObject searchObj)
+        public async Task<DataList<PetService>> SearchPetService(Pagination page, basedSearchObject searchObj)
         {
-            PetServiceDataList result = new PetServiceDataList();
+            DataList<PetService> result = new DataList<PetService>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
 
             List<PetService> allData= await _DbContext.PetServices

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { PetServiceApiService } from './pet-service-api.service';
+import { ApiPetService } from './pet-service-api.service';
 import { sortingService } from 'src/app/Helper/sorting-helper';
 import { pagination } from 'src/app/Class/pagination';
 import { petService } from 'src/app/Class/pet-service';
@@ -50,7 +50,7 @@ export class PetServiceComponent implements OnInit {
     }
   }
   public totalData: number = 0;
-  constructor(private api: PetServiceApiService,
+  constructor(private api: ApiPetService,
     public http: HttpClient,
     private sort: sortingService) { }
 

@@ -16,6 +16,8 @@ import { PetServiceOptionsComponent } from './Views/pet-service-options/pet-serv
 import { FormsModule } from '@angular/forms';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalServiceOptionComponent } from './Views/pet-service-options/modal-service-option/modal-service-option.component';
+import { ServiceOptionModule } from './Views/pet-service-options/service-option-module.module';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProfileEditorComponent,
     LoginComponent,
     DashboardComponent,
-    PetServiceOptionsComponent,
+    
   ],
   imports: [
     PetServiceModule,
+    ServiceOptionModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

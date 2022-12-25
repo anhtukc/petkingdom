@@ -9,10 +9,12 @@ import { localStorageJwtHelper } from 'src/app/Helper/local-storage-helper';
 @Injectable({
   providedIn: 'root'
 })
-export class PetServiceApiService {
+export class ApiPetService {
   private controllerName:string = "PetService/";
   constructor(public http: HttpClient, private localJwtHelper:localStorageJwtHelper) { }
-
+  getAll() {
+    return this.http.get<any>(environment.apiUrl +this.controllerName+ "getAll");
+  }
   
   getPage(page: pagination) {
     const httpOptions = this.localJwtHelper.getHttpOptions("FromBody");

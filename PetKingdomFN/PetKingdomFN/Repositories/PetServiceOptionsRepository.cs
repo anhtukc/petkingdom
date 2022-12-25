@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.DynamicLinq;
 using PetKingdomFN.BusEntities;
+using PetKingdomFN.Helpers;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
 using System.Linq.Dynamic.Core;
@@ -10,7 +11,7 @@ namespace PetKingdomFN.Repositories
     {
 
         private readonly PetKingdomContext _DbContext;
-
+        IdGeneration GenerationId = new IdGeneration();
         public PetServiceOptionRepository(PetKingdomContext DBContext)
         {
             _DbContext = DBContext;
@@ -19,9 +20,9 @@ namespace PetKingdomFN.Repositories
         {
             return await _DbContext.ServiceOptions.CountAsync();
         }
-        public async Task<PetServiceOptionsDataList> GetPageList(Pagination page)
+        public async Task<DataList<ServiceOption>> GetPageList(Pagination page)
         {
-            PetServiceOptionsDataList result = new PetServiceOptionsDataList();
+            DataList<ServiceOption> result = new DataList<ServiceOption>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<ServiceOption> allData = await _DbContext.ServiceOptions
                 .OrderBy(sortQuery)
@@ -48,9 +49,9 @@ namespace PetKingdomFN.Repositories
             return result;
         }
 
-        public async Task<PetServiceOptionsDataList> SearchPetServiceOption(Pagination page, basedSearchObject searchObj)
+        public async Task<DataList<ServiceOption>> SearchPetServiceOption(Pagination page, basedSearchObject searchObj)
         {
-            PetServiceOptionsDataList result = new PetServiceOptionsDataList();
+            DataList<ServiceOption> result = new DataList<ServiceOption>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
 
             List<ServiceOption> allData = await _DbContext.ServiceOptions
@@ -85,12 +86,15 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<ServiceOption> AddPetServiceOption(ServiceOption option)
         {
-            option.Id = Guid.NewGuid().ToString("N");
+            ServiceOption priviousId = await _DbContext.ServiceOptions
+               .OrderBy("id desc")
+               .FirstAsync();
+            option.Id = await GenerationId.generateId(priviousId.Id.ToString());
             option.CreatedDate = DateTime.Now;
             option.UpdateDate = DateTime.Now;
             var obj = _DbContext.ServiceOptions.AddAsync(option);
             await _DbContext.SaveChangesAsync();
-            return obj.Result.Entity;
+            return option;
         }
         public async Task<ServiceOption> UpdatePetServiceOption(ServiceOption option)
         {

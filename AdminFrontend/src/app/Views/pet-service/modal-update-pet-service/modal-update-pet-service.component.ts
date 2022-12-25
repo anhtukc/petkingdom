@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { petService } from 'src/app/Class/pet-service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
-import { PetServiceApiService } from '../pet-service-api.service';
+import { ApiPetService } from '../pet-service-api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -52,7 +52,7 @@ export class ModalUpdatePetServiceComponent implements OnInit {
       this.previewImg = URL.createObjectURL(files[0]);
     }
   }
-  constructor(private modalService: NgbModal, private api: PetServiceApiService) { }
+  constructor(private modalService: NgbModal, private api: ApiPetService) { }
   ngOnInit(): void {
 
   }
@@ -103,7 +103,6 @@ export class ModalUpdatePetServiceComponent implements OnInit {
         this.petService = result.obj;
       }
     )
-    console.log(this.petService);
   }
 
   modalSetUp() {

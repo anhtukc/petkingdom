@@ -16,6 +16,7 @@ public partial class SellBill
     public string? EmployeeAccountId { get; set; }
 
     public int? Status { get; set; }
+    public string? BillType { get; set; }
 
     public DateTime? UpdateDate { get; set; }
 

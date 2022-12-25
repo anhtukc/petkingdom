@@ -41,7 +41,19 @@ builder.Services.AddScoped<ICloudStorageService, CloudStorageService>();
 builder.Services.AddScoped<IServiceImage, ServiceImageRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IServiceSellPriceRepository, ServiceSellPriceRepository>();
+builder.Services.AddScoped<IScheduleAvailableRepository, ScheduleAvailableRepository>();
+builder.Services.AddScoped<IBlogCategoryRepository, BlogCategoryRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IGroupProductRepository, GroupProductRepository>();
+builder.Services.AddScoped<ISellBillRepository, SellBillRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IShiftRepository, ShiftRepository>();
 
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>

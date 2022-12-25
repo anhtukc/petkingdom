@@ -1,0 +1,96 @@
+<ng-template #modalPetServiceOption let-modal class="modal-xl">
+
+  <div class="modal-header modal-xl">
+    <h4 class="modal-title" id="modal-basic-title">Sửa dịch vụ thú cưng</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="formGroup">
+      <div class="form-group">
+        <label for="name" class="form-label">Mã dịch vụ: </label>
+
+        <input type="text" id="name" name="name" class="form-control" [(ngModel)]="option.id"
+          placeholder="Tự động tạo mã ..." disabled="option.id">
+
+      </div>
+      <div class="form-group">
+        <label for="name" class="form-label">Tên dịch vụ:</label>
+        <input type="text" class="form-control" formControlName="name" [(ngModel)]="option.name">
+        <div *ngIf="name.invalid && name.touched" class="error">
+          <div *ngIf="name.errors['required'] ">
+            *Vui lòng nhập tên
+          </div>
+          <div *ngIf="name.errors['minlength'] ">
+            *Tên cần tối thiểu 4 ký tự
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">Thời gian hoàn thành dự kiển(phút):</label>
+        <input type="text" class="form-control" formControlName="estimatedCompletionTime"
+          [(ngModel)]="option.estimatedCompletionTime">
+        <div *ngIf="estimatedCompletionTime.invalid && (estimatedCompletionTime.touched || estimatedCompletionTime.dirty)" class="error">
+          <div *ngIf="estimatedCompletionTime.errors['required'] ">
+            *Vui lòng nhập thời gian hoàn thành dự kiến
+          </div>
+          <div *ngIf="estimatedCompletionTime.errors['min']">
+            *Thời gian hoàn thành dự kiến tối thiểu là 5 phút
+          </div>
+          <div *ngIf="estimatedCompletionTime.errors['pattern']">
+            *Thời gian hoàn thành dự kiến tối thiểu là 5 phút
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">Mô tả:</label>
+        <ckeditor [editor]="Editor" [(ngModel)]="option.description" formControlName="description">
+        </ckeditor>
+        <div *ngIf="description.invalid && description.touched" class="error">
+          <div *ngIf="description.errors['required'] ">
+            *Vui lòng nhập mô tả ngắn gọn
+          </div>
+          <div *ngIf="description.errors['minlength'] ">
+            *Cần nhập ít nhất 10 ký tự
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name" class="form-label">Loại dịch vụ:</label>
+        <select name="" id="" [(ngModel)]="option.petServiceId" formControlName="petServiceId" (change)="getPetServiceName()"
+          class="form-control col-12">
+          <option *ngFor=" let cate of petService" value="{{cate.id}}">{{cate.name}}</option>
+        </select>
+        <div *ngIf="petServiceId.invalid && petServiceId.touched" class="error">
+          <div *ngIf="petServiceId.errors['required'] ">
+            *Vui lòng chọn loại dịch vụ
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group" *ngIf="typeModal == 'edit'">
+        <label for="name" class="form-label">Trạng thái:</label>
+        <select name="" id="" [(ngModel)]="option.status" [ngModelOptions]="{standalone: true}"
+          class="form-control col-12">
+          <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+        </select>
+      </div>
+
+    </form>
+
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="createNew()" *ngIf="typeModal == 'create'">Làm mới</button>
+    <button type="button" class="btn btn-outline-dark" (click)="create()" *ngIf="typeModal == 'create'">Thêm</button>
+    <button type="button" class="btn btn-outline-dark" (click)="update()" *ngIf="typeModal == 'edit'">Sửa</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
+  </div>
+
+</ng-template>

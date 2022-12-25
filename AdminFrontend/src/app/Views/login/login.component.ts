@@ -9,32 +9,35 @@ import { LoginApiService } from './api-login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private api:LoginApiService, public router: Router) { }
-  public acc:login;
-  errorAlert:string ="";
+  constructor(private api: LoginApiService, public router: Router) { }
+  public acc: login;
+  errorAlert: string = "";
   ngOnInit(): void {
-    this.acc ={
-      username:"",
-      password:""
+    this.acc = {
+      username: "",
+      password: ""
     };
   }
 
-  login(){
-    this.api.login(this.acc).subscribe(result=>{
-      if(result.message=='Invalid account'){
-        this.errorAlert = "Tài khoản hoặc mật khẩu không chính xác";
+  login() {
+    this.api.login(this.acc).subscribe(result => {
+      if (result.message == 'fail') {
+        if (result.details == 'Invalid account') {
+          this.errorAlert = "Tài khoản hoặc mật khẩu không chính xác";
+          alert(this.errorAlert);
+        }
       }
-      else if(result.message=='success'){
+      else if (result.message == 'success') {
         localStorage.setItem('token', result.token);
         this.router.navigate(['dashboard']);
       }
-      else{
+      else {
         console.log(result.details);
       }
     })
   }
 
-  alert(){
-   console.log(this.acc);
+  alert() {
+    console.log(this.acc);
   }
 }

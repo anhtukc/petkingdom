@@ -210,6 +210,7 @@ Total_paid bigint not null,
  id nvarchar(50) constraint pk_sell_bill primary key,
 Created_date date not null,
 Total_paid bigint not null,
+billtype nvarchar(50) not null,
  customer_account_id  nvarchar(50) foreign key(customer_account_id) references account(id),
  employee_account_id  nvarchar(50) foreign key(employee_account_id) references account(id),
  status int 

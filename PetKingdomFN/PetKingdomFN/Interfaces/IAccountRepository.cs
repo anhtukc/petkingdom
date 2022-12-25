@@ -5,8 +5,8 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IAccountRepository
     {
-        Task<AccountDataList> GetPageList(Pagination page);
-        Task<AccountDataList> SearchAccount(Pagination page, basedSearchObject searchObj);
+        Task<DataList<Account>> GetPageList(Pagination page);
+        Task<DataList<Account>> SearchAccount(Pagination page, basedSearchObject searchObj);
         Task<Account> GetAccountById(string id);
         Task<Account> AddAccount(Account acc);
         Task<Account> UpdateAccount(Account acc);

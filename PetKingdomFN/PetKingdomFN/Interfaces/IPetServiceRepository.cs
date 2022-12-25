@@ -8,13 +8,15 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IPetServiceRepository
     {
-        Task<PetServiceDataList> GetPageList(Pagination page);
+        Task<List<PetService>> GetAll();
+
+        Task<DataList<PetService>> GetPageList(Pagination page);
         Task<PetService> GetPetServiceById(string id);
         Task<PetService> AddPetService(PetService service);
         Task<PetService> UpdatePetService(PetService service);
         Task<int> DeletePetService(string id);
 
-        Task<PetServiceDataList> SearchPetService(Pagination page, basedSearchObject searchObj);
+        Task<DataList<PetService>> SearchPetService(Pagination page, basedSearchObject searchObj);
 
     }
 }

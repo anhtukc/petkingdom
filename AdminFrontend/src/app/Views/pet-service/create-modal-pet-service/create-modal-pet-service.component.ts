@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { petService } from 'src/app/Class/pet-service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
-import { PetServiceApiService } from '../pet-service-api.service';
+import { ApiPetService } from '../pet-service-api.service';
 import { CustomValidators } from 'ng2-validation';
 
 @Component({
@@ -60,7 +60,7 @@ export class CreateModalPetServiceComponent implements OnInit {
       this.previewImg = URL.createObjectURL(files[0]);
     }
   }
-  constructor(private modalService: NgbModal, private api: PetServiceApiService) { }
+  constructor(private modalService: NgbModal, private api: ApiPetService) { }
   ngOnInit(): void {
 
   }

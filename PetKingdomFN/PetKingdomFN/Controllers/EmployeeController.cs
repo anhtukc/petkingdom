@@ -24,7 +24,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                EmployeeDataList result = await _repo.GetPageList(page);
+                DataList<Employee> result = await _repo.GetPageList(page);
                 return Json(new
                 {
                     list = result.list,
@@ -125,7 +125,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                EmployeeDataList result = await _repo.SearchEmployee(pObject.page, pObject.searchObj);
+                DataList<Employee> result = await _repo.SearchEmployee(pObject.page, pObject.searchObj);
                 return Json(new
                 {
                     list = result.list,

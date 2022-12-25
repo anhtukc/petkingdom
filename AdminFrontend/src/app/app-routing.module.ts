@@ -4,11 +4,16 @@ import { LoginComponent } from './Views/login/login.component';
 import { PetServiceComponent } from './Views/pet-service/pet-service.component';
 import { RoleGuardService as RoleGuard } from './auth/role-guard-service.service';
 import { DashboardComponent } from './Views/dashboard/dashboard.component';
+import { PetServiceOptionsComponent } from './Views/pet-service-options/pet-service-options.component';
 const routes: Routes = [
   {path:"petservice", component:PetServiceComponent,
   canActivate:[RoleGuard],
   data:{expectedRole:'admin'||'managementStaff'}},
 
+  {path:"serviceoption", component:PetServiceOptionsComponent,
+  canActivate:[RoleGuard],
+  data:{expectedRole:'admin'||'managementStaff'}},
+  
   {path:"dashboard", component:DashboardComponent,
   canActivate:[RoleGuard],
   data:{expectedRole:'admin'||'managementStaff'||'caringStaff'}},

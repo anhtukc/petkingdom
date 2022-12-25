@@ -944,7 +944,9 @@ public partial class PetKingdomContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("datetime")
                 .HasColumnName("Update_date");
-
+            entity.Property(e => e.BillType)
+               .HasMaxLength(50)
+               .HasColumnName("billtype");
             entity.HasOne(d => d.CustomerAccount).WithMany(p => p.SellBillCustomerAccounts)
                 .HasForeignKey(d => d.CustomerAccountId)
                 .HasConstraintName("FK__sell_bill__custo__60A75C0F");

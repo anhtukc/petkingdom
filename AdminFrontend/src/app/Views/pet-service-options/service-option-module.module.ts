@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PetServiceOptionsComponent } from './pet-service-options.component';
 import { ModalServiceOptionComponent } from './modal-service-option/modal-service-option.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ScheduleAvailableComponent } from './schedule-available/schedule-available.component';
 
 
 
 @NgModule({
   declarations: [  
      PetServiceOptionsComponent,
-    ModalServiceOptionComponent],
+    ModalServiceOptionComponent,
+    ScheduleAvailableComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -24,7 +26,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     NgbModule,
     ReactiveFormsModule,
     CKEditorModule
+  ],
+  providers: [
+    DatePipe
   ]
-
 })
 export class ServiceOptionModule { }

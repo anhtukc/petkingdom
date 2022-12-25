@@ -20,11 +20,12 @@ namespace PetKingdomFN.Repositories
         {
             return await _DbContext.ScheduleAvailables.CountAsync();
         }
-        public async Task<DataList<ScheduleAvailable>> GetPageList(Pagination page)
+        public async Task<DataList<ScheduleAvailable>> GetPageList(Pagination page, string optionId)
         {
             DataList<ScheduleAvailable> result = new DataList<ScheduleAvailable>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
             List<ScheduleAvailable> allData = await _DbContext.ScheduleAvailables
+                .Where(x=>x.ServiceOptionId == optionId)
                 .OrderBy(sortQuery)             
                 .ToListAsync();
             result.numberOfRecords = allData.Count();
@@ -34,14 +35,14 @@ namespace PetKingdomFN.Repositories
             return result;
         }
 
-        public async Task<DataList<ScheduleAvailable>> SearchScheduleAvailable(Pagination page, basedSearchObject searchObj)
+        public async Task<DataList<ScheduleAvailable>> SearchScheduleAvailable(Pagination page, basedSearchObject searchObj, string optionId)
         {
             DataList<ScheduleAvailable> result = new DataList<ScheduleAvailable>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
 
             List<ScheduleAvailable> allData = await _DbContext.ScheduleAvailables
-                .Where(x => (searchObj.status == -1 || x.Status == searchObj.status)).OrderBy(sortQuery)
-                
+                .Where(x => x.ServiceOptionId == optionId
+                && (searchObj.status == -1 || x.Status == searchObj.status)).OrderBy(sortQuery)
                 .ToListAsync();
             if (allData.Count() > 0)
             {
@@ -59,6 +60,8 @@ namespace PetKingdomFN.Repositories
             sa.Id = Guid.NewGuid().ToString();
             sa.CreatedDate = DateTime.Now;
             sa.UpdateDate = DateTime.Now;
+            sa.StartedDate = DateTime.Parse(sa.startedDateFormat);
+            sa.EndedDate = DateTime.Parse(sa.endedDateFormat);
             var obj = _DbContext.ScheduleAvailables.AddAsync(sa);
             await _DbContext.SaveChangesAsync();
             return obj.Result.Entity;
@@ -66,6 +69,8 @@ namespace PetKingdomFN.Repositories
         public async Task<ScheduleAvailable> UpdateScheduleAvailable(ScheduleAvailable sa)
         {
             sa.UpdateDate = DateTime.Now;
+            sa.StartedDate = DateTime.Parse(sa.startedDateFormat);
+            sa.EndedDate = DateTime.Parse(sa.endedDateFormat);
             _DbContext.Entry(sa).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();
             return sa;
@@ -75,6 +80,7 @@ namespace PetKingdomFN.Repositories
             var obj = await _DbContext.ScheduleAvailables.Where(x => x.Id == id).FirstAsync();
             return obj;
         }
+        
         public async Task<int> DeleteScheduleAvailable(string id)
         {
             var ScheduleAvailable = await _DbContext.ScheduleAvailables.FindAsync(id);

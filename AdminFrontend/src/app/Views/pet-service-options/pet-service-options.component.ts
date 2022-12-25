@@ -7,6 +7,7 @@ import { sortingService } from 'src/app/Helper/sorting-helper';
 import { ApiPetService } from '../pet-service/pet-service-api.service';
 import { ApiServiceOptions } from './api-service-options.service';
 import { ModalServiceOptionComponent } from './modal-service-option/modal-service-option.component';
+import { ScheduleAvailableComponent } from './schedule-available/schedule-available.component';
 
 @Component({
   selector: 'app-pet-service-options',
@@ -25,7 +26,7 @@ export class PetServiceOptionsComponent implements OnInit {
     this.fetchData();
  
   }
-
+  public serviceOptionId ='';
   statusMeaning: Array<string> = ["Không hoạt động", "Đang hoạt động"];
   public page: pagination = {
     currentPage: 1,
@@ -41,6 +42,7 @@ export class PetServiceOptionsComponent implements OnInit {
     status: -1
   };
   @ViewChild(ModalServiceOptionComponent) modalServiceOption!:ModalServiceOptionComponent;
+  @ViewChild(ScheduleAvailableComponent) modalScheduleAvailable!:ScheduleAvailableComponent;
 
   isSearchDivVisible: boolean = false;
   isSearching: boolean = false;
@@ -142,5 +144,11 @@ export class PetServiceOptionsComponent implements OnInit {
     if(typeModal=='edit'){
       this.modalServiceOption.openModal(typeModal,id);
     }
+  }
+  
+  openScheduleModal(id:string){
+    this.serviceOptionId = id;
+    this.modalScheduleAvailable.openModal(id);
+  
   }
 }

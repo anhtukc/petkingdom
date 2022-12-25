@@ -1,12 +1,13 @@
-﻿using PetKingdomFN.BusEntities;
+﻿using Microsoft.CodeAnalysis.Options;
+using PetKingdomFN.BusEntities;
 using PetKingdomFN.Models;
 
 namespace PetKingdomFN.Interfaces
 {
     public interface IScheduleAvailableRepository
     {
-        Task<DataList<ScheduleAvailable>> GetPageList(Pagination page);
-        Task<DataList<ScheduleAvailable>> SearchScheduleAvailable(Pagination page, basedSearchObject searchObj);
+        Task<DataList<ScheduleAvailable>> GetPageList(Pagination page,string optionId);
+        Task<DataList<ScheduleAvailable>> SearchScheduleAvailable(Pagination page, basedSearchObject searchObj,string optionId);
         Task<ScheduleAvailable> GetScheduleAvailableById(string id);
         Task<ScheduleAvailable> AddScheduleAvailable(ScheduleAvailable sa);
         Task<ScheduleAvailable> UpdateScheduleAvailable(ScheduleAvailable sa);

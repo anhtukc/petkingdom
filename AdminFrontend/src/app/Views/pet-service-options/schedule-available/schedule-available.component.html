@@ -1,0 +1,128 @@
+<ng-template #modalScheduleAvailable let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+      <h4 class="modal-title" id="modal-basic-title">Thời gian đặt lịch khả dụng</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <h2 *ngIf="modalType === 'create'">Đang: Tạo mới</h2>
+    <h2 *ngIf="modalType === 'edit'">Đang: Sửa</h2>
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <div class="form-group col-6">
+            <label for="startedDate">Thòi gian bắt đầu:</label>
+            <input type="date" class="form-control" id="startedDate" name="startedDate" [(ngModel)]="schedule.startedDateFormat"  formControlName="startedDate" required  />
+            <div *ngIf="startedDate.invalid && startedDate.touched" class="alert alert-danger">
+              *Ngày kết thúc bắt buộc nhập
+            </div>
+          </div>
+          <div class="form-group col-6">
+            <label for="endedDate">Thòi gian kết thúc:</label>
+            <input type="date" class="form-control" id="endedDate" name="endedDate" [(ngModel)]="schedule.endedDateFormat" formControlName="endedDate" required [min]="schedule.startedDate" />
+            <div *ngIf="endedDate.invalid && endedDate.touched" class="alert alert-danger">
+              Ngày kết thúc bắt buộc nhập và phải sau ngày bắt đầu
+            </div>
+          </div>
+          <div class="form-group col-6">
+            <label for="availableHour">Giờ khả dụng:</label>
+            <input type="time" class="form-control" [(ngModel)]="schedule.availableHour" formControlName="availableHour" required />
+            <div *ngIf="availableHour.invalid && availableHour.touched" class="alert alert-danger">
+              *Giờ khả dụng phải được nhập
+            </div>
+          </div>
+          <div class="form-group col-6">
+            <label for="name" class="form-label">Trạng thái:</label>
+            <select name="" id="" [(ngModel)]="schedule.status" [ngModelOptions]="{standalone: true}"
+              class="form-control col-12">
+              <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-primary col-1 ml-1" (click)="createNew()" >Làm mới</button>
+          <button type="button" class="btn btn-primary col-1  ml-1" (click)="create()" [disabled]="modalType=='edit'">Thêm</button>
+          <button type="button" class="btn btn-primary col-1  ml-1" (click)="update()" [disabled]="modalType=='create'">Sửa</button>
+          <button type="button" class="btn btn-outline-dark col-1  ml-1" (click)="modal.close()">Đóng</button>
+        </div>
+        
+  
+      </form>
+      <hr>
+      <div class="table-responsive " id="#">
+        <table class="table mb-0 table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>STT</th>
+                    <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('availableHour')">
+                        <span class="col">Giờ khả dụng </span>
+                        <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'availableHour'"></i>
+                        <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'availableHour'"></i>
+                        <i class="fa fa-sort" *ngIf="page.sortColumn != 'availableHour'||page.sortOrder ==''"></i></a>
+                    </th>
+                    <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('startedDate')">
+                      <span class="col">Thời gian bắt đầu áp dụng </span>
+                      <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'startedDate'"></i>
+                      <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'startedDate'"></i>
+                      <i class="fa fa-sort" *ngIf="page.sortColumn != 'startedDate'||page.sortOrder ==''"></i></a>
+                  </th>
+                    <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('endedDate')">
+                        <span class="col">Thời gian kết thúc áp dụng </span>
+                        <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'endedDate'"></i>
+                        <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'endedDate'"></i>
+                        <i class="fa fa-sort" *ngIf="page.sortColumn != 'endedDate'||page.sortOrder ==''"></i></a>
+                    </th>
+                    <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('status')">
+                        <span class="col">trạng thái </span>
+                        <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'status'"></i>
+                        <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'status'"></i>
+                        <i class="fa fa-sort" *ngIf="page.sortColumn != 'status'||page.sortOrder ==''"></i></a>
+                    </th>
+                    <th><span >Hành động</span></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="totalData>0">
+                <tr *ngFor="let i = index;let item of data | paginate
+                : {
+                    itemsPerPage:page.pageSize,
+                    currentPage: page.currentPage,
+                    totalItems: totalData
+                  }">
+                    <td>{{page.currentPage+i}}</td>
+                    <td>{{item.availableHour}}</td>
+                    <td>{{item.startedDate | date: 'shortDate' }}</td>
+                    <td>{{item.endedDate| date: 'shortDate' }}</td>
+                    <td>{{statusMeaning[item.status]}}</td>
+                    <td>
+                        <div class="d-flex order-actions">
+               
+                            <a href="javascript:;" class="ms-2" ><i class='bx bxs-edit' (click)="getById(item.id)"></i></a>
+                            <a href="javascript:;" class="ms-2" ><i class='bx bxs-trash'(click)="delete(item.id)"></i></a>
+                        </div>
+                    </td>
+                </tr>
+             
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group" class="d-flex" >
+        <p style="margin-top: 25px;width: 150px;">Tổng số: {{totalData}} bản ghi</p>
+        <div class="input-group" style="justify-content: right; margin-top: 10px;">
+            
+            <pagination-controls
+            style="padding-top: 10px;"
+                class="pagi"
+                (pageChange)="renderPage($event)">
+            </pagination-controls>
+        </div>
+    </div>
+  
+    </div>
+  
+    <div class="modal-footer">
+      
+    </div>
+  
+  </ng-template>

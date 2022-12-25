@@ -43,7 +43,7 @@
                 </div>                 
               
                 <app-modal-service-option [statusMeaning]="statusMeaning" (updateEvent) ="update($event)"  (createEvent) ="addNew($event)"></app-modal-service-option> 
-
+                <app-schedule-available [statusMeaning]="statusMeaning" [serviceOptionId]="serviceOptionId"></app-schedule-available>
                 <div class="table-responsive " id="#">
                     <table class="table mb-0 table-bordered">
                         <thead class="table-light">
@@ -85,7 +85,7 @@
                                 <td>{{statusMeaning[item.status]}}</td>
                                 <td>
                                     <div class="d-flex order-actions">
-                                        <a href="javascript:;" class="ms-2" ><i class="bx bxs-file-image"></i> </a>
+                                        <a href="javascript:;" class="ms-2" ><i class="bx bxs-file-image" (click)="openScheduleModal(item.id)"></i> </a>
                                         <a href="javascript:;" class="ms-2" (click)="openModal('edit',item.id)"><i class='bx bxs-edit'></i></a>
                                         <a href="javascript:;" class="ms-2" (click)="delete(item.id)"><i class='bx bxs-trash'></i></a>
                                     </div>
@@ -94,8 +94,6 @@
                          
                         </tbody>
                     </table>
-
-
                 </div>
                 <div class="form-group" class="d-flex" >
                     <p style="margin-top: 25px;width: 150px;">Tổng số: {{totalData}} bản ghi</p>
@@ -115,8 +113,7 @@
                         </pagination-controls>
                     </div>
                 </div>
-            </div>
-          
+            </div>   
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Options;
 using PetKingdomFN.BusEntities;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
@@ -20,11 +21,11 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("getPage")]
         [Authorize]
-        public async Task<JsonResult> Index([FromBody] Pagination page)
+        public async Task<JsonResult> Index([FromBody] postingObjectWithId pObj)
         {
             try
             {
-                DataList<ScheduleAvailable> result = await _repo.GetPageList(page);
+                DataList<ScheduleAvailable> result = await _repo.GetPageList(pObj.page, pObj.Id);
                 return Json(new
                 {
                     list = result.list,
@@ -41,7 +42,25 @@ namespace PetKingdomFN.Controllers
                 });
             }
         }
-
+        [HttpPost("search")]
+        [Authorize]
+        public async Task<JsonResult> SearchScheduleAvailable([FromBody] postingObject pObject, string optionId)
+        {
+            try
+            {
+                DataList<ScheduleAvailable> result = await _repo.SearchScheduleAvailable(pObject.page, pObject.searchObj, optionId);
+                return Json(new
+                {
+                    list = result.list,
+                    numberOfRecords = result.numberOfRecords,
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = 0, details = ex.Message });
+            }
+        }
         [HttpPost("add")]
         [Authorize]
         public async Task<JsonResult> AddScheduleAvailable([FromForm] ScheduleAvailable sa)
@@ -119,24 +138,6 @@ namespace PetKingdomFN.Controllers
             }
         }
 
-        [HttpPost("search")]
-        [Authorize]
-        public async Task<JsonResult> SearchScheduleAvailable([FromBody] postingObject pObject)
-        {
-            try
-            {
-                DataList<ScheduleAvailable> result = await _repo.SearchScheduleAvailable(pObject.page, pObject.searchObj);
-                return Json(new
-                {
-                    list = result.list,
-                    numberOfRecords = result.numberOfRecords,
-                    status = 1
-                });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { status = 0, details = ex.Message });
-            }
-        }
+        
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PetKingdomFN.Models;
 
 public partial class ScheduleAvailable
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; }
 
     public DateTime StartedDate { get; set; }
 
@@ -15,8 +17,12 @@ public partial class ScheduleAvailable
 
     public int? Status { get; set; }
 
-    public string? ServiceOptionId { get; set; }
+    public string ServiceOptionId { get; set; }
 
+    [NotMapped]
+    public string startedDateFormat { get; set; }
+    [NotMapped]
+    public string endedDateFormat { get; set; }
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }

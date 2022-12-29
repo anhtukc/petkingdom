@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { petService } from 'src/app/Class/pet-service';
+import { ApiHeaderService } from './api-header.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private apiheader:ApiHeaderService) { }
+  petServiceHeader:petService[] = []
   ngOnInit(): void {
+    this.apiheader.getPetService().subscribe(result=>{
+      this.petServiceHeader =result.list;
+    })
   }
 
 }

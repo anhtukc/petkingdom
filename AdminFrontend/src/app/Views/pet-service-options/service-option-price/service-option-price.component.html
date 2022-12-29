@@ -1,0 +1,170 @@
+<ng-template #modalServiceSellPrice let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+        <h4 class="modal-title" id="modal-basic-title">Giá dịch vụ</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h2 *ngIf="modalType === 'create'">Đang: Tạo mới</h2>
+        <h2 *ngIf="modalType === 'edit'">Đang: Sửa</h2>
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="unitPrice">Đơn giá dịch vụ:</label>
+                    <input type="number" class="form-control" id="unitPrice" [(ngModel)]="price.unitPrice"
+                        formControlName="unitPrice" [min]="10000" required />
+                    <div *ngIf="unitPrice.invalid && unitPrice.touched" class="alert alert-danger">
+                        <div *ngIf="unitPrice.errors['required'] ">
+                            *Vui lòng nhập giá dịch vụ
+                        </div>
+                        <div *ngIf="unitPrice.errors['min']">
+                            *Giá dịch vụ tối thiểu là 10.000 đồng
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="petMinimumWeight">cân nặng thú cưng tối thiểu(Kg):</label>
+                    <input type="number" class="form-control" id="petMinimumWeight" [(ngModel)]="price.petMinimumWeight"
+                        formControlName="petMinimumWeight" [min]="0.1" [pattern]="'^[0-9]*(\.?[0-9]{1})?$'" placeholder="0.5" required />
+                    <div *ngIf="petMinimumWeight.invalid && petMinimumWeight.touched"
+                        class="alert alert-danger">
+                        <div *ngIf="petMinimumWeight.errors['required'] ">
+                            *Vui lòng nhập cân nặng thú cưng tối thiểu
+                        </div>
+                        <div *ngIf="petMinimumWeight.errors['pattern']">
+                            *cân nặng thú cưng tối thiểu có dạng *.*(VD:0.5)
+                        </div>
+                        <div *ngIf="petMinimumWeight.errors['min']">
+                            *cân nặng thú cưng tối thiểu là 0.1Kg
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="petMaximumWeight">cân nặng thú cưng tối đa(Kg):</label>
+                    <input type="number" id="petMaximumWeight" class="form-control" [pattern]="'^[0-9]*(\.?[0-9]{1})?$'" [(ngModel)]="price.petMaximumWeight"
+                        formControlName="petMaximumWeight" required [min]="price.petMinimumWeight" />
+                    <div *ngIf="petMaximumWeight.invalid && petMaximumWeight.touched"
+                        class="alert alert-danger">
+                        <div *ngIf="petMaximumWeight.errors['required'] ">
+                            *Vui lòng nhập cân nặng thú cưng tối đa
+                        </div>
+                        <div *ngIf="petMaximumWeight.errors['pattern'] ">
+                            *cân nặng thú cưng tối đa có dạng *.*(VD:1.5)
+                        </div>
+                        <div *ngIf="price.petMaximumWeight<price.petMinimumWeight">
+                            <p>*Cân nặng tối đa phải lớn hơn cân nặng tối thiểu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="name" class="form-label">Trạng thái:</label>
+                    <select name="" id="" [(ngModel)]="price.status" [ngModelOptions]="{standalone: true}"
+                        class="form-control col-12">
+                        <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary col-1 ml-1" (click)="createNew()">Làm mới</button>
+                <button type="button" class="btn btn-primary col-1  ml-1" (click)="create()"
+                    [disabled]="modalType=='edit'">Thêm</button>
+                <button type="button" class="btn btn-primary col-1  ml-1" (click)="update()"
+                    [disabled]="modalType=='create'">Sửa</button>
+                <button type="button" class="btn btn-outline-dark col-1  ml-1" (click)="modal.close()">Đóng</button>
+            </div>
+
+
+        </form>
+        <hr>
+        <div class="table-responsive " id="#">
+            <table class="table mb-0 table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>STT</th>
+                        <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link"
+                                (click)="GetSortColumn('unitPrice')">
+                                <span class="col">Đơn giá dịch vụ </span>
+                                <i class='fas fa-caret-down'
+                                    *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'unitPrice'"></i>
+                                <i class='fas fa-caret-up'
+                                    *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'unitPrice'"></i>
+                                <i class="fa fa-sort"
+                                    *ngIf="page.sortColumn != 'unitPrice'||page.sortOrder ==''"></i></a>
+                        </th>
+                        <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link"
+                                (click)="GetSortColumn('petMinimumWeight')">
+                                <span class="col">Cân nặng thú cưng tối thiểu </span>
+                                <i class='fas fa-caret-down'
+                                    *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'petMinimumWeight'"></i>
+                                <i class='fas fa-caret-up'
+                                    *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'petMinimumWeight'"></i>
+                                <i class="fa fa-sort"
+                                    *ngIf="page.sortColumn != 'petMinimumWeight'||page.sortOrder ==''"></i></a>
+                        </th>
+                        <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link"
+                                (click)="GetSortColumn('petMaximumWeight')">
+                                <span class="col">Cân nặng thú cưng tối đa </span>
+                                <i class='fas fa-caret-down'
+                                    *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'petMaximumWeight'"></i>
+                                <i class='fas fa-caret-up'
+                                    *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'petMaximumWeight'"></i>
+                                <i class="fa fa-sort"
+                                    *ngIf="page.sortColumn != 'petMaximumWeight'||page.sortOrder ==''"></i></a>
+                        </th>
+                        <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link"
+                                (click)="GetSortColumn('status')">
+                                <span class="col">trạng thái </span>
+                                <i class='fas fa-caret-down'
+                                    *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'status'"></i>
+                                <i class='fas fa-caret-up'
+                                    *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'status'"></i>
+                                <i class="fa fa-sort" *ngIf="page.sortColumn != 'status'||page.sortOrder ==''"></i></a>
+                        </th>
+                        <th><span>Hành động</span></th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="totalData>0">
+                    <tr *ngFor="let i = index;let item of data | paginate
+                : {
+                    itemsPerPage:page.pageSize,
+                    currentPage: page.currentPage,
+                    totalItems: totalData
+                  }">
+                        <td>{{page.currentPage+i}}</td>
+                        <td>{{item.unitPrice}}</td>
+                        <td>{{item.petMinimumWeight }}</td>
+                        <td>{{item.petMaximumWeight }}</td>
+                        <td>{{statusMeaning[item.status]}}</td>
+                        <td>
+                            <div class="d-flex order-actions">
+
+                                <a href="javascript:;" class="ms-2"><i class='bx bxs-edit'
+                                        (click)="getById(item.id)"></i></a>
+                                <a href="javascript:;" class="ms-2"><i class='bx bxs-trash'
+                                        (click)="delete(item.id)"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group" class="d-flex">
+            <p style="margin-top: 25px;width: 150px;">Tổng số: {{totalData}} bản ghi</p>
+            <div class="input-group" style="justify-content: right; margin-top: 10px;">
+
+                <pagination-controls style="padding-top: 10px;" class="pagi" (pageChange)="renderPage($event)">
+                </pagination-controls>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+    </div>
+
+</ng-template>

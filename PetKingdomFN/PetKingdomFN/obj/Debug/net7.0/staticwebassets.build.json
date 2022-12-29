@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "D/PMrUrEwr2Wd8LmgFdZO2xwv/nA3n0Y63z5mpgIEZ4=",
+  "Hash": "4p2j5VOGq3micKAGBFbtgdKF3YrBEmQT1wF4Gs1uTNo=",
   "Source": "PetKingdomFN",
   "BasePath": "_content/PetKingdomFN",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "PetKingdomFN\\wwwroot",
+      "Source": "PetKingdomFN",
+      "ContentRoot": "D:\\Đồ án\\Code\\petkingdom\\PetKingdomFN\\PetKingdomFN\\wwwroot\\",
+      "BasePath": "_content/PetKingdomFN",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

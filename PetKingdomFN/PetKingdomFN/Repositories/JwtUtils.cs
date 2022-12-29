@@ -25,21 +25,34 @@ namespace PetKingdomFN.Repositories
         }   
         public async Task<string> GenerateJwtToken(string username, string password)
         {
-            Account user = await _DbContext.Accounts.Where(x => x.Username == username && x.Password == password).FirstOrDefaultAsync(); 
-
+            Account user = await _DbContext.Accounts.Where(x => x.Username == username && x.Password == password).FirstOrDefaultAsync();
+            Customer cus = new Customer();
+            Employee emp = new Employee();
             if (user is null)
                 return  "Invalid account" ;
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secret);
             IdentityOptions _option = new IdentityOptions();
+
+
+
+          
+            if (user.Permission == "customer")
+            {
+                cus = await _DbContext.Customers.Where(x => x.AccountId == user.Id).FirstOrDefaultAsync();
+            }
+            else
+            {
+                emp = await _DbContext.Employees.Where(x => x.AccountId == user.Id).FirstOrDefaultAsync();
+            }
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim("id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Permission)
+                    new Claim(ClaimTypes.Role, user.Permission),
+                   new Claim("userId", cus is null? emp.Id.ToString():cus.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -64,19 +77,16 @@ namespace PetKingdomFN.Repositories
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 int userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                // return user id from JWT token if validation successful
                 return userId;
             }
             catch
             {
-                // return null if validation fails
                 return null;
             }
         }

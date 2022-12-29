@@ -13,10 +13,7 @@ export class ApiServiceImageService {
   getAll(serviceId: string) {
     const httpOptions = this.localJwtHelper.getHttpOptions("default");
 
-    const formData: FormData = new FormData();
-    formData.append('serviceId', serviceId);
-
-    return this.http.post<any>(environment.apiUrl + "PetServiceImage/getall", formData, httpOptions);
+    return this.http.get<any>(environment.apiUrl + `PetServiceImage/getall?serviceId=${serviceId}`, httpOptions);
   }
   delete(id: string) {
     const httpOptions = this.localJwtHelper.getHttpOptions("default");

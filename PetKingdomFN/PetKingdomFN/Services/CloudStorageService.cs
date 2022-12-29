@@ -40,7 +40,10 @@ namespace PetKingdomFN.Services
             {
                 using (var memoryStream = new MemoryStream())
                 {
+                    
                     await fileToUpload.CopyToAsync(memoryStream);
+                    memoryStream.Position = 0;
+
                     using (var storageClient = StorageClient.Create(_googleCredential))
                     {
                         var uploadedFile = await storageClient.UploadObjectAsync(_options.GoogleCloudStorageBucketName,  fileNameToSave, fileToUpload.ContentType, memoryStream);

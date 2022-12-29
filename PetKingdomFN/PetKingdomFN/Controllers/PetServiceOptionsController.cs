@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using PetKingdomFN.BusEntities;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace PetKingdomFN.Controllers
 {
@@ -12,11 +14,15 @@ namespace PetKingdomFN.Controllers
     {
         private readonly IPetServiceOptions _repo;
         private readonly IPetServiceRepository _petService;
+        private readonly IScheduleAvailableRepository _scheduleAvailableRepos;
+        private readonly IServiceSellPriceRepository _sellPriceRepos;
 
-        public PetServiceOptionController(IPetServiceOptions repo, IPetServiceRepository petService)
+        public PetServiceOptionController(IPetServiceOptions repo, IPetServiceRepository petService, IScheduleAvailableRepository scheduleAvailableRepos, IServiceSellPriceRepository sellPriceRepos)
         {
             this._repo = repo;
             this._petService = petService;
+            _sellPriceRepos = sellPriceRepos;
+            _scheduleAvailableRepos = scheduleAvailableRepos;
         }
 
 
@@ -72,6 +78,28 @@ namespace PetKingdomFN.Controllers
             {
                 var obj = await _repo.GetPetServiceOptionById(id);
                 return Json(new { obj = obj, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("getByPetServiceId")]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetByPetServiceId(string id)
+        {
+            try
+            {
+                var option = await _repo.GetPetServiceOptionByParentId(id);
+                var jsonOptions = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                return Json(new { list = option, status = 1 });
             }
             catch (Exception ex)
             {

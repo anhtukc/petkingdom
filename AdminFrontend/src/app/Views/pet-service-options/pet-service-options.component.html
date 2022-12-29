@@ -44,6 +44,7 @@
               
                 <app-modal-service-option [statusMeaning]="statusMeaning" (updateEvent) ="update($event)"  (createEvent) ="addNew($event)"></app-modal-service-option> 
                 <app-schedule-available [statusMeaning]="statusMeaning" [serviceOptionId]="serviceOptionId"></app-schedule-available>
+                <app-service-option-price [statusMeaning]="statusMeaning" [serviceOptionId]="serviceOptionId"></app-service-option-price>
                 <div class="table-responsive " id="#">
                     <table class="table mb-0 table-bordered">
                         <thead class="table-light">
@@ -85,7 +86,8 @@
                                 <td>{{statusMeaning[item.status]}}</td>
                                 <td>
                                     <div class="d-flex order-actions">
-                                        <a href="javascript:;" class="ms-2" ><i class="bx bxs-file-image" (click)="openScheduleModal(item.id)"></i> </a>
+                                        <a href="javascript:;" class="ms-2" ><i class="bx bx-dollar" (click)="openServiceOptionPrice(item.id)"></i> </a>
+                                        <a href="javascript:;" class="ms-2" ><i class="bx bx-calendar" (click)="openScheduleModal(item.id)"></i> </a>
                                         <a href="javascript:;" class="ms-2" (click)="openModal('edit',item.id)"><i class='bx bxs-edit'></i></a>
                                         <a href="javascript:;" class="ms-2" (click)="delete(item.id)"><i class='bx bxs-trash'></i></a>
                                     </div>

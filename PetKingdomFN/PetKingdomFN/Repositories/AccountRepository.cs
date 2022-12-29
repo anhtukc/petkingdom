@@ -16,6 +16,23 @@ namespace PetKingdomFN.Repositories
         public AccountRepository(PetKingdomContext DbContext) {
             _DbContext = DbContext;
         }
+
+        public async Task<string> CheckCustomerAccount(string username, string phonenumber, string email)
+        {
+         
+            var usernameExists = await _DbContext.Customers
+                .AnyAsync(x => x.Account.Username == username);
+
+
+            var phonenumbeOrEmailExists = await _DbContext.Customers
+                .AnyAsync(x => x.Phonenumber == phonenumber ||x.Email == email);
+            if(usernameExists || phonenumbeOrEmailExists)
+            {
+                return "duplicate";
+            }
+            return "accept";
+           
+        }
         public async Task<DataList<Account>> GetPageList(Pagination page)
         {
             DataList<Account> result = new DataList<Account>();

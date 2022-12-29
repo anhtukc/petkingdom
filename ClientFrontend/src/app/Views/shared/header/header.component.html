@@ -29,7 +29,7 @@
                                 </li>
                                 <li class="has-submenu position-static"><a href="#/"><span>DỊCH VỤ</span></a>
                                     <ul class="submenu-nav submenu-nav-mega">
-                                        <li><a href="/service-single/sv001"><span>Vệ sinh thú cưng</span></a>
+                                        <li *ngFor="let item of petServiceHeader"><a href="/service-single/{{item.id}}"><span>{{item.name}}</span></a>
                                         </li>                             
                                     </ul>
                                 </li>

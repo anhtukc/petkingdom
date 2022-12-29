@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetKingdomFN.BusEntities;
+using PetKingdomFN.Helpers;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace PetKingdomFN.Controllers
 {
@@ -11,11 +13,14 @@ namespace PetKingdomFN.Controllers
     {
 
         private readonly ICustomerRepository _repo;
-
-
-        public CustomersController(ICustomerRepository repo)
+        private readonly IAccountRepository _accRepo;
+        private readonly ICloudStorageService _cloud;
+        private readonly string folder = "img/customer";
+        public CustomersController(ICustomerRepository repo, ICloudStorageService cloud, IAccountRepository accRepo)
         {
             this._repo = repo;
+            _cloud = cloud;
+            _accRepo = accRepo;
         }
 
         [HttpPost("getPage")]
@@ -44,12 +49,16 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("add")]
         [Authorize]
-        public async Task<JsonResult> AddCustomer([FromForm] Customer cus)
+        public async Task<JsonResult> AddCustomer([FromBody] CustomerAccount ca)
         {
             try
             {
+                string checkacc = await _accRepo.CheckCustomerAccount(ca.acc.Username, ca.cus.Phonenumber, ca.cus.Email);
+                if(checkacc == "duplicate") {
+                    return Json(new { status = 0, details = "duplicate" });
+                }
 
-                Customer obj = await _repo.AddCustomer(cus);
+                Customer obj = await _repo.AddCustomer(ca.cus, ca.acc);
 
                 return Json(new { obj = obj, status = 1 });
             }
@@ -65,6 +74,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
+
                 var obj = await _repo.GetCustomerById(id);
                 return Json(new { obj = obj, status = 1 });
             }
@@ -84,6 +94,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
+               
                 var obj = await _repo.UpdateCustomer(cus);
                 return Json(new { obj = obj, status = 1 });
             }

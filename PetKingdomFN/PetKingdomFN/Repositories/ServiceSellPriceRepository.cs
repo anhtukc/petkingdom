@@ -17,18 +17,25 @@ namespace PetKingdomFN.Repositories
         {
             _DbContext = DbContext;
         }
-        public async Task<DataList<ServiceSellPrice>> GetPageList(Pagination page)
+        public async Task<DataList<ServiceSellPrice>> GetPageList(Pagination page, string optionId)
         {
             DataList<ServiceSellPrice> result = new DataList<ServiceSellPrice>();
             string sortQuery = page.sortColumn + " " + page.sortOrder;
-            List<ServiceSellPrice> allData = await _DbContext.ServiceSellPrices.OrderBy(sortQuery).ToListAsync();
+            List<ServiceSellPrice> allData = await _DbContext.ServiceSellPrices
+                .Where(x=>x.ServiceOptionId == optionId)
+                .OrderBy(sortQuery)
+                .ToListAsync();
             result.numberOfRecords = allData.Count();
             result.list = allData.Skip((page.currentPage - 1) * page.pageSize)
                 .Take(page.pageSize)
                 .ToList();
             return result;
         }
-
+        public async Task<List<ServiceSellPrice>> GetServiceSellPriceByOptionId(string optiond)
+        {
+            List<ServiceSellPrice> obj = await _DbContext.ServiceSellPrices.Where(x => x.ServiceOptionId == optiond&&x.Status==1).ToListAsync();
+            return obj;
+        }
         public async Task<DataList<ServiceSellPrice>> SearchServiceSellPrice(Pagination page, basedSearchObject searchObj)
         {
             DataList<ServiceSellPrice> result = new DataList<ServiceSellPrice>();

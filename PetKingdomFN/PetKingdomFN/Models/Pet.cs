@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
@@ -26,6 +27,11 @@ public partial class Pet
     public int? Status { get; set; }
 
     public string? CustomerId { get; set; }
+
+    [NotMapped]
+    public IFormFile? file { get; set; }
+    [NotMapped]
+    public string? birthDayFormat { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

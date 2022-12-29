@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ScheduleAvailableComponent } from './schedule-available/schedule-available.component';
+import { ServiceOptionPriceComponent } from './service-option-price/service-option-price.component';
 
 
 
@@ -16,7 +17,8 @@ import { ScheduleAvailableComponent } from './schedule-available/schedule-availa
   declarations: [  
      PetServiceOptionsComponent,
     ModalServiceOptionComponent,
-    ScheduleAvailableComponent],
+    ScheduleAvailableComponent,
+    ServiceOptionPriceComponent],
   imports: [
     CommonModule,
     HttpClientModule,

@@ -10,7 +10,6 @@ import { login } from 'src/app/Class/login';
 export class LoginApiService {
   constructor(public http: HttpClient) { }
   login(acc:login) {
-    
     return this.http.post<any>(environment.apiUrl+"Authencation/Authenticate",acc);
   }
 

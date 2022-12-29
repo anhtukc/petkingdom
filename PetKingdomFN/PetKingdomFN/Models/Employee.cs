@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
@@ -27,6 +28,8 @@ public partial class Employee
 
     public string? AccountId { get; set; }
 
+    [NotMapped]
+    public string birthdayFormat { get; set; } = null!;
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }

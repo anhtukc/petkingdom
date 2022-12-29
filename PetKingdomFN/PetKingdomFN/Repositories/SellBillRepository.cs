@@ -66,6 +66,7 @@ namespace PetKingdomFN.Repositories
             await _DbContext.SaveChangesAsync();
             return SellBill;
         }
+      
         public async Task<SellBill> GetSellBillById(string id)
         {
             var obj = await _DbContext.SellBills.Where(x => x.Id == id).FirstAsync();

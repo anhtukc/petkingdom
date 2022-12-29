@@ -7,6 +7,8 @@ namespace PetKingdomFN.Interfaces
     {
         Task<DataList<ServiceOption>> GetPageList(Pagination page);
         Task<ServiceOption> GetPetServiceOptionById(string id);
+        Task<List<ServiceOption>> GetPetServiceOptionByParentId(string petServiceId);
+
         Task<ServiceOption> AddPetServiceOption(ServiceOption service);
         Task<ServiceOption> UpdatePetServiceOption(ServiceOption service);
         Task<int> DeletePetServiceOption(string id);

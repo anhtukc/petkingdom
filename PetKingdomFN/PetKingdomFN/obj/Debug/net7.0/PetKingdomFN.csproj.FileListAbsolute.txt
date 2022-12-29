@@ -314,3 +314,4 @@ D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\refint\P
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\PetKingdomFN.pdb
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\PetKingdomFN.genruntimeconfig.cache
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\ref\PetKingdomFN.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\PetKingdomFN.staticwebassets.runtime.json

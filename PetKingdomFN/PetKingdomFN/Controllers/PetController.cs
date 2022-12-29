@@ -77,7 +77,24 @@ namespace PetKingdomFN.Controllers
                 });
             }
         }
-
+        [HttpGet("getByCustomerId")]
+        [Authorize]
+        public async Task<JsonResult> GetByCustomerId([FromQuery] string CustomerId)
+        {
+            try
+            {
+                var list = await _repo.GetPetByCustomerId(CustomerId);
+                return Json(new { list = list, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
         [HttpPost("update")]
         [Authorize]
         public async Task<JsonResult> UpdatePet([FromForm] Pet acc)

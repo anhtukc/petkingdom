@@ -1,153 +1,89 @@
-/* 
-
-.booking-flow-step {
+.wizard {
     display: flex;
-    max-width: 1240px;
-    background-color: #f2f2f2;
-    border: 1px solid #c8c6c6;
-    color: #003b49;
-  padding: 20px;
-}
-.btn-login{
-    background-color: #ffd868;
-    border: none;
-    border-radius: 5px;
-    color: #080b06;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    height: 40px;
+    margin: 30px 10px;
+  }
+  button{
     margin-left: 10px;
-    text-transform: uppercase;
-    width: 130px;
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
-.signin-booking{
-    margin-bottom: 10px;
-}
-.choose-content{
-    border: 1px solid gray;
-    padding: 10px;
-}
-.center{
+    margin-top: 10px;
+  }
+  .step {
+    width: 33%;
     text-align: center;
-}
-.hide{
-    display: none;
-}
-.icon-booking{
-    display: flex;
+    padding: 20px 0;
+    background-color: #9dc8}
+.step.active {
+    background-color: #2184be;
+    color: white;
+  }
+  
+  .step.disabled {
+    background-color: #eeeeee;
+    color: #bbbbbb;
+  }
+  
+  .form-content {
+    padding: 20px;
+   
+    align-items: center;
+    min-height: 400px;
+    border: 1px solid rgb(201, 201, 201);
+    margin: 30px 10px;
+  }
+  
 
-}
-.icon-booking img{
+  
+  .navigation-buttons {
+    display: flex;
+    margin-top: 20px;
+    margin: 30px 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #2184be;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #bbbbbb;
+    color: #eeeeee;
+    cursor: not-allowed;
+  }
+
+  .pet-item{
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+  .select-pet-radio{
     width: 20px;
     height: 20px;
-    margin: auto;
-}
-.booking-name{
-    flex: 8;
-    align-items: flex-start;
-    flex-direction: column;
+    margin-top: 10px;
+    color: white;
+  }
+  .select-pet-label{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    left: -10px;
+    border: 1px solid;
+    cursor:pointer;
+  }
+  .pet-name{
+    position: absolute;
+    background: rgb(58 58 58 / 50%);
+    top: 88%;
+    left: -5%;
     display: flex;
     justify-content: center;
-    margin: 5px auto;
-    font-size: 20px;
-    font-weight: 700;
-}
- */
- /* .wizard, .tabcontrol {
-    display: block;
+    color: white;
     width: 100%;
-    overflow: hidden;
-}
-.wizard>.steps {
-    position: relative;
-    display: block;
-    width: 100%;
-}
-.card .body {
-    font-size: 14px;
-    color: #424242;
-    padding: 20px;
-    font-weight: 400;
-}
-.wizard ul, .tabcontrol ul {
-    list-style: none !important;
-    padding: 0;
-    margin: 0;
-}
-.wizard>.steps>ul>li {
-    width: 25%;
-    float: left;
-}
 
-.wizard ul>li, .tabcontrol ul>li {
-    display: block;
-    padding: 0;
-}
-.wizard>.steps .done a {
-    background: #9dc8e2;
-    color: #fff;
-}
-.wizard .content {
-    min-height: 245px;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -ms-border-radius: 0;
-    border-radius: 0;
-    overflow-y: auto;
-}
-
-.wizard>.content {
-    border: 1px solid #ddd;
-    display: block;
-    margin: 0.5em;
-    min-height: 35em;
-    overflow: hidden;
-    position: relative;
-    width: auto;
-}
-element.style {
-    left: 0px;
-}
-.wizard .content .body {
-    padding: 15px;
-}
-p {
-    line-height: 1.61em;
-}
-
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-} */
-.progress-bar {
-  position: relative;
-  height: 10px;
-  background-color: #ddd;
-  border-radius: 10px;
-}
-
-.completed {
-  height: 100%;
-  background-color: #4caf50;
-  border-radius: 10px;
-}
-
-.step-number {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #fff;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+  }
+  .select-pet-radio:checked + .select-pet-label {
+    border-color: rgb(5, 99, 133);
+    border-width: 3px;
+  }

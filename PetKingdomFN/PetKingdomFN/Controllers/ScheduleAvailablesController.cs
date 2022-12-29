@@ -96,6 +96,24 @@ namespace PetKingdomFN.Controllers
                 });
             }
         }
+        [HttpGet("getByOptionId")]
+        [Authorize]
+        public async Task<JsonResult> GetScheduleAvailableByOptionId([FromQuery] string id, string startedDateFormat)
+        {
+            try
+            {
+                var obj = await _repo.GetScheduleAvailableById(id);
+                return Json(new { obj = obj, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
 
         [HttpPost("update")]
         [Authorize]

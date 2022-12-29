@@ -1,0 +1,113 @@
+<ng-template #modalEmployee let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+        <h4 class="modal-title" id="modal-basic-title">Nhân viên</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+            <div class="form-group">
+                <label for="lastName" class="form-label">Họ:</label>
+                <input type="text" id="lastName" name="firstName" class="form-control" [(ngModel)]="emp.lastName"
+                    formControlName="lastName">
+                <div *ngIf="lastName.invalid && lastName.touched" class="alert alert-danger">
+                    <div *ngIf="lastName.errors['required'] ">
+                        *Vui lòng nhập Họ
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName" class="form-label">Tên:</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" [(ngModel)]="emp.firstName"
+                    formControlName="firstName">
+                <div *ngIf="firstName.invalid && firstName.touched" class="alert alert-danger">
+                    <div *ngIf="firstName.errors['required'] ">
+                        *Vui lòng nhập tên
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phonenumber" class="form-label">Số điện thoại:</label>
+                <input type="text" id="phonenumber" name="phonenumber" class="form-control" [(ngModel)]="emp.phonenumber"
+                    formControlName="phonenumber" [pattern]="'^(84|0[3|5|7|8|9])+([0-9]{8})$'">
+                <div *ngIf="phonenumber.invalid && phonenumber.touched" class="alert alert-danger">
+                    <div *ngIf="phonenumber.errors['required'] ">
+                        *Vui lòng nhập số điện thoại
+                    </div>
+                    <div *ngIf="phonenumber.errors['pattern']">
+                        *Số điện thoại có dạng ((+84) hoặc 0) + 10 số
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label">Địa chỉ:</label>
+                <input type="text" id="address" name="address" class="form-control" [(ngModel)]="emp.address"
+                    formControlName="address">
+                <div *ngIf="address.invalid && address.touched" class="alert alert-danger">
+                    <div *ngIf="address.errors['required'] ">
+                        *Vui lòng nhập địa chỉ
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" [(ngModel)]="emp.email"
+                    formControlName="email">
+                <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
+                    <div *ngIf="email.errors['required'] ">
+                        *Vui lòng nhập email
+                    </div>
+                    <div *ngIf="email.errors['email'] ">
+                        *Email không đúng định dạng
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthdayFormat" class="form-label">Ngày sinh:</label>
+                <input type="date" id="birthdayFormat" name="birthday" class="form-control" [(ngModel)]="emp.birthdayFormat"
+                    formControlName="birthdayFormat">
+                <div *ngIf="birthdayFormat.invalid && birthdayFormat.touched" class="alert alert-danger">
+                    <div *ngIf="birthdayFormat.errors['required'] ">
+                        *Vui lòng nhập ngày sinh
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="identityCardNumber" class="form-label">CMND:</label>
+                <input type="number" id="identityCardNumber" name="identityCardNumber" class="form-control" [(ngModel)]="emp.identityCardNumber"
+                    formControlName="identityCardNumber">
+                <div *ngIf="identityCardNumber.invalid && identityCardNumber.touched" class="alert alert-danger">
+                    <div *ngIf="identityCardNumber.errors['required'] ">
+                        *Vui lòng nhập số CMND hoặc CCCD
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="identityCardNumber" class="form-label">Giới tính:</label>
+                <select [(ngModel)]="emp.sex" class="form-control" (change)="alert()">
+                    <option *ngFor="let i = index;let item of sex" value="{{item}}">{{item}}</option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="typeModal == 'edit'">
+                <label for="name" class="form-label">Trạng thái:</label>
+                <select name="" id="" [(ngModel)]="emp.status" [ngModelOptions]="{standalone: true}"
+                  class="form-control col-12">
+                  <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+                </select>
+              </div>
+        </form>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="createNew()" *ngIf="typeModal=='create'">Làm mới</button>
+        <button type="button" class="btn btn-outline-dark" (click)="create()" *ngIf="typeModal=='create'">Thêm</button>
+        <button type="button" class="btn btn-outline-dark" (click)="update()" *ngIf="typeModal=='edit'">Lưu</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
+    </div>
+
+</ng-template>

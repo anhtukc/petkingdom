@@ -16,9 +16,13 @@ namespace PetKingdomFN.Repositories
         {
             _DbContext = DBContext;
         }
-        public async Task<int> GetNumberOfRecords()
+        
+        public async Task<List<ScheduleAvailable>> GetScheduleAvailableByOptionId(string optionId , string startedDateFormat)
         {
-            return await _DbContext.ScheduleAvailables.CountAsync();
+            DateTime startedDate = DateTime.Parse(startedDateFormat);
+            return await _DbContext.ScheduleAvailables
+                .Where(x=>x.ServiceOptionId == optionId && x.startedDate>=startedDate)
+                .ToListAsync();
         }
         public async Task<DataList<ScheduleAvailable>> GetPageList(Pagination page, string optionId)
         {
@@ -77,7 +81,9 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<ScheduleAvailable> GetScheduleAvailableById(string id)
         {
-            var obj = await _DbContext.ScheduleAvailables.Where(x => x.Id == id).FirstAsync();
+          
+
+            var obj = await _DbContext.ScheduleAvailables.Where(x => x.Id == id ).FirstAsync();
             return obj;
         }
         

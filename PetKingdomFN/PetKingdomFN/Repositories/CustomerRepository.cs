@@ -12,9 +12,12 @@ namespace PetKingdomFN.Repositories
     public class CustomerRepository:ICustomerRepository
     {
         private readonly PetKingdomContext _DbContext;
-        public CustomerRepository(PetKingdomContext DbContext)
+        private readonly ICloudStorageService _cloud;
+        private readonly string folder = "img/";
+        public CustomerRepository(PetKingdomContext DbContext, ICloudStorageService cloud)
         {
             _DbContext = DbContext;
+            _cloud = cloud;
         }
         public async Task<DataList<Customer>> GetPageList(Pagination page)
         {
@@ -48,17 +51,32 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
-        public async Task<Customer> AddCustomer(Customer cus)
+        public async Task<Customer> AddCustomer(Customer cus, Account acc)
         {
+          
+            acc.Id = Guid.NewGuid().ToString();
+            acc.UpdateDate = DateTime.Now;
+            acc.CreatedDate = DateTime.Now;
             cus.Id = Guid.NewGuid().ToString();
+            if (!(cus.file is null))
+            {
+                cus.Image = "default";
+            }
             cus.CreatedDate = DateTime.Now;
             cus.UpdateDate = DateTime.Now;
-            var obj = _DbContext.Customers.AddAsync(cus);
+            cus.AccountId = acc.Id;
+            acc.Customers.Add(cus);
+            await _DbContext.Accounts.AddAsync(acc);
             await _DbContext.SaveChangesAsync();
-            return obj.Result.Entity;
+            cus.Account= null;
+            return cus;
         }
         public async Task<Customer> UpdateCustomer(Customer cus)
         {
+            if (!(cus.file is null))
+            {
+                cus.Image = await _cloud.UploadFileAsync(cus.file, folder + cus.Id);
+            }
             cus.UpdateDate = DateTime.Now;
             _DbContext.Entry(cus).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();

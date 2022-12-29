@@ -13,9 +13,11 @@ namespace PetKingdomFN.Repositories
     public class PetRepository : IPetRepository
     {
         private readonly PetKingdomContext _DbContext;
-        public PetRepository(PetKingdomContext DbContext)
+        private readonly ICloudStorageService _cloud;
+        public PetRepository(PetKingdomContext DbContext, ICloudStorageService cloud)
         {
             _DbContext = DbContext;
+            _cloud = cloud;
         }
         public async Task<DataList<Pet>> GetPageList(Pagination page)
         {
@@ -28,7 +30,10 @@ namespace PetKingdomFN.Repositories
                 .ToList();
             return result;
         }
-
+        public Task<List<Pet>> GetPetByCustomerId(string customerId)
+        {
+            return _DbContext.Pets.Where(x=>x.CustomerId == customerId && x.Status == 1).ToListAsync();
+        }
         public async Task<DataList<Pet>> SearchPet(Pagination page, basedSearchObject searchObj)
         {
             DataList<Pet> result = new DataList<Pet>();
@@ -50,21 +55,27 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
-        public async Task<Pet> AddPet(Pet acc)
+        public async Task<Pet> AddPet(Pet pet)
         {
-            acc.Id = Guid.NewGuid().ToString();
-            acc.CreatedDate = DateTime.Now;
-            acc.UpdateDate = DateTime.Now;
-            var obj = _DbContext.Pets.AddAsync(acc);
+           
+            pet.Birthday = DateTime.Parse(pet.birthDayFormat);
+            pet.Id = Guid.NewGuid().ToString();
+            if (!(pet.file is null))
+            {
+                pet.Image = await _cloud.UploadFileAsync(pet.file,pet.Id);
+            }
+            pet.CreatedDate = DateTime.Now;
+            pet.UpdateDate = DateTime.Now;
+            var obj = _DbContext.Pets.AddAsync(pet);
             await _DbContext.SaveChangesAsync();
             return obj.Result.Entity;
         }
-        public async Task<Pet> UpdatePet(Pet acc)
+        public async Task<Pet> UpdatePet(Pet pet)
         {
-            acc.UpdateDate = DateTime.Now;
-            _DbContext.Entry(acc).State = EntityState.Modified;
+            pet.UpdateDate = DateTime.Now;
+            _DbContext.Entry(pet).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();
-            return acc;
+            return pet;
         }
         public async Task<Pet> GetPetById(string id)
         {

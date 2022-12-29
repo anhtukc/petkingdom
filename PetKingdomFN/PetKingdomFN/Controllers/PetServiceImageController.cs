@@ -21,9 +21,9 @@ namespace PetKingdomFN.Controllers
             _repo = repo;
             _cloud = cloud;
         }
-        [HttpPost("getall")]
-        [Authorize]
-        public async Task<JsonResult> Index([FromForm] string serviceId)
+        [HttpGet("getall")]
+        [AllowAnonymous]
+        public async Task<JsonResult> Index(string serviceId)
         {
             try
             {

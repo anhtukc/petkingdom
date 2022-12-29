@@ -301,13 +301,14 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("email");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(50)
+                .HasColumnType("nvarchar")
                 .HasColumnName("first_name");
             entity.Property(e => e.Image)
-                .HasMaxLength(100)
+                .HasMaxLength(300)
                 .HasColumnName("image");
             entity.Property(e => e.LastName)
                 .HasMaxLength(100)
-                .IsUnicode(false)
+                .HasColumnType("nvarchar")
                 .HasColumnName("last_name");
             entity.Property(e => e.Phonenumber)
                 .HasMaxLength(30)
@@ -357,7 +358,6 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("identity_card_number");
             entity.Property(e => e.LastName)
                 .HasMaxLength(100)
-                .IsUnicode(false)
                 .HasColumnName("last_name");
             entity.Property(e => e.Phonenumber)
                 .HasMaxLength(30)
@@ -458,7 +458,7 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("customer_id");
             entity.Property(e => e.HealthNote).HasColumnName("health_note");
             entity.Property(e => e.Image)
-                .HasMaxLength(100)
+                .HasMaxLength(300)
                 .HasColumnName("image");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
@@ -523,7 +523,6 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("link");
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
-                .IsUnicode(false)
                 .HasColumnName("name");
             entity.Property(e => e.ShiftId)
                 .HasMaxLength(50)
@@ -656,7 +655,6 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("link");
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
-                .IsUnicode(false)
                 .HasColumnName("name");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(50)
@@ -1013,7 +1011,6 @@ public partial class PetKingdomContext : DbContext
                 .HasColumnName("link");
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
-                .IsUnicode(false)
                 .HasColumnName("name");
             entity.Property(e => e.PetServiceId)
                 .HasMaxLength(50)

@@ -7,6 +7,7 @@ using PetKingdomFN.Repositories;
 
 namespace PetKingdomFN.Controllers
 {
+    [Route("api/[controller]")]
     public class ServiceSellPricesController : Controller
     {
         private readonly IServiceSellPriceRepository _repo;
@@ -19,11 +20,11 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("getPage")]
         [Authorize]
-        public async Task<JsonResult> Index([FromBody] Pagination page)
+        public async Task<JsonResult> Index([FromBody] postingObjectWithId pObj)
         {
             try
             {
-                DataList<ServiceSellPrice> result = await _repo.GetPageList(page);
+                DataList<ServiceSellPrice> result = await _repo.GetPageList(pObj.page, pObj.Id);
                 return Json(new
                 {
                     list = result.list,
@@ -66,6 +67,24 @@ namespace PetKingdomFN.Controllers
             {
                 var obj = await _repo.GetServiceSellPriceById(id);
                 return Json(new { obj = obj, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("getByOptionId")]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetServiceSellPriceByOptionId( string id)
+        {
+            try
+            {
+                var list = await _repo.GetServiceSellPriceByOptionId(id);
+                return Json(new { list = list, status = 1 });
             }
             catch (Exception ex)
             {

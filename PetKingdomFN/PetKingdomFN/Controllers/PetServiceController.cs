@@ -16,13 +16,12 @@ namespace PetKingdomFN.Controllers
     public class PetServiceController : Controller
     {
         private readonly IPetServiceRepository _PetServiceRepository;
-        private readonly ICloudStorageService _cloud;
-        private readonly string folder = "img/";
+        private readonly IPetServiceOptions _optionRepos;
 
-        public PetServiceController(IPetServiceRepository repo, ICloudStorageService cloud)
+        public PetServiceController(IPetServiceRepository repo, IPetServiceOptions optionRepos)
         {
             this._PetServiceRepository = repo;
-            _cloud = cloud;
+              _optionRepos= optionRepos;
         }
 
         [HttpGet("getAll")]
@@ -32,6 +31,7 @@ namespace PetKingdomFN.Controllers
             try
             {
                 List<PetService> list = await _PetServiceRepository.GetAll();
+              
                 return Json(new
                 {
                     list = list,
@@ -79,10 +79,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                if (!(service.iconFile is null))
-                {
-                    service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
-                }
+             
                 PetService obj = await _PetServiceRepository.AddPetService(service);
 
                 return Json(new { obj = obj, status  = 1 });
@@ -94,7 +91,7 @@ namespace PetKingdomFN.Controllers
 
         }
         [HttpGet("getById")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<JsonResult> GetPetServiceById([FromQuery] string id)
         {
             try
@@ -118,10 +115,7 @@ namespace PetKingdomFN.Controllers
         {
             try
             {
-                if (!(service.iconFile is null))
-                {
-                    service.Icon = await _cloud.UploadFileAsync(service.iconFile, folder + service.Id);
-                }
+              
                 var obj = await _PetServiceRepository.UpdatePetService(service);
                 return Json(new { obj = obj, status  = 1 });
             }

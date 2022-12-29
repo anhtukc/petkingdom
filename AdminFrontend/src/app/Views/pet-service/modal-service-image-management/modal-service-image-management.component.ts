@@ -27,7 +27,6 @@ export class ModalServiceImageManagementComponent implements OnInit {
         this.imageList[i] = URL.createObjectURL(files[i]);
         this.previewImagesList[i] = files[i];
       }
-      console.log(this.imageList);
     }
   }
 

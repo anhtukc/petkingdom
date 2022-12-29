@@ -52,6 +52,7 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<Employee> AddEmployee(Employee emp)
         {
+            emp.Birthday = DateTime.Parse(emp.birthdayFormat);
             emp.Id = Guid.NewGuid().ToString();
             emp.CreatedDate = DateTime.Now;
             emp.UpdateDate = DateTime.Now;
@@ -61,6 +62,7 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<Employee> UpdateEmployee(Employee emp)
         {
+            emp.Birthday = DateTime.Parse(emp.birthdayFormat);
             emp.UpdateDate = DateTime.Now;
             _DbContext.Entry(emp).State = EntityState.Modified;
             await _DbContext.SaveChangesAsync();

@@ -1,85 +1,193 @@
-<!-- 
-<div class="main-content col-10" style="margin:30px auto 30px; padding: 30px;">
-    <div class="signin-booking">
-        <div class="center"><p>Vui lòng đăng nhập để bắt đầu đặt lịch</p></div>
-        <div class="center" >
-            <button type="button" class=" btn-login" >
-                ĐĂNG NHẬP
-            </button>
+<div class="wizard">
+    <div class="step" [ngClass]="{ active: currentStep === 1, disabled: currentStep < 1 }">
+        Đăng nhập
+    </div>
+    <div class="step" [ngClass]="{ active: currentStep === 2, disabled: currentStep < 2 }">
+        Chọn thú cưng
+    </div>
+    <div class="step" [ngClass]="{ active: currentStep === 3, disabled: currentStep < 3 }">
+        Đặt lịch
+    </div>
+    <div class="step" [ngClass]="{ active: currentStep === 4, disabled: currentStep < 4 }">
+        Tông kết
+    </div>
+</div>
+
+<div class="form-content">
+    <div *ngIf="currentStep==1 && isLogin==false">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="login-form-content">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="username">Tài khoản <span class="required">*</span></label>
+                                        <input id="username" class="form-control" type="email"
+                                            [(ngModel)]="acc.username" [ngModelOptions]="{standalone: true}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="password">Mật khẩu <span class="required">*</span></label>
+                                        <input id="password" class="form-control" type="password"
+                                            [(ngModel)]="acc.password" [ngModelOptions]="{standalone: true}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <a class="btn-login" (click)="login()">Đăng nhập</a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group account-info-group mb--0">
+                                        <div class="rememberme-account">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="defaultCheck1">
+                                                <label class="form-check-label" for="defaultCheck1">Lưu tài
+                                                    khoản</label>
+                                            </div>
+                                        </div>
+                                        <!-- <a class="lost-password" href="account-register.html">Lost your password?</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="booking-flow-step">
-        <div class="icon-booking col-1" >
-            <img src="https://storage.cloud.google.com/pet-kingdom-resource/mock-icon/paw__1_.png"  alt="" srcset="">
+    <div *ngIf="currentStep==1 && isLogin==true">
+        <h2>Chào mừng bạn đã quay trở lại.</h2>
+        <ul>
+            <li>Họ tên: {{customer.lastName}} {{customer.firstName}}</li>
+            <li>Email: {{customer.email}}</li>
+            <li>Số điện thoại: {{customer.phonenumber}}</li>
+        </ul>
+        <div class="logout-button">
+            <button (click)="logout()">Logout</button>
         </div>
-        <div class="booking-name">
-            <p>Chọn thú cưng</p>
-        </div>
-        
     </div>
-    <div class="choose-content hide">
-       
-    </div>
-    <div class="booking-flow-step">
-        <div class="icon-booking col-1" >
-            <img src="https://storage.cloud.google.com/pet-kingdom-resource/mock-icon/scissors__1_.png"  alt="" srcset="">
+    <div *ngIf="currentStep==2">
+        <button *ngIf="showPetForm==false" (click)="openAndClosePetForm()" class="add-pet-button">Nhập thú nuôi</button>
+        <hr>
+        <div *ngIf="petList && petList.length > 0 &&showPetForm==false" class="pet-list">
+            <h4>Lựa chọn thú cưng:</h4>
+            <form>
+                <div *ngFor="let pet of petList" class="pet-item">
+                  <input class="select-pet-radio" id="{{pet.id}}" type="radio" name="selectedPet" [(ngModel)]="selectedPetId" [value]="pet.id" [ngModelOptions]="{standalone: true}">
+                  <label class="select-pet-label" [style.backgroundImage]="'url(' + pet.image + ')'" for="{{pet.id}}"></label>
+                  <span class="pet-name">{{pet.name}}</span>
+                </div>
+              </form>
+           
         </div>
-        <div class="booking-name">
-            <p>Chọn dịch vụ</p>
+
+        <!-- Pet form -->
+        <div *ngIf="showPetForm" class="pet-form">
+            <h2>Thêm thú cưng:</h2>
+
+            <form>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="name">Tên:</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="pet.name"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="weight">Cân nặng:</label>
+                        <input type="number" class="form-control" id="weight" [(ngModel)]="pet.weight"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday">Ngày sinh:</label>
+                        <input type="date" class="form-control" id="birthday" [(ngModel)]="pet.birthDayFormat"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label for="species">Loài:</label>
+                        <select class="form-control" id="species" [(ngModel)]="pet.specices"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value="chó" selected>Chó</option>
+                            <option value="mèo">Mèo</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="breed">Giống:</label>
+                        <input type="text" class="form-control" id="breed" [(ngModel)]="pet.breed"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">Giới tính:</label>
+                        <select class="form-control" id="sex" [(ngModel)]="pet.sex"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value="đực" selected>Đực</option>
+                            <option value="cái">Cái</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="healthNote">Thông tin sức khỏe:</label>
+                        <textarea rows="5" class="form-control" [(ngModel)]="pet.healthNote"
+                            [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="image">Ảnh:</label>
+                        <input type="file" class="form-control-file" class="form-control" id="image"
+                            (change)="upload($event)">
+                    </div>
+                    <div  class="form-group col-6">
+                        <img [src]="pet.image" alt="" srcset="" style="height:200px; width:200px;">
+                    </div>
+                </div>
+
+
+            </form>
+
+            <button (click)="CreatePet()" class="btn">Tạo</button>
+            <button (click)="openAndClosePetForm()" class="btn">Cancel</button>
         </div>
-        
-    </div>
-    <div class="choose-content hide">
 
     </div>
-    <div class="booking-flow-step">
-        <div class="icon-booking col-1" >
-            <img src="https://storage.cloud.google.com/pet-kingdom-resource/mock-icon/calendar.png"  alt="" srcset="">
-        </div>
-        <div class="booking-name">
-            <p>Chọn ngày hẹn</p>
-        </div>
-        
+    <div *ngIf="currentStep==3">
+        <form>
+            <div class="form-group">
+                <div>
+                    <!-- Select input for selecting pet service -->
+                    <label for="pet-service">Pet Service:</label>
+                    <select id="pet-service" [(ngModel)]="selectedServiceId" (change)="selectService()">
+                      <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
+                    </select>
+                  </div>
+              <label for="startDate">Chọn ngày:</label>
+              <input type="date" class="form-control" id="startDate" [(ngModel)]="startedDate" [ngModelOptions]="{standalone: true}" (change)="generateTableHead()">
+            </div>
+          </form>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th *ngFor="let date of tableHead">{{ date | date:'dd/MM/yyyy' }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngFor="let date of tableHead">
+                  <div *ngFor="let item of data | filterByDate: date">
+                    {{ item.hour }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
     </div>
-    <div class="choose-content hide">
+    
+</div>
 
-    </div>
-    <div class="booking-flow-step">
-        <div class="icon-booking col-1" >
-            <img src="https://storage.cloud.google.com/pet-kingdom-resource/mock-icon/clipboard.png"  alt="" srcset="">
-        </div>
-        <div class="booking-name">
-            <p>Tổng kết lịch hẹn</p>
-        </div>
-        
-    </div>
-    <div class="choose-content hide">
-
-    </div>
-</div> -->
-
-<div class="progress-bar">
-    <div class="completed" [style.width]="(completedTests / totalTests) * 100 + '%'"></div>
-    <div class="step-number">Step {{ currentStep }}</div>
-  </div>
-  <form  (ngSubmit)="onSubmit()">
-    <div *ngIf="currentStep === 1" [@stepTransition]>
-     kkkk
-      <button type="button" (click)="nextStep()">Next</button>
-    </div>
-    <div *ngIf="currentStep === 2" [@stepTransition]>
-     kkkdfhf
-      <button type="button" (click)="prevStep()">Back</button>
-      <button type="button" (click)="nextStep()">Next</button>
-    </div>
-    <div *ngIf="currentStep === 3" [@stepTransition]>
-     fghkfghkf
-      <button type="button" (click)="prevStep()">Back</button>
-      <button type="button" (click)="nextStep()">Next</button>
-    </div>
-    <div *ngIf="currentStep === 4" [@stepTransition]>
-     fghkhgkfk
-      <button type="button" (click)="prevStep()">Back</button>
-      <button type="submit">Submit</button>
-    </div>
-  </form>
+<div class="navigation-buttons">
+    <button (click)="previousStep()" *ngIf="currentStep > 1 ">Back</button>
+    <button (click)="nextStep()" *ngIf="currentStep < 4 && isLogin ==true " [disabled]="selectedPetId == '' && currentStep == 2">Next</button>
+    <button (click)="submit()" *ngIf="currentStep === 4">Submit</button>
+</div>

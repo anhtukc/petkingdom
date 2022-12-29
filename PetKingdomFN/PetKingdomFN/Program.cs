@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.Configure<GCSConfigOptions>(configuration);
-builder.Services.AddDbContext<PetKingdomContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=PetKingdom;Integrated Security=True;TrustServerCertificate=True;"));
+builder.Services.AddDbContext<PetKingdomContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=PetKingdom;Integrated Security=True;TrustServerCertificate=True; "));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -94,8 +94,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 
 app.MapControllers();
 

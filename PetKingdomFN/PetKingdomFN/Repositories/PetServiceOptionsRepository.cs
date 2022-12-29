@@ -48,7 +48,10 @@ namespace PetKingdomFN.Repositories
                 .ToList();
             return result;
         }
-
+        public async Task<List<ServiceOption>> GetPetServiceOptionByParentId(string petServiceId)
+        {
+            return await _DbContext.ServiceOptions.Where(x => x.PetServiceId == petServiceId).ToListAsync();
+        }
         public async Task<DataList<ServiceOption>> SearchPetServiceOption(Pagination page, basedSearchObject searchObj)
         {
             DataList<ServiceOption> result = new DataList<ServiceOption>();
@@ -105,7 +108,9 @@ namespace PetKingdomFN.Repositories
         }
         public async Task<ServiceOption> GetPetServiceOptionById(string id)
         {
-            var obj = await _DbContext.ServiceOptions.Where(x => x.Id == id).FirstAsync();
+            var obj = await _DbContext.ServiceOptions
+                .Where(x => x.Id == id)
+                .FirstAsync();
             return obj;
         }
         public async Task<int> DeletePetServiceOption(string id)

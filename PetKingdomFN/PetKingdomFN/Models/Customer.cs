@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
 public partial class Customer
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; } = null!;
 
     public string FirstName { get; set; } = null!;
 
@@ -29,7 +30,10 @@ public partial class Customer
 
     public DateTime? UpdateDate { get; set; }
 
-    public virtual Account? Account { get; set; }
+    public virtual  Account? Account { get; set; }
+
+    [NotMapped]
+    public IFormFile? file { get; set; }
 
     public virtual ICollection<Pet> Pets { get; } = new List<Pet>();
 }

@@ -12,35 +12,36 @@ import { ProfileEditorComponent } from './profile-editor/profile-editor.componen
 import { LoginComponent } from './Views/login/login.component';
 import { DashboardComponent } from './Views/dashboard/dashboard.component';
 import { SanitizerUrlPipe } from './Helper/sanitizer-url.pipe';
-import { PetServiceOptionsComponent } from './Views/pet-service-options/pet-service-options.component';
 import { FormsModule } from '@angular/forms';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ModalServiceOptionComponent } from './Views/pet-service-options/modal-service-option/modal-service-option.component';
 import { ServiceOptionModule } from './Views/pet-service-options/service-option-module.module';
+import { EmployeeModule } from "./Views/employee/employee.module";
+import { CustomerModule } from './Views/customer/customer.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-    ProfileEditorComponent,
-    LoginComponent,
-    DashboardComponent,
-    
-  ],
-  imports: [
-    PetServiceModule,
-    ServiceOptionModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    NgbModule,
-    CKEditorModule,
-    NgxPaginationModule
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        FooterComponent,
+        HeaderComponent,
+        ProfileEditorComponent,
+        LoginComponent,
+        DashboardComponent,
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        PetServiceModule,
+        ServiceOptionModule,
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        CKEditorModule,
+        NgxPaginationModule,
+        EmployeeModule,
+        CustomerModule     
+    ]
 })
 export class AppModule { }

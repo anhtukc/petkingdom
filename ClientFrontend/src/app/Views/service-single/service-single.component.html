@@ -1,8 +1,5 @@
 
 <main class="main-content">
-
-
-    <!--== Start Product Single Area Wrapper ==-->
     <section class="product-area product-single-area">
         <div class="container">
             <div class="row">
@@ -11,16 +8,16 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <!--== Start Product Thumbnail Area ==-->
-                                <div class="product-single-thumb">
+                                <div class="product-single-thumb" style="height:600px">
                                     <div class="swiper single-product-thumb single-product-thumb-slider">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <a class="lightbox-image" data-fancybox="gallery"
-                                                    href="assets/img/shop/product-single/1.webp">
-                                                    <img src="https://storage.cloud.google.com/pet-kingdom-resource/image/iStock-1299896568-960x1024.webp"
-                                                        style="height: 675px;width: 570px;" alt="Image-HasTech">
-                                                </a>
-                                            </div>
+                                            <ngb-carousel >
+                                                <ng-template ngbSlide *ngFor="let item of image">
+                                                    <div class="picsum-img-wrapper" width="100%" >
+                                                        <img [src]="item.link" alt="Random first slide" />
+                                                    </div>        
+                                                </ng-template>                                                        
+                                            </ngb-carousel>
 
                                         </div>
                                     </div>
@@ -31,25 +28,20 @@
                             <div class="col-lg-6">
                                 <!--== Start Product Info Area ==-->
                                 <div class="product-single-info">
-                                    <h2 class="main-title">Vệ sinh thú cưng</h2>   
+                                    <h2 class="main-title">{{petservice.name}}</h2>   
                                     <hr>
                                     <div>
-                                        <p>Dịch vụ vệ sinh của chúng tôi mang đến sự tiện lợi, thoải mái và phong cách. Chúng tôi sử dụng dầu gội bột yến mạch không gây dị ứng và hoàn toàn tự nhiên để mang lại trải nghiệm an toàn và sang trọng. Trong nhà có sẵn với một khoản phí bổ sung. Định giá theo giống và trọng lượng.</p>
+                                        <div innerHTML="{{petservice.briefDescription}}"></div>
                                     </div>                                                                                             
-                                    <div class="prices">
-                                        <span class="price" >120000đ - 300000đ</span>
-
-                                    </div>
+                                   
                                     <div class="mb-10">
                                         <div>
                                             <label class="service-option" for="inputGroupSelect02">Tùy chọn dịch vụ</label>
                                         </div>
                                         <div>
-                                            <select class="select-custom form-control col-12" id="inputGroupSelect02">
-                                                <option >Lựa chọn</option>
-                                                <option value="1" selected>Tắm </option>
-                                                <option value="2">Cắt móng</option>
-                                                <option value="3">Tắm + Cắt móng</option>
+                                            <select [(ngModel)]="selectedOptionId" (ngModelChange)="onOptionIdChange()" class="form-control">
+                                                <option value="">Lựa chọn</option>
+                                                <option *ngFor="let i = index;let option of options" [value]="option.id">{{ option.name }}</option>
                                               </select>
                                         </div>
                                         
@@ -61,8 +53,9 @@
                                             <a href="/booking" style="color: azure;">Đặt lịch</a>
                                         </button>
                                         <button type="button" class="btn-product-cart" data-bs-toggle="modal"
-                                        data-bs-target="#action-CartAddModal" style="width: 320px;">
-                                        Xem bảng giá dịch vụ
+                                        data-bs-target="#action-CartAddModal" style="width: 320px;" href="#detail">
+                                       
+                                         Xem bảng giá dịch vụ
                                     </button>
                                     </div>
                                    
@@ -74,267 +67,65 @@
                 </div>
             </div>
         </div>
+        <hr>
     </section>
-    <!--== End Product Single Area Wrapper ==-->
-    <DIV class="col-10" style="margin:auto; margin-bottom: 30px;">
+    
+    <DIV class="col-10" style="margin:auto; margin-bottom: 30px; min-height: 400px;" id="detail">
         <div class="product-review-tabs-content">
             <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
                 <li role="presentation">
                     <a class="active" id="information-tab" data-bs-toggle="pill"
                         href="#information" role="tab" aria-controls="information"
-                        aria-selected="true">Information</a>
+                        aria-selected="true">Giá dịch vụ</a>
                 </li>
                 <li role="presentation">
                     <a id="description-tab" data-bs-toggle="pill" href="#description"
                         role="tab" aria-controls="description"
-                        aria-selected="false">Description</a>
+                        aria-selected="false">Mô tả</a>
                 </li>
-                <li role="presentation">
-                    <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab"
-                        aria-controls="reviews" aria-selected="false">Reviews (05)</a>
-                </li>
+              
             </ul>
             <div class="tab-content product-tab-content" id="ReviewTabContent">
                 <div class="tab-pane fade show active" id="information" role="tabpanel"
                     aria-labelledby="information-tab">
                     <div class="product-information">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipis elit, sed do
-                            eiusmod tempor incidid ut labore et dolore magna aliqua. Ut enim
-                            ad minim veniam, quis nol exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptateLorem ipsum dolor sit amet col
-                            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam,</p>
+                        <div>
+                            <label class="service-option" for="inputGroupSelect02">Tùy chọn dịch vụ</label>
+                        </div>
+                        <div>
+                            <select [(ngModel)]="selectedOptionId" (ngModelChange)="onOptionIdChange()" class="form-control">
+                                <option value="">Lựa chọn</option>
+                                <option *ngFor="let i = index;let option of options" [value]="option.id">{{ option.name }}</option>
+                              </select>
+                        </div>
+                        <h3 style="margin:20px 0 0">Bảng giá dịch vụ</h3>
+                        <table class="table  table-striped  table-bordered" id="price-table" >
+                            <thead class="table-info">
+                              <tr>
+                                <th>Mức giá</th>
+                                <th>Cân nặng</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let serviceSellPrice of serviceSellPrices">
+                                <td>{{ serviceSellPrice.unitPrice |number}}VNĐ</td>
+                                <td>{{ serviceSellPrice.petMinimumWeight }} to {{ serviceSellPrice.petMaximumWeight }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          
                     </div>
                 </div>
                 <div class="tab-pane fade" id="description" role="tabpanel"
                     aria-labelledby="description-tab">
                     <div class="product-description">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipis elit, sed do
-                            eiusmod tempor incidid ut labore et dolore magna aliqua. Ut enim
-                            ad minim veniam, quis nol exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptateLorem ipsum dolor sit amet col
-                            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam,</p>
+                        <div innerHTML="{{petservice.fullDescription}}"></div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="reviews" role="tabpanel"
-                    aria-labelledby="reviews-tab">
-                    <div class="product-review-content">
-                        <div class="comment-author">
-                            <div class="comment-thumb">
-                                <img src="assets/img/shop/avatar.webp" width="60"
-                                    height="60" alt="Image-HasTech">
-                            </div>
-                            <div class="comment-content">
-                                <div class="rating-box">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4 class="title"><span>Admin</span> - April 8, 2022</h4>
-                                <p class="desc">Donec venenatis euismod turpis sed dapibus.
-                                    Maecenas augue augue, iaculis id dui eget, ultricies
-                                    sagittis purus. Praesent sed blandit mauris.
-                                    Pellentesque non auctor dolor.</p>
-                            </div>
-                        </div>
-                        <div class="comment-form-content">
-                            <h4 class="title collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#comment-widgetId-1">Add Reviwe</h4>
-                            <div id="comment-widgetId-1" class="collapse collapse-body">
-                                <div class="review-comment-form">
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="ReviewComment"
-                                                        class="form-label">Your review
-                                                        *</label>
-                                                    <textarea id="ReviewComment"
-                                                        class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="Reviewname"
-                                                        class="form-label">Name *</label>
-                                                    <input id="Reviewname"
-                                                        class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="Reviewemail"
-                                                        class="form-label">Email *</label>
-                                                    <input id="Reviewemail"
-                                                        class="form-control" type="email">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group mb--0">
-                                                    <button type="submit">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </DIV>
-    <!--== Start Product Area Wrapper ==-->
-    <section class="product-area product-default-area">
-        <div class="container pt--0">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title shape-center text-center">
-                        <h5 class="sub-title">Best PRODUCT</h5>
-                        <h2 class="title">Related Products</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <a href="single-product.html">
-                                <img src="assets/img/shop/5.webp" width="270" height="320" alt="Image-HasTech">
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="title"><a href="single-product.html">Fusion Backpack</a></h4>
-                            <div class="prices">
-                                <span class="price">$45.00</span>
-                            </div>
-                        </div>
-                        <div class="product-action">
-                            <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
-                                data-bs-target="#action-WishlistModal">
-                                <i class="pe-7s-like"></i>
-                            </button>
-                            <div class="product-action-links">
-                                <button type="button" class="btn-product-cart" data-bs-toggle="modal"
-                                    data-bs-target="#action-CartAddModal">
-                                    <i class="pe-7s-shopbag"></i>
-                                </button>
-                                <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
-                                    data-bs-target="#action-QuickViewModal">
-                                    <i class="pe-7s-look"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <a href="single-product.html">
-                                <img src="assets/img/shop/6.webp" width="270" height="320" alt="Image-HasTech">
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="title"><a href="single-product.html">Savvy Shoulder Tote</a></h4>
-                            <div class="prices">
-                                <span class="price">$30.00</span>
-                            </div>
-                        </div>
-                        <div class="product-action">
-                            <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
-                                data-bs-target="#action-WishlistModal">
-                                <i class="pe-7s-like"></i>
-                            </button>
-                            <div class="product-action-links">
-                                <button type="button" class="btn-product-cart" data-bs-toggle="modal"
-                                    data-bs-target="#action-CartAddModal">
-                                    <i class="pe-7s-shopbag"></i>
-                                </button>
-                                <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
-                                    data-bs-target="#action-QuickViewModal">
-                                    <i class="pe-7s-look"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <a href="single-product.html">
-                                <img src="assets/img/shop/7.webp" width="270" height="320" alt="Image-HasTech">
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="title"><a href="single-product.html">Voyage Yoga Bag</a></h4>
-                            <div class="prices">
-                                <span class="price">$39.00</span>
-                            </div>
-                        </div>
-                        <div class="product-action">
-                            <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
-                                data-bs-target="#action-WishlistModal">
-                                <i class="pe-7s-like"></i>
-                            </button>
-                            <div class="product-action-links">
-                                <button type="button" class="btn-product-cart" data-bs-toggle="modal"
-                                    data-bs-target="#action-CartAddModal">
-                                    <i class="pe-7s-shopbag"></i>
-                                </button>
-                                <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
-                                    data-bs-target="#action-QuickViewModal">
-                                    <i class="pe-7s-look"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <a href="single-product.html">
-                                <img src="assets/img/shop/8.webp" width="270" height="320" alt="Image-HasTech">
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <h4 class="title"><a href="single-product.html">Wayfarer Messenger Bag</a></h4>
-                            <div class="prices">
-                                <span class="price">$50.00</span>
-                            </div>
-                        </div>
-                        <div class="product-action">
-                            <button type="button" class="btn-product-wishlist" data-bs-toggle="modal"
-                                data-bs-target="#action-WishlistModal">
-                                <i class="pe-7s-like"></i>
-                            </button>
-                            <div class="product-action-links">
-                                <button type="button" class="btn-product-cart" data-bs-toggle="modal"
-                                    data-bs-target="#action-CartAddModal">
-                                    <i class="pe-7s-shopbag"></i>
-                                </button>
-                                <button type="button" class="btn-product-quick-view" data-bs-toggle="modal"
-                                    data-bs-target="#action-QuickViewModal">
-                                    <i class="pe-7s-look"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--== End Product Area Wrapper ==-->
+  
 </main>

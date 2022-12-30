@@ -5,6 +5,8 @@ using PetKingdomFN.Helpers;
 using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
 using System.Linq.Dynamic.Core;
+using System.Runtime.CompilerServices;
+
 namespace PetKingdomFN.Repositories
 {
     public class PetServiceOptionRepository : IPetServiceOptions
@@ -19,6 +21,30 @@ namespace PetKingdomFN.Repositories
         public async Task<int> GetNumberOfRecords()
         {
             return await _DbContext.ServiceOptions.CountAsync();
+        }
+        public async Task<List<ServiceOption>> GetAllPetServiceOptions(double petWeight)
+        {
+            List<ServiceOption> list = await _DbContext.ServiceOptions
+    .Join(_DbContext.ServiceSellPrices,
+        x => x.Id,
+        y => y.ServiceOptionId,
+        (x, y) => new { x, y })
+    .Where(x => x.y.PetMinimumWeight < petWeight && x.y.PetMaximumWeight > petWeight)
+    .Select(x => new ServiceOption
+    {
+        Id = x.x.Id,
+        Name = x.x.Name,
+        Description = x.x.Description,
+        EstimatedCompletionTime = x.x.EstimatedCompletionTime,
+        CreatedDate = x.x.CreatedDate,
+        UpdateDate = x.x.UpdateDate,
+        PetServiceId = x.x.PetServiceId,
+        Status = x.x.Status,
+        price = x.y.UnitPrice
+    })
+    .ToListAsync();
+            return list;
+
         }
         public async Task<DataList<ServiceOption>> GetPageList(Pagination page)
         {

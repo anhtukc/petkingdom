@@ -41,8 +41,6 @@
   button {
     padding: 10px 20px;
     border: none;
-    background-color: #2184be;
-    color: white;
     cursor: pointer;
   }
   
@@ -51,11 +49,14 @@
     color: #eeeeee;
     cursor: not-allowed;
   }
-
+.pet-list{
+  display: flex;
+}
   .pet-item{
     position: relative;
     width: 200px;
     height: 200px;
+    margin-left: 10px;
   }
   .select-pet-radio{
     width: 20px;
@@ -86,4 +87,8 @@
   .select-pet-radio:checked + .select-pet-label {
     border-color: rgb(5, 99, 133);
     border-width: 3px;
+  }
+  .service-options button.selected {
+    background-color: rgb(5, 99, 133);
+    color: white;
   }

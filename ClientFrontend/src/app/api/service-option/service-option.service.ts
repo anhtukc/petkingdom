@@ -6,9 +6,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ApiServiceOption {
+  controllerName = "PetServiceOption/";
   constructor(private http:HttpClient) { }
-
+  public getAllPetServiceOption(petWeight:number){
+    return this.http.get<any>(environment.apiUrl +this.controllerName+ `getAll?petWeight=${petWeight}`);
+  }
   getOption(petServiceId:string){
-    return this.http.get<any>(environment.apiUrl +"PetServiceOption"+ `/getByPetServiceId?id=${petServiceId}`)
+    return this.http.get<any>(environment.apiUrl +this.controllerName+ `getByPetServiceId?id=${petServiceId}`)
   }
 }

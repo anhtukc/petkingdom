@@ -23,6 +23,8 @@ public partial class ServiceOption
     public DateTime? UpdateDate { get; set; }
     [NotMapped]
     public string PetServiceName { get; set; }
+    [NotMapped]
+    public int price { get;set; }
     public virtual PetService? PetService { get; set; }
 
     public virtual ICollection<ScheduleAvailable> ScheduleAvailables { get; } = new List<ScheduleAvailable>();

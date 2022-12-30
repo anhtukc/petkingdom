@@ -10,7 +10,7 @@ export class ApiPetService {
   constructor(private http:HttpClient) { }
   public getAllPetService(){
     return this.http.get<any>(environment.apiUrl +this.controllerName+ "/getAll");
-}
+  }
 public getById(id:string){
   return this.http.get<any>(environment.apiUrl +this.controllerName+ `/getById?id=${id}`);
 }

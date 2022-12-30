@@ -52,7 +52,7 @@ namespace PetKingdomFN.Repositories
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim("id", user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.Permission),
-                   new Claim("userId", cus is null? emp.Id.ToString():cus.Id.ToString())
+                   new Claim("userId", cus.Id is null? emp.Id.ToString():cus.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

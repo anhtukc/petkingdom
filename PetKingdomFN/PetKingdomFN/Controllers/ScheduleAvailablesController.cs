@@ -78,6 +78,7 @@ namespace PetKingdomFN.Controllers
             }
 
         }
+      
         [HttpGet("getById")]
         [Authorize]
         public async Task<JsonResult> GetScheduleAvailableById([FromQuery] string id)
@@ -97,13 +98,13 @@ namespace PetKingdomFN.Controllers
             }
         }
         [HttpGet("getByOptionId")]
-        [Authorize]
-        public async Task<JsonResult> GetScheduleAvailableByOptionId([FromQuery] string id, string startedDateFormat)
+        [AllowAnonymous]
+        public async Task<JsonResult> GetScheduleAvailableByOptionId([FromQuery] string id, [FromQuery] string startedDateFormat)
         {
             try
             {
-                var obj = await _repo.GetScheduleAvailableById(id);
-                return Json(new { obj = obj, status = 1 });
+                var list = await _repo.GetScheduleAvailableByOptionId(id,startedDateFormat);
+                return Json(new { list = list, status = 1 });
             }
             catch (Exception ex)
             {

@@ -1,16 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { tableSchedule } from '../Class/Schdule';
 
 @Pipe({
   name: 'filterByDate'
 })
 export class FilterByDatePipe implements PipeTransform {
-  transform(items: any[], date: Date): any[] {
+  transform(items: tableSchedule[], date: Date): any[] {
     if (!items) {
       return [];
     }
     if (!date) {
       return items;
     }
-    return items.filter(item => item.date.toDateString() === date.toDateString());
+    let result = items.filter(item => item.scheduleDate.toDateString() === date.toDateString())
+    return result;
   }
 }

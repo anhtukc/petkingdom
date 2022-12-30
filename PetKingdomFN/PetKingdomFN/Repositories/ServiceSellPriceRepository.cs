@@ -17,6 +17,10 @@ namespace PetKingdomFN.Repositories
         {
             _DbContext = DbContext;
         }
+        public async Task<List<ServiceSellPrice>> GetAllServiceSellPrice()
+        {
+            return await _DbContext.ServiceSellPrices.ToListAsync();
+        }
         public async Task<DataList<ServiceSellPrice>> GetPageList(Pagination page, string optionId)
         {
             DataList<ServiceSellPrice> result = new DataList<ServiceSellPrice>();

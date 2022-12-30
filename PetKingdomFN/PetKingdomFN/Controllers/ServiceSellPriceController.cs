@@ -95,6 +95,24 @@ namespace PetKingdomFN.Controllers
                 });
             }
         }
+        [HttpGet("getall")]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetAllServiceSellPrice()
+        {
+            try
+            {
+                var list = await _repo.GetAllServiceSellPrice();
+                return Json(new { list = list, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
 
         [HttpPost("update")]
         [Authorize]

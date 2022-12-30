@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CKEditor4, CKEditorModule } from 'ckeditor4-angular';
 import { FilterByDatePipe } from './pipe/FilterByDatePipe ';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { FilterByDatePipe } from './pipe/FilterByDatePipe ';
     NgbCarouselModule ,
     CKEditorModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

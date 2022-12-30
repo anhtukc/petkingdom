@@ -74,11 +74,12 @@
     <div *ngIf="currentStep==2">
         <button *ngIf="showPetForm==false" (click)="openAndClosePetForm()" class="add-pet-button">Nhập thú nuôi</button>
         <hr>
-        <div *ngIf="petList && petList.length > 0 &&showPetForm==false" class="pet-list">
-            <h4>Lựa chọn thú cưng:</h4>
-            <form>
-                <div *ngFor="let pet of petList" class="pet-item">
-                  <input class="select-pet-radio" id="{{pet.id}}" type="radio" name="selectedPet" [(ngModel)]="selectedPetId" [value]="pet.id" [ngModelOptions]="{standalone: true}">
+        <h4>Lựa chọn thú cưng:</h4>
+
+        <div *ngIf="petList && petList.length > 0 &&showPetForm==false">
+            <form  class="pet-list">
+                <div *ngFor="let pet of petList" class="pet-item" >
+                  <input class="select-pet-radio" id="{{pet.id}}" type="radio" name="selectedPet" (click)="selectPet(pet)" >
                   <label class="select-pet-label" [style.backgroundImage]="'url(' + pet.image + ')'" for="{{pet.id}}"></label>
                   <span class="pet-name">{{pet.name}}</span>
                 </div>
@@ -158,25 +159,34 @@
                 <div>
                     <!-- Select input for selecting pet service -->
                     <label for="pet-service">Pet Service:</label>
-                    <select id="pet-service" [(ngModel)]="selectedServiceId" (change)="selectService()">
+                    <select id="pet-service" [(ngModel)]="selectedServiceId" (change)="selectService()" class="form-control" [ngModelOptions]="{standalone: true}">
                       <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
                     </select>
                   </div>
+                  <div class="service-options">
+                    <button *ngFor="let option of displayServiceOptions"
+                            class="btn"
+                            [ngClass]="{ 'selected': option === selectedOption }"
+                            (click)="selectOption(option)">
+                      {{option.name}} - {{option.price}}
+                    </button>
+                  </div>
               <label for="startDate">Chọn ngày:</label>
-              <input type="date" class="form-control" id="startDate" [(ngModel)]="startedDate" [ngModelOptions]="{standalone: true}" (change)="generateTableHead()">
+              <input type="date" class="form-control" id="startDate" [(ngModel)]="startedDateFormat" [ngModelOptions]="{standalone: true}" >
+              <button (click)="getScheduleData()" [disabled]="selectedOption.id == '' ">Tìm kiếm</button>
             </div>
           </form>
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th *ngFor="let date of tableHead">{{ date | date:'dd/MM/yyyy' }}</th>
+                <th *ngFor="let date of tableHead">{{ date|date:'dd-MM-yyyy' }}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td *ngFor="let date of tableHead">
-                  <div *ngFor="let item of data | filterByDate: date">
-                    {{ item.hour }}
+                  <div *ngFor="let item of gethour(date)">
+                    <button>{{item.scheduleHour }}</button>
                   </div>
                 </td>
               </tr>
@@ -188,6 +198,6 @@
 
 <div class="navigation-buttons">
     <button (click)="previousStep()" *ngIf="currentStep > 1 ">Back</button>
-    <button (click)="nextStep()" *ngIf="currentStep < 4 && isLogin ==true " [disabled]="selectedPetId == '' && currentStep == 2">Next</button>
+    <button (click)="nextStep()" *ngIf="currentStep < 4 && isLogin ==true " [disabled]="selectedPet.id == '' && currentStep == 2">Next</button>
     <button (click)="submit()" *ngIf="currentStep === 4">Submit</button>
 </div>

@@ -6,6 +6,7 @@ using PetKingdomFN.Interfaces;
 using PetKingdomFN.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace PetKingdomFN.Controllers
 {
@@ -24,7 +25,28 @@ namespace PetKingdomFN.Controllers
             _sellPriceRepos = sellPriceRepos;
             _scheduleAvailableRepos = scheduleAvailableRepos;
         }
-
+        [HttpGet("getall")]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetAllByWeight(double petWeight)
+        {
+            try
+            {
+                List<ServiceOption> list = await _repo.GetAllPetServiceOptions(petWeight);
+                return Json(new
+                {
+                    list = list,
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
 
         [HttpPost("getPage")]
         [Authorize]

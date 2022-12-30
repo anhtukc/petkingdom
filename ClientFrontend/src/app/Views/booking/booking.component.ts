@@ -1,6 +1,6 @@
 
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import decode from 'jwt-decode';
 import { ApiAccountService } from 'src/app/api/account/account.service';
@@ -16,13 +16,19 @@ import { ApiPet } from 'src/app/api/pet/api-pet.service';
 import { ScheduleAvailable } from 'src/app/Class/ScheduleAvailable';
 import { ServiceOption } from 'src/app/Class/PetServiceOptions';
 import { petService } from 'src/app/Class/pet-service';
+import { ApiServiceOption } from 'src/app/api/service-option/service-option.service';
+import { ServiceSellPrice } from 'src/app/Class/ServiceSellPrice';
+import { ApiServicePrice } from 'src/app/api/service-price/service-price.service';
+import { ApiScheduleAvailableService } from 'src/app/api/schedule-available/api-schedule-available.service';
+import { DatePipe } from '@angular/common';
+import { tableSchedule } from 'src/app/Class/Schdule';
 
 @Component({
   selector: 'app-questionnaire-form',
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.css']
 })
-export class BookingComponent {
+export class BookingComponent implements OnInit {
   currentStep = 1;
   public acc: login;
   public isLogin = false;
@@ -33,10 +39,14 @@ export class BookingComponent {
 
   errorAlert: string = '';
   constructor(private auth: AuthService,
-    private ApiPetService:ApiPetService,
+    private ApiPetService: ApiPetService,
     private apiCustomer: ApiCustomerService,
     private apiAcount: ApiAccountService,
-    private apiPet: ApiPet) {
+    private apiPetServiceOption: ApiServiceOption,
+    private apiServicePrice: ApiServicePrice,
+    private apiScheduleAvailable: ApiScheduleAvailableService,
+    private apiPet: ApiPet,
+    private datePipe: DatePipe) {
     this.CheckLogin();
     this.acc = {
       username: "",
@@ -49,6 +59,10 @@ export class BookingComponent {
       specices: 'chó',
       status: 1,
     }
+  }
+  ngOnInit(): void {
+    this.getAllPetService();
+    this.startedDateFormat = '';
   }
   //STEP 1-----------------------------------------
 
@@ -110,8 +124,15 @@ export class BookingComponent {
   petList: Pet[] = [];
   pet: Pet;
   showPetForm = false;
-  selectedPetId = ''
-
+  selectedPet: Pet = {
+    id: '',
+    name: '',
+    sex: ''
+  }
+  selectPet(pet: Pet) {
+    this.selectedPet = pet;
+    this.getAllPetServiceOption();
+  }
   createNewPetForm() {
     this.pet = {
       id: '',
@@ -161,32 +182,87 @@ export class BookingComponent {
   }
 
   //Step 3---------------------------------------------------------
-  public startedDate: Date = new Date();
-  data: any[] = [
-    {date: new Date('12/29/2022'), hour: '8h AM'},
-    {date: new Date('12/29/2022'), hour: '9h AM'},
-    {date: new Date('12/30/2022'), hour: '8h AM'},
-    {date: new Date('12/31/2022'), hour: '8h AM'},
-    {date: new Date('01/01/2023'), hour: '10h AM'},
-    {date: new Date('01/01/2023'), hour: '11h AM'},
+  tableDateData: tableSchedule[] = [
+
   ];
-  scheduleAvailableList:ScheduleAvailable[]=[]
+  scheduleAvailableList: ScheduleAvailable[] = [];
   tableHead: Date[] = [];
   services: petService[] = [];
-  serviceOptions: ServiceOption[] = [];
-  selectedServiceId: string ='';
-  //selectedOption: ServiceOption;
-  selectService() {
+  serviceOptionsList: ServiceOption[] = [];
+  displayServiceOptions: ServiceOption[] = [];
+  servicePrice: ServiceSellPrice[] = [];
+  selectedServiceId: string = '';
+  selectedOption: ServiceOption = {
+    id: '',
+    name: '',
+    petServiceId: '',
+  };
+  public startedDateFormat: string = this.datePipe.transform(new Date(), "yyyy-MM-dd") as string;
+  getAllPetService() {
+    this.ApiPetService.getAllPetService().subscribe(result => {
+      this.services = result.list;
+    })
   }
+
+  async getAllPetServiceOption() {
+    this.apiPetServiceOption.getAllPetServiceOption(this.selectedPet.weight!).subscribe(result => {
+      this.serviceOptionsList = result.list;
+    })
+  }
+  getAllServicePrice() {
+    this.apiServicePrice.getAllPrice().subscribe(result => {
+      this.servicePrice = result.list;
+    })
+  }
+  getScheduleData() {
+    this.tableDateData = []
+    this.generateTableHead();
+    this.startedDateFormat = this.datePipe.transform(this.startedDateFormat!, "yyyy-MM-dd") as string;
+    this.apiScheduleAvailable.getScheduleByOptionId(this.selectedOption.id!, this.startedDateFormat!).subscribe(result => {
+      this.scheduleAvailableList = result.list;
+      for (let i = 0; i < this.tableHead.length; i++) {
+        for (let j = 0; j < this.scheduleAvailableList.length; j++) {
+          let startedDate = new Date(this.scheduleAvailableList[j].startedDate!).getTime();
+          let endedDate = new Date(this.scheduleAvailableList[j].endedDate!).getTime();
+          let tableHeadDate = new Date(this.tableHead[i]).getTime();
+          console.log(startedDate+ ' ' + tableHeadDate + ' ' +endedDate)
+          if (tableHeadDate >= startedDate && tableHeadDate <= endedDate) {
+            
+            let dateData:tableSchedule = {
+              scheduleDate: this.tableHead[i],
+              scheduleHour: this.scheduleAvailableList[j].availableHour!
+            }
+            this.tableDateData.push(dateData);
+          }
+        }
+      }
+    });
+  
+  }
+
+  selectService() {
+    this.displayServiceOptions = this.serviceOptionsList.filter(x => x.petServiceId === this.selectedServiceId);
+  }
+
+  selectOption(option: ServiceOption) {
+    this.selectedOption = option;
+  }
+
   generateTableHead() {
     this.tableHead = []
-    let currentDate = new Date(this.startedDate);
+    let currentDate = new Date(this.startedDateFormat);
     currentDate = new Date(currentDate.setDate(currentDate.getDate() - 1));
     for (let i = 0; i < 7; i++) {
-      console.log(currentDate);
       this.tableHead.push(currentDate);
       currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
     }
+    
+  }
+
+  gethour( date:Date){
+  
+    let result = this.tableDateData.filter(x => x.scheduleDate.toDateString() === date.toDateString())
+    return result;
   }
 
   submit() {

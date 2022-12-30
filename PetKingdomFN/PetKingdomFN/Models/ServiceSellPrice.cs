@@ -7,7 +7,7 @@ public partial class ServiceSellPrice
 {
     public string Id { get; set; } = null!;
 
-    public int? UnitPrice { get; set; }
+    public int UnitPrice { get; set; }
 
     public double? PetMinimumWeight { get; set; }
 

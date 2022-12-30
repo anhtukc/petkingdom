@@ -10,6 +10,6 @@ export class ApiScheduleAvailableService {
   constructor(private http:HttpClient) { }
 
   public getScheduleByOptionId(id:string, startedDateFormat:string){
-    this.http.get<any>(environment.apiUrl + this.controllerName + `getByOptionId?id=${id}&&startedDateFormat=${startedDateFormat}`);
+    return this.http.get<any>(environment.apiUrl + this.controllerName + `getByOptionId?id=${id}&&startedDateFormat=${startedDateFormat}`);
   }
 }

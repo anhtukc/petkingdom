@@ -10,7 +10,6 @@ export class ServiceOption {
     status?: number;
     createdDate?: Date;
     updateDate?: Date;
-    petServiceName: string = '';
-    ScheduleAvailable:ScheduleAvailable[] =[];
-    ServiceSellPrice:ServiceSellPrice[]=[]
+    petServiceName?: string ;
+    price?:number;
   }

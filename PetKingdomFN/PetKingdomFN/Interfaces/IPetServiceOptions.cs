@@ -5,6 +5,7 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IPetServiceOptions
     {
+        Task<List<ServiceOption>> GetAllPetServiceOptions(double petWeight);
         Task<DataList<ServiceOption>> GetPageList(Pagination page);
         Task<ServiceOption> GetPetServiceOptionById(string id);
         Task<List<ServiceOption>> GetPetServiceOptionByParentId(string petServiceId);

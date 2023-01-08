@@ -19,9 +19,9 @@ namespace PetKingdomFN.Repositories
         {
             _DbContext = DBContext;
         }
-        public async Task<int> GetNumberOfRecords()
+        public async Task<List<BlogCategory>> GetAll()
         {
-            return await _DbContext.BlogCategories.CountAsync();
+            return await _DbContext.BlogCategories.ToListAsync();
         }
         public async Task<DataList<BlogCategory>> GetPageList(Pagination page)
         {

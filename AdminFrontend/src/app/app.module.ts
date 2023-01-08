@@ -18,6 +18,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ServiceOptionModule } from './Views/pet-service-options/service-option-module.module';
 import { EmployeeModule } from "./Views/employee/employee.module";
 import { CustomerModule } from './Views/customer/customer.module';
+import { ServiceSellBillModule } from './Views/service-sell-bill/service-sell-bill.module';
+import { BlogCategoryModule } from './Views/blog-category/blog-category.module';
+import { BlogModule } from './Views/blog/blog.module';
+import { ShiftModule } from './Views/shift/shift.module';
+import { CaringShiftModule } from './Views/caring-shift/caring-shift.module';
+
 
 @NgModule({
     declarations: [
@@ -26,7 +32,7 @@ import { CustomerModule } from './Views/customer/customer.module';
         HeaderComponent,
         ProfileEditorComponent,
         LoginComponent,
-        DashboardComponent,
+        DashboardComponent,     
     ],
     bootstrap: [AppComponent],
     imports: [
@@ -41,7 +47,12 @@ import { CustomerModule } from './Views/customer/customer.module';
         CKEditorModule,
         NgxPaginationModule,
         EmployeeModule,
-        CustomerModule     
+        CustomerModule,
+        ServiceSellBillModule,
+        BlogCategoryModule,
+        BlogModule,
+        ShiftModule,
+        CaringShiftModule,
     ]
 })
 export class AppModule { }

@@ -5,7 +5,7 @@ namespace PetKingdomFN.Models;
 
 public partial class Schedule
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; } 
 
     public string ServiceOptionName { get; set; } = null!;
 

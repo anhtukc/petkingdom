@@ -16,16 +16,15 @@ export class RoleGuardService implements CanActivate {
     const expectedRole = route.data['expectedRole'];
     const token = localStorage.getItem('token');
     const tokenPayload:any = decode(token);
-    if (
-      !this.auth.isAuthenticated() || token == null
-      
-    ) {
+    if (!this.auth.isAuthenticated() || token == null    ) {
       this.router.navigate(['login']);
       return false;
     }
-    if(tokenPayload.role !== expectedRole){
+
+    if (!expectedRole.includes(tokenPayload.role)) {
       alert("Bạn không có quyền truy cập vào trang");
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['login']);
+      return false;
     }
     return true;
   }

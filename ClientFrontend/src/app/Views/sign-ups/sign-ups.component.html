@@ -1,0 +1,120 @@
+
+          
+<section class="account-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="register-form-content">
+            <form action="#">
+              <div class="row">
+                <form [formGroup]="formGroup">
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Họ:</label>
+                        <input type="text" id="lastName" name="firstName" class="form-control" [(ngModel)]="customer.lastName"
+                            formControlName="lastName">
+                        <div *ngIf="lastName.invalid && lastName.touched" class="alert alert-danger">
+                            <div *ngIf="lastName.errors['required'] ">
+                                *Vui lòng nhập Họ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">Tên:</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control" [(ngModel)]="customer.firstName"
+                            formControlName="firstName">
+                        <div *ngIf="firstName.invalid && firstName.touched" class="alert alert-danger">
+                            <div *ngIf="firstName.errors['required'] ">
+                                *Vui lòng nhập tên
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenumber" class="form-label">Số điện thoại:</label>
+                        <input type="text" id="phonenumber" name="phonenumber" class="form-control" [(ngModel)]="customer.phonenumber"
+                            formControlName="phonenumber" [pattern]="'^(84|0[3|5|7|8|9])+([0-9]{8})$'">
+                        <div *ngIf="phonenumber.invalid && phonenumber.touched" class="alert alert-danger">
+                            <div *ngIf="phonenumber.errors['required'] ">
+                                *Vui lòng nhập số điện thoại
+                            </div>
+                            <div *ngIf="phonenumber.errors['pattern']">
+                                *Số điện thoại có dạng ((+84) hoặc 0) + 10 số
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="form-label">Địa chỉ:</label>
+                        <input type="text" id="address" name="address" class="form-control" [(ngModel)]="customer.address"
+                            formControlName="address">
+                        <div *ngIf="address.invalid && address.touched" class="alert alert-danger">
+                            <div *ngIf="address.errors['required'] ">
+                                *Vui lòng nhập địa chỉ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="customer.email"
+                            formControlName="email">
+                        <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
+                            <div *ngIf="email.errors['required'] ">
+                                *Vui lòng nhập email
+                            </div>
+                            <div *ngIf="email.errors['email'] ">
+                                *Email không đúng định dạng
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="identityCardNumber" class="form-label">Giới tính:</label>
+                        <select [(ngModel)]="customer.sex" class="form-control"  [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let i = index;let item of sex" value="{{item}}" (change)="alert()" >{{item}}</option>
+                        </select>
+                    </div>
+                    
+               
+                      <div class="form-group"  >
+                        <label for="username" class="form-label">Tài khoản:</label>
+                        <input type="text" id="username" name="username" class="form-control" [(ngModel)]="account.username"
+                            formControlName="username">
+                        <div *ngIf="username.invalid && username.touched" class="alert alert-danger">
+                            <div *ngIf="username.errors['required'] ">
+                                *Vui lòng nhập tài khoản
+                            </div>
+                            <div *ngIf="password.errors['minlength'] ">
+                                *Tài khoản phải có tối thiểu 8 ký tự
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"  >
+                        <label for="address" class="form-label">Mật khẩu:</label>
+                        <input type="password" id="password" name="password" class="form-control" [(ngModel)]="account.password"
+                            formControlName="password">
+                        <div *ngIf="password.invalid && password.touched" class="alert alert-danger">
+                            <div *ngIf="password.errors['required'] ">
+                                *Vui lòng nhập mật khẩu
+                            </div>
+                            <div *ngIf="password.errors['minlength'] ">
+                                *Mật khẩu phải có tối thiểu 8 ký tự
+                            </div>
+                        </div>
+                    </div>
+                      <div class="form-group" >
+                        <label for="name" class="form-label">Ảnh đại diện:</label>
+                        <input type="file" id="icon" name="icon" class="form-control"  (change)="upload($event)">
+                        <img  [src]="customer.image" />           
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb--0">
+                          <a class="btn-register" (click)="create()">Đăng ký</a>
+                        </div>
+                      </div>
+                </form>
+                
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

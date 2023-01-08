@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
 public partial class Blog
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -22,6 +23,11 @@ public partial class Blog
     public int Status { get; set; }
 
     public string? BlogCategoryId { get; set; }
+    [NotMapped]
+    public IFormFile? file { get; set; }
+   
+    [NotMapped]
+    public string? BlogCategoryName { get; set; }
 
     public virtual BlogCategory? BlogCategory { get; set; }
 }

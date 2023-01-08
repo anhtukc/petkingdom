@@ -49,16 +49,12 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("add")]
         [Authorize]
-        public async Task<JsonResult> AddCustomer([FromBody] CustomerAccount ca)
+        public async Task<JsonResult> AddCustomer([FromForm] Customer ca)
         {
             try
             {
-                string checkacc = await _accRepo.CheckCustomerAccount(ca.acc.Username, ca.cus.Phonenumber, ca.cus.Email);
-                if(checkacc == "duplicate") {
-                    return Json(new { status = 0, details = "duplicate" });
-                }
-
-                Customer obj = await _repo.AddCustomer(ca.cus, ca.acc);
+         
+                Customer obj = await _repo.AddCustomer(ca);
 
                 return Json(new { obj = obj, status = 1 });
             }

@@ -17,7 +17,7 @@ namespace PetKingdomFN.Controllers
         {
             this._repo = repo;
         }
-
+       
         [HttpPost("getPage")]
         [Authorize]
         public async Task<JsonResult> Index([FromBody] Pagination page)

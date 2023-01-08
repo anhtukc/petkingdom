@@ -50,15 +50,18 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
-        public async Task<Schedule> AddSchedule(Schedule schedule)
+        public async Task<Schedule[]> AddSchedule(Schedule[] schedule)
         {
 
-            schedule.Id = Guid.NewGuid().ToString();
-            schedule.CreatedDate = DateTime.Now;
-            schedule.UpdateDate = DateTime.Now;
-            var obj = _DbContext.Schedules.AddAsync(schedule);
+            for(int i = 0; i < schedule.Length; i++)
+            {
+                schedule[i].Id = Guid.NewGuid().ToString();
+                schedule[i].CreatedDate = DateTime.Now;
+                schedule[i].UpdateDate = DateTime.Now;
+            }
+            var list = _DbContext.Schedules.AddRangeAsync(schedule);
             await _DbContext.SaveChangesAsync();
-            return obj.Result.Entity;
+            return schedule;
         }
         public async Task<Schedule> UpdateSchedule(Schedule schedule)
         {

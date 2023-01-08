@@ -1,0 +1,90 @@
+<ng-template #modalBlog let-modal class="modal-xl">
+
+    <div class="modal-header modal-xl">
+        <h4 class="modal-title" id="modal-basic-title">Sửa dịch vụ thú cưng</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="formGroup">
+
+            <div class="form-group">
+                <label for="name" class="form-label">Tiêu đề:</label>
+                <input type="text" class="form-control" formControlName="name" [(ngModel)]="blog.name">
+                <div *ngIf="name.invalid && name.touched" class="error">
+                    <div *ngIf="name.errors['required'] ">
+                        *Vui lòng nhập tiêu đề
+                    </div>
+                    <div *ngIf="name.errors['minlength'] ">
+                        *Tên cần tối thiểu 4 ký tự
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label">Tác giả:</label>
+                <input type="text" class="form-control" formControlName="author" [(ngModel)]="blog.author">
+                <div *ngIf="author.invalid && author.touched" class="error">
+                    <div *ngIf="author.errors['required'] ">
+                        *Vui lòng nhập tên tác giả
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="name" class="form-label">Mô tả:</label>
+                <ckeditor [editor]="Editor" [(ngModel)]="blog.content" formControlName="content">
+                </ckeditor>
+                <div *ngIf="content.invalid && content.touched" class="error">
+                    <div *ngIf="content.errors['required'] ">
+                        *Vui lòng nhập mô tả
+                    </div>
+                    <div *ngIf="content.errors['minlength'] ">
+                        *Cần nhập ít nhất 10 ký tự
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="form-label">Loại tin tức:</label>
+                <select name="" id="" [(ngModel)]="blog.blogCategoryId" formControlName="blogCategoryId"
+                    (change)="getBlogCategory()" class="form-control col-12">
+                    <option *ngFor=" let cate of blogCategory" value="{{cate.id}}">{{cate.name}}</option>
+                </select>
+                <div *ngIf="blogCategoryId.invalid && blogCategoryId.touched" class="error">
+                    <div *ngIf="blogCategoryId.errors['required'] ">
+                        *Vui lòng chọn loại tin tức
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="typeModal == 'edit'">
+                <label for="name" class="form-label">Trạng thái:</label>
+                <select name="" id="" [(ngModel)]="blog.status" [ngModelOptions]="{standalone: true}"
+                    class="form-control col-12">
+                    <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="form-label">Ảnh đại diện:</label>
+                <input type="file" id="icon" name="icon" class="form-control" (change)="upload($event)">
+                <img [src]="blog.thumbnail" style="height: auto; width:300px;" />
+            </div>
+        </form>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="createNew()" *ngIf="typeModal == 'create'">Làm
+            mới</button>
+        <button type="button" class="btn btn-outline-dark" (click)="create()"
+            *ngIf="typeModal == 'create'">Thêm</button>
+        <button type="button" class="btn btn-outline-dark" (click)="update()" *ngIf="typeModal == 'edit'">Sửa</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Đóng</button>
+    </div>
+
+</ng-template>

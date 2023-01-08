@@ -5,6 +5,8 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Employee } from 'src/app/Class/Employee';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Account } from 'src/app/Class/Account';
+import { ApiAccountService } from 'src/app/api/account/api-account.service';
 
 @Component({
   selector: 'app-modal-employee',
@@ -13,12 +15,19 @@ import { DatePipe } from '@angular/common';
 })
 export class ModalEmployeeComponent implements OnInit {
   constructor(private modalService: NgbModal,
-    private api: ApiEmployee,private datePipe:DatePipe) { }
+    private api: ApiEmployee,private datePipe:DatePipe, private apiAccount:ApiAccountService) { }
 
   ngOnInit(): void {
 
   }
 public sex=['nam', 'nữ'];
+account:Account ={
+  id:'',
+  username:'demo0101',
+  password:'demo0101',
+  permission:'caringStaff',
+  phoneConfirmed:true
+}
   public Editor = ClassicEditor;
   @Input() statusMeaning;
   @Output() updateEvent = new EventEmitter();
@@ -68,6 +77,19 @@ public sex=['nam', 'nữ'];
     ])
   });
 
+  public accountForm = new FormGroup({
+    username: new FormControl(this.account.username,[
+      Validators.required,
+      Validators.minLength(8)
+    ]),
+    password: new FormControl(this.account.password,[
+      Validators.required,
+      Validators.minLength(8)
+    ]),
+    Permissions: new FormControl(this.account.password,[
+      Validators.required,
+    ])
+  })
 
   public firstName = this.formGroup.get('firstName');
   public lastName = this.formGroup.get('lastName');
@@ -76,7 +98,9 @@ public sex=['nam', 'nữ'];
   public email = this.formGroup.get('email');
   public birthdayFormat = this.formGroup.get('birthdayFormat');
   public identityCardNumber = this.formGroup.get('identityCardNumber');
-
+  public username = this.formGroup.get('username');
+  public password = this.formGroup.get('password');
+  public permissions = this.formGroup.get('permissions');
 
 
   public createNew() {
@@ -109,15 +133,26 @@ public sex=['nam', 'nữ'];
 
   public async create() {
 
-    if (this.formGroup.valid) {
-      this.api.addNew(this.emp).subscribe(result => {
-        if (result.status == 0) {
-          alert("Thêm mới thất bại")
+    if (this.formGroup.valid && this.accountForm.valid) {
+      this.apiAccount.checkCustomerAccount(this.account.username, this.emp.email, this.emp.phonenumber).subscribe(result=>{
+        if(result.status == 1){
+          this.apiAccount.addNew(this.account).subscribe(resultacc=>{
+            this.account = resultacc.obj;
+          })
+          this.emp.accountId = this.account.id;
+          this.api.addNew(this.emp).subscribe(result => {
+            if (result.status == 0) {
+              alert("Thêm mới thất bại")
+            }
+            if (result.status == 1) {
+              alert("Thêm mới thành công")
+              this.emp = result.obj;
+              this.createEvent.emit(this.emp);
+            }
+          })
         }
-        if (result.status == 1) {
-          alert("Thêm mới thành công")
-          this.emp = result.obj;
-          this.createEvent.emit(this.emp);
+        else{
+          alert(result.message);
         }
       })
     }
@@ -125,6 +160,8 @@ public sex=['nam', 'nữ'];
       Object.keys(this.formGroup.controls).forEach(key => {
         this.formGroup.controls[key].markAsTouched();
         this.formGroup.controls[key].markAsDirty();
+        this.accountForm.controls[key].markAsTouched();
+        this.accountForm.controls[key].markAsDirty();
       });
     }
   }

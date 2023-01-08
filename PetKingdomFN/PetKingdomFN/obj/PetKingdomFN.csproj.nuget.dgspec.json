@@ -52,6 +52,14 @@
               "target": "Package",
               "version": "[7.0.1, )"
             },
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client.Core": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
             "Microsoft.CodeAnalysis.CSharp.Workspaces": {
               "target": "Package",
               "version": "[4.4.0, )"
@@ -87,6 +95,10 @@
             "ServiceStack.Text": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "SocketIOClient": {
+              "target": "Package",
+              "version": "[3.0.7, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

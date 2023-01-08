@@ -11,8 +11,6 @@ namespace PetKingdomFN.Controllers
     {
 
         private readonly IBlogCategoryRepository _repo;
-
-
         public BlogCategoriesController(IBlogCategoryRepository repo)
         {
             this._repo = repo;
@@ -29,6 +27,28 @@ namespace PetKingdomFN.Controllers
                 {
                     list = result.list,
                     numberOfRecords = result.numberOfRecords,
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("getall")]
+        [AllowAnonymous]
+        public async Task<JsonResult> getall()
+        {
+            try
+            {
+                List<BlogCategory> list = await _repo.GetAll();
+                return Json(new
+                {
+                    list = list,
                     status = 1
                 });
             }

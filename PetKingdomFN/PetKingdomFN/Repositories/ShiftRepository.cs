@@ -46,9 +46,51 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
+        public async Task<DataList<Shift>> GetPageByUserId(Pagination page, string caringStaffId)
+        {
+            DataList<Shift> result = new DataList<Shift>();
+
+            string sortQuery = page.sortColumn + " " + page.sortOrder;
+
+            var sellBills = await (from sb in _DbContext.Schedules
+                                   join d in _DbContext.Shifts on sb.Id equals d.ScheduleId
+                                   join e in _DbContext.Pets on sb.PetId equals e.Id
+                                   where d.CaringStaffId == caringStaffId
+                                   select new Shift
+                                   {
+                                       Id = d.Id,
+                                       WorkingDate = d.WorkingDate,
+                                       StartedHour = d.StartedHour,
+                                       EndedHour = d.EndedHour,
+                                       CreatedDate = sb.CreatedDate,                                  
+                                       UpdateDate = sb.UpdateDate,
+                                       Status = sb.Status,
+                                       CaringStaffId= d.CaringStaffId,
+                                       ScheduleId = d.ScheduleId,
+                                       pet = new Pet
+                                       {
+
+                                           Id = e.Id,
+                                           Name = e.Name,
+                                           HealthNote= e.HealthNote,
+                                           Weight = e.Weight,
+                                           Image = e.Image
+                                       },
+                                      
+                                   }).OrderBy(sortQuery).ToListAsync();
+
+
+            result.numberOfRecords = sellBills.Count();
+            result.list = sellBills
+                .Skip((page.currentPage - 1) * page.pageSize)
+                .Take(page.pageSize)
+                .ToList();
+
+            return result;
+        }
         public async Task<Shift> AddShift(Shift Shift)
         {
-
+            Shift.WorkingDate = DateTime.Parse(Shift.WorkingDateFormat);
             Shift.Id = Guid.NewGuid().ToString();
             Shift.CreatedDate = DateTime.Now;
             Shift.UpdateDate = DateTime.Now;

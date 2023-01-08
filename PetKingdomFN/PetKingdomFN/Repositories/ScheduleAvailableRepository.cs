@@ -22,7 +22,7 @@ namespace PetKingdomFN.Repositories
             DateTime startedDate = DateTime.Parse(startedDateFormat);
             return await _DbContext.ScheduleAvailables
                 .Where(x=>x.ServiceOptionId == optionId 
-                && x.StartedDate<=startedDate)
+                && (x.StartedDate<=startedDate||x.EndedDate>=startedDate))
                 .ToListAsync();
         }
         public async Task<DataList<ScheduleAvailable>> GetPageList(Pagination page, string optionId)

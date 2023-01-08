@@ -51,22 +51,18 @@ namespace PetKingdomFN.Repositories
 
             return result;
         }
-        public async Task<Customer> AddCustomer(Customer cus, Account acc)
+        public async Task<Customer> AddCustomer(Customer cus)
         {
           
-            acc.Id = Guid.NewGuid().ToString();
-            acc.UpdateDate = DateTime.Now;
-            acc.CreatedDate = DateTime.Now;
+            
             cus.Id = Guid.NewGuid().ToString();
             if (!(cus.file is null))
             {
-                cus.Image = "default";
+                cus.Image = await _cloud.UploadFileAsync(cus.file, folder + cus.Id);
             }
             cus.CreatedDate = DateTime.Now;
-            cus.UpdateDate = DateTime.Now;
-            cus.AccountId = acc.Id;
-            acc.Customers.Add(cus);
-            await _DbContext.Accounts.AddAsync(acc);
+            cus.UpdateDate = DateTime.Now;       
+            await _DbContext.Customers.AddAsync(cus);
             await _DbContext.SaveChangesAsync();
             cus.Account= null;
             return cus;

@@ -91,6 +91,15 @@
                     <option *ngFor="let i = index;let item of sex" value="{{item}}">{{item}}</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="identityCardNumber" class="form-label">Chức vụ:</label>
+                <select [(ngModel)]="account.permission" class="form-control" >
+                    <option  value="caringStaff">Nhân viên chăm sóc</option>
+                    <option  value="managementStaff">Nhân viên chăm sóc</option>
+                    <option  value="admin">Quản lý</option>
+
+                </select>
+            </div>
             <div class="form-group" *ngIf="typeModal == 'edit'">
                 <label for="name" class="form-label">Trạng thái:</label>
                 <select name="" id="" [(ngModel)]="emp.status" [ngModelOptions]="{standalone: true}"
@@ -99,7 +108,34 @@
                 </select>
               </div>
         </form>
-
+        <form [formGroup]="accountForm">
+            <div class="form-group"  *ngIf="typeModal=='create'">
+                <label for="username" class="form-label">Tài khoản:</label>
+                <input type="text" id="username" name="username" class="form-control" [(ngModel)]="account.username"
+                    formControlName="username">
+                <div *ngIf="username.invalid && username.touched" class="alert alert-danger">
+                    <div *ngIf="username.errors['required'] ">
+                        *Vui lòng nhập tài khoản
+                    </div>
+                    <div *ngIf="password.errors['minlength'] ">
+                        *Tài khoản phải có tối thiểu 8 ký tự
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"  *ngIf="typeModal=='create'">
+                <label for="address" class="form-label">Mật khẩu:</label>
+                <input type="password" id="password" name="password" class="form-control" [(ngModel)]="account.password"
+                    formControlName="password">
+                <div *ngIf="password.invalid && password.touched" class="alert alert-danger">
+                    <div *ngIf="password.errors['required'] ">
+                        *Vui lòng nhập mật khẩu
+                    </div>
+                    <div *ngIf="password.errors['minlength'] ">
+                        *Mật khẩu phải có tối thiểu 8 ký tự
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </div>
 

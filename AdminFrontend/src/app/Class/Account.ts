@@ -1,3 +1,6 @@
+import { Customer } from "./Customer";
+import { Employee } from "./Employee";
+
 export class Account {
     id: string ;
     permission: string ;
@@ -11,4 +14,6 @@ export class Account {
     phoneConfirmed: boolean;
     createdDate?: Date;
     updateDate?: Date;
+    customer?:Customer;
+    employee?:Employee;
   }

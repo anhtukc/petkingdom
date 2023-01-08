@@ -1,4 +1,4 @@
-
+import { Guid } from 'guid-typescript';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -21,8 +21,11 @@ import { ServiceSellPrice } from 'src/app/Class/ServiceSellPrice';
 import { ApiServicePrice } from 'src/app/api/service-price/service-price.service';
 import { ApiScheduleAvailableService } from 'src/app/api/schedule-available/api-schedule-available.service';
 import { DatePipe } from '@angular/common';
-import { tableSchedule } from 'src/app/Class/Schdule';
-
+import { Schedule } from 'src/app/Class/Schedule';
+import { TableSchedule } from 'src/app/Class/table-schedule';
+import { SellBill } from 'src/app/Class/SellBill';
+import { ApiScheduleService } from 'src/app/api/schedule/api-schedule.service';
+import { ApiSellbillService } from 'src/app/api/sellbill/api-sellbill.service';
 @Component({
   selector: 'app-questionnaire-form',
   templateUrl: './booking.component.html',
@@ -46,6 +49,8 @@ export class BookingComponent implements OnInit {
     private apiServicePrice: ApiServicePrice,
     private apiScheduleAvailable: ApiScheduleAvailableService,
     private apiPet: ApiPet,
+    private apiSchedule:ApiScheduleService,
+    private apiSellBill:ApiSellbillService,
     private datePipe: DatePipe) {
     this.CheckLogin();
     this.acc = {
@@ -59,10 +64,12 @@ export class BookingComponent implements OnInit {
       specices: 'chó',
       status: 1,
     }
+    
   }
   ngOnInit(): void {
     this.getAllPetService();
     this.startedDateFormat = '';
+    this.bookingDateList = [];
   }
   //STEP 1-----------------------------------------
 
@@ -75,6 +82,7 @@ export class BookingComponent implements OnInit {
       this.tokenPayload = decode(this.token!);
       this.account.id = this.tokenPayload.id;
       this.customer.id = this.tokenPayload.userId;
+      this.sellBill.customerAccountId = this.tokenPayload.id;
       this.apiCustomer.getById(this.customer.id!).subscribe(result => {
         this.customer = result.obj;
       })
@@ -182,21 +190,21 @@ export class BookingComponent implements OnInit {
   }
 
   //Step 3---------------------------------------------------------
-  tableDateData: tableSchedule[] = [
-
-  ];
+  tableDateData: TableSchedule[] = [];
   scheduleAvailableList: ScheduleAvailable[] = [];
   tableHead: Date[] = [];
   services: petService[] = [];
   serviceOptionsList: ServiceOption[] = [];
   displayServiceOptions: ServiceOption[] = [];
   servicePrice: ServiceSellPrice[] = [];
+  bookingDateList: Schedule[] = [];
   selectedServiceId: string = '';
   selectedOption: ServiceOption = {
     id: '',
     name: '',
     petServiceId: '',
   };
+  minStartedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   public startedDateFormat: string = this.datePipe.transform(new Date(), "yyyy-MM-dd") as string;
   getAllPetService() {
     this.ApiPetService.getAllPetService().subscribe(result => {
@@ -215,7 +223,7 @@ export class BookingComponent implements OnInit {
     })
   }
   getScheduleData() {
-    this.tableDateData = []
+    this.tableDateData = [];
     this.generateTableHead();
     this.startedDateFormat = this.datePipe.transform(this.startedDateFormat!, "yyyy-MM-dd") as string;
     this.apiScheduleAvailable.getScheduleByOptionId(this.selectedOption.id!, this.startedDateFormat!).subscribe(result => {
@@ -225,10 +233,10 @@ export class BookingComponent implements OnInit {
           let startedDate = new Date(this.scheduleAvailableList[j].startedDate!).getTime();
           let endedDate = new Date(this.scheduleAvailableList[j].endedDate!).getTime();
           let tableHeadDate = new Date(this.tableHead[i]).getTime();
-          console.log(startedDate+ ' ' + tableHeadDate + ' ' +endedDate)
           if (tableHeadDate >= startedDate && tableHeadDate <= endedDate) {
-            
-            let dateData:tableSchedule = {
+            let dateData: TableSchedule = {
+              id:Guid.create().toString(),
+              selected: false,
               scheduleDate: this.tableHead[i],
               scheduleHour: this.scheduleAvailableList[j].availableHour!
             }
@@ -237,7 +245,7 @@ export class BookingComponent implements OnInit {
         }
       }
     });
-  
+      console.log(this.tableDateData);
   }
 
   selectService() {
@@ -256,17 +264,91 @@ export class BookingComponent implements OnInit {
       this.tableHead.push(currentDate);
       currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
     }
-    
+
   }
 
-  gethour( date:Date){
-  
+  gethour(date: Date) {
     let result = this.tableDateData.filter(x => x.scheduleDate.toDateString() === date.toDateString())
     return result;
   }
+  addSchedule(dataTableSchedule:TableSchedule) {
+    let booking: Schedule = {
+      id: Guid.create().toString(),
+      bookingDate: dataTableSchedule.scheduleDate,
+      bookingHour: dataTableSchedule.scheduleHour,
+      grandPaid: this.selectedOption.price!,
+      status: 0,
+      serviceOptionId: this.selectedOption.id,
+      serviceOptionName:this.selectedOption.name,
+      sellBillId: '',
+      petId: this.selectedPet.id,
+      selectedTableId: dataTableSchedule.id
+    }
+  
+    this.bookingDateList.push(booking);
+    for(let i = 0;i<this.tableDateData.length;i++){
+      if(this.tableDateData[i].id == dataTableSchedule.id){
+        this.tableDateData[i].selected = true;
+      }
+    }
+    this.calculateTotalPaid();
+  }
 
+
+  removeBooking(id:string){
+    let tableSelectedId = '';
+    let conf = confirm("Bạn có chắc chắn muốn xóa?")
+    if(conf){
+      for(let i = 0; i<this.bookingDateList.length;i++){
+        if(this.bookingDateList[i].id == id){
+          tableSelectedId = this.bookingDateList[i].selectedTableId!;
+          this.bookingDateList.splice(i, 1);
+        }
+      }
+      for(let i = 0;i<this.tableDateData.length;i++){
+        if(this.tableDateData[i].id == tableSelectedId){
+          this.tableDateData[i].selected = false;
+        }
+      }
+    }
+  }
+
+  //Step 4 -------------------------------------------------------------
+  sellBill:SellBill= {
+    id:'',
+    customerAccountId:'',
+    employeeAccountId:'1',
+    billType: 'service',
+    status: 0
+  };
+
+
+  calculateTotalPaid(){
+    this.sellBill.totalPaid = 0;
+    for(let i = 0; i<this.bookingDateList.length;i++){
+      this.sellBill.totalPaid +=this.bookingDateList[i].grandPaid!;
+    }
+  }
+
+  addSellBill(){
+    this.apiSellBill.addNew(this.sellBill).subscribe(result=>{
+      this.sellBill = result.obj;
+      for(let i = 0;i<this.bookingDateList.length;i++){
+        this.bookingDateList[i].sellBillId = this.sellBill.id;
+      }
+      this.apiSchedule.addNew(this.bookingDateList).subscribe(result=>{
+        if(result.status == 1){
+          alert("Đặt đơn thành công");
+        }
+        else{
+          alert("Đặt hàng thất bại");
+          console.log(result.details);
+        }
+      })
+    })
+  }
   submit() {
-
+    this.addSellBill();
   }
 
   nextStep() {
@@ -274,9 +356,14 @@ export class BookingComponent implements OnInit {
     if (this.currentStep == 2) {
       this.GetPetListByOwnerId();
     }
+    console.log(this.customer);
+    console.log(this.account);
+    console.log(this.sellBill);
+
   }
 
   previousStep() {
+   
     this.currentStep--;
   }
   openAndClosePetForm() {

@@ -18,6 +18,28 @@ namespace PetKingdomFN.Controllers
             this._repo = repo;
         }
 
+        [HttpGet("getall")]
+        [Authorize]
+        public async Task<JsonResult> Index1(string permistion)
+        {
+            try
+            {
+                List<Account> list = await _repo.GetAll(permistion);
+                return Json(new
+                {
+                    list = list,                  
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
         [HttpPost("getPage")]
         [Authorize]
         public async Task<JsonResult> Index([FromBody] Pagination page)
@@ -67,6 +89,52 @@ namespace PetKingdomFN.Controllers
             {
                 var obj = await _repo.GetAccountById(id);
                 return Json(new { obj = obj, status = 1 });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("checkCustomerAccount")]
+        [AllowAnonymous]
+        public async Task<JsonResult> checkCustomerAccount(string username,string email, string phonenumber)
+        {
+            try
+            {
+                var obj = await _repo.CheckCustomerAccount(username, email, phonenumber);
+                if(obj == "accept")
+                {
+                    return Json(new { obj = obj, status = 1 });
+
+                }
+                else { return Json(new { message = obj, status = 0 }); }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("checkEmployeeAccount")]
+        [AllowAnonymous]
+        public async Task<JsonResult> checkEmployeeAccount(string username, string email, string phonenumber)
+        {
+            try
+            {
+                var obj = await _repo.CheckEmployeeAccount(username, email, phonenumber);
+                if (obj == "accept")
+                {
+                    return Json(new { obj = obj, status = 1 });
+
+                }
+                else { return Json(new { message = obj, status = 0 }); }
             }
             catch (Exception ex)
             {

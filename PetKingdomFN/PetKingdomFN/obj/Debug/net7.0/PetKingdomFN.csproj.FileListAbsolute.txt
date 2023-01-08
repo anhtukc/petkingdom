@@ -315,3 +315,10 @@ D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\PetKingd
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\PetKingdomFN.genruntimeconfig.cache
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\obj\Debug\net7.0\ref\PetKingdomFN.dll
 D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\PetKingdomFN.staticwebassets.runtime.json
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\SocketIOClient.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+D:\Đồ án\Code\petkingdom\PetKingdomFN\PetKingdomFN\bin\Debug\net7.0\Microsoft.Extensions.Features.dll

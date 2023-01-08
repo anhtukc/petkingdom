@@ -12,6 +12,10 @@ using PetKingdomFN.BusEntities;
 using PetKingdomFN.BusEntities.ConfigOptions;
 using PetKingdomFN.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.WebSockets;
+using PetKingdomFN.Controllers;
+using System.Net.WebSockets;
+using Microsoft.AspNetCore.SignalR.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,11 +59,14 @@ builder.Services.AddScoped<ISellBillRepository, SellBillRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IShiftRepository, ShiftRepository>();
 
-
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    builder.WithOrigins("*")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
 }));
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,10 +89,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 var app = builder.Build();
+app.UseCors("corsapp");
+app.UseWebSockets();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
-app.UseCors("corsapp");
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -94,8 +104,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.MapControllers();
+app.UseEndpoints(Endpoint => Endpoint.MapHub<SellBillHub>("/sellbill"));
 
 
 app.Run();

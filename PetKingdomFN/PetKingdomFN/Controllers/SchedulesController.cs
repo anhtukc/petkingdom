@@ -44,14 +44,14 @@ namespace PetKingdomFN.Controllers
 
         [HttpPost("add")]
         [Authorize]
-        public async Task<JsonResult> AddSchedule([FromForm] Schedule schedule)
+        public async Task<JsonResult> AddSchedule([FromBody] Schedule[] schedule)
         {
             try
             {
 
-                Schedule obj = await _repo.AddSchedule(schedule);
+                Schedule[]  list = await _repo.AddSchedule(schedule);
 
-                return Json(new { obj = obj, status = 1 });
+                return Json(new { list = list, status = 1 });
             }
             catch (Exception ex)
             {

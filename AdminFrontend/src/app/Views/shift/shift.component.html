@@ -1,0 +1,119 @@
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+          
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Dịch vụ</li>
+                    </ol>
+                </nav>
+            </div>
+            
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">
+                    
+                    <div class="position-relative d-flex">
+                        <button class=" extend-search-btn" (click)="changeExtendSearchDivVisible()"><i class="bx bx-down-arrow extend-search-icon"></i></button>
+
+                       <div style="position: relative;">
+                        <input type="text" class="form-control ps-4 main-search-box" placeholder="Nhập tên dịch vụ..." [(ngModel)]="searchObject.name"> 
+                        <div class="fancy-div"  [ngClass]="{'show': isSearchDivVisible}">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Trạng thái:</label>
+                                <select name="" id="" [(ngModel)]="searchObject.status" [ngModelOptions]="{standalone: true}" class="form-control col-12">
+                                    <option value="-1" selected>Lựa chọn</option>
+                                    <option *ngFor="let i = index; let status of statusMeaning" value="{{i}}">{{status}}</option>
+                                </select>
+                              </div>
+                        </div>
+                       </div>
+                        <button class="btn search-btn-custom" (click)="search()"><i class="bx bx-search"></i></button>
+                    </div>
+                    <button class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="resetSearching()"><i class="bx bx-reset"></i>Reset tìm kiếm</button>
+                    <!-- <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="openModal('create')"><i class="bx bxs-plus-square"></i>Tạo dịch vụ</a></div> -->
+                    
+                </div>                 
+              
+                <app-modal-shift [statusMeaning]="statusMeaning"  (createEvent) ="addNew($event)"></app-modal-shift> 
+           
+                <div class="table-responsive " id="#">
+                    <table class="table mb-0 table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>STT</th>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('name')">
+                                    <span class="col">Tên dịch vụ </span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'name'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'name'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'name'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><span >Ngày đặt</span></th>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('content')">
+                                    <span class="col">Giờ đặt</span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'content'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'content'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'content'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('status')">
+                                    <span class="col">trạng thái </span>
+                                    <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'status'"></i>
+                                    <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'status'"></i>
+                                    <i class="fa fa-sort" *ngIf="page.sortColumn != 'status'||page.sortOrder ==''"></i></a>
+                                </th>
+                                <th><span >Hành động</span></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="totalData>0">
+                            <tr *ngFor="let i = index;let item of data | paginate
+                            : {
+                                itemsPerPage:page.pageSize,
+                                currentPage: page.currentPage,
+                                totalItems: totalData
+                              }">
+                                <td>{{(page.currentPage - 1) *page.pageSize +1 +i}}</td>
+                                <td>{{item.serviceOptionName}}</td>
+                                <td>{{item.bookingDate}}</td>
+                                <td>{{item.bookingHour}}</td>                       
+                                <td>{{statusMeaning[item.status]}}</td>
+                                <td>
+                                    <div class="d-flex order-actions">
+                  
+                                        <a href="javascript:;" class="ms-2" (click)="openEmployeeModal('edit',item.id)"><i class='bx bxs-edit'></i></a>
+                                        <a href="javascript:;" class="ms-2" (click)="delete(item.id)"><i class='bx bxs-trash'></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group" class="d-flex" >
+                    <p style="margin-top: 25px;width: 150px;">Tổng số: {{totalData}} bản ghi</p>
+                    <div class="input-group" style="justify-content: right; margin-top: 10px;">
+                        <select class="form-select" aria-label="Default select example" style=" max-height: 45px;max-width: 20%;" [(ngModel)]="page.pageSize" (change)="fetchData()">
+                            <option  value="10" >10 bản ghi trên 1 trang</option>
+                            <option  value="20" selected>20 bản ghi trên 1 trang</option>
+                            <option  value="30">30 bản ghi trên 1 trang</option>
+                            <option  value="50">50 bản ghi trên 1 trang</option>
+                            <option  value="100">100 bản ghi trên 1 trang</option>
+
+                          </select>
+                        <pagination-controls
+                        style="padding-top: 10px;"
+                            class="pagi"
+                            (pageChange)="renderPage($event)">
+                        </pagination-controls>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>

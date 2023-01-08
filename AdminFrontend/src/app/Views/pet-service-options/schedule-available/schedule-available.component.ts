@@ -33,7 +33,7 @@ export class ScheduleAvailableComponent implements OnInit {
     sortColumn: "availableHour",
     sortOrder: "ASC",
   };
-  @Input() serviceOptionId:string
+  serviceOptionId:string =''
   public totalData = 0;
   public Editor = ClassicEditor;
   @Input() statusMeaning;
@@ -68,6 +68,7 @@ export class ScheduleAvailableComponent implements OnInit {
   availableHour = this.formGroup.get('availableHour');
 
   public createNew() {
+    this.serviceOptionId = this.schedule.serviceOptionId;
     this.schedule = {
       id: '',
       startedDate: null,
@@ -111,7 +112,8 @@ export class ScheduleAvailableComponent implements OnInit {
           alert("Thêm mới thành công")
           this.schedule = result.obj;
           this.data.push(this.schedule);
-          this.createNew();
+          console.log(this.schedule);    
+          
         }
       })
     }
@@ -182,7 +184,8 @@ export class ScheduleAvailableComponent implements OnInit {
 
   public openModal(id:string) {
     this.modalType='create';
-    this.serviceOptionId =id;
+    this.schedule.serviceOptionId =id;
+    this.serviceOptionId = id;
     this.fetchData();
     this.modalService.open(this.optionModal);
    

@@ -41,6 +41,29 @@ namespace PetKingdomFN.Controllers
                 });
             }
         }
+        [HttpPost("getPageByUserId")]
+        [Authorize]
+        public async Task<JsonResult> GetPageByUserId([FromBody] postingObjectWithId pObject)
+        {
+            try
+            {
+                DataList<Shift> result = await _repo.GetPageByUserId(pObject.page, pObject.Id);
+                return Json(new
+                {
+                    list = result.list,
+                    numberOfRecords = result.numberOfRecords,
+                    status = 1
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    details = ex.Message
+                });
+            }
+        }
 
         [HttpPost("add")]
         [Authorize]

@@ -5,6 +5,8 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IShiftRepository
     {
+        Task<DataList<Shift>> GetPageByUserId(Pagination page, string GetPageByUserId);
+
         Task<DataList<Shift>> GetPageList(Pagination page);
         Task<DataList<Shift>> SearchShift(Pagination page, basedSearchObject searchObj);
         Task<Shift> GetShiftById(string id);

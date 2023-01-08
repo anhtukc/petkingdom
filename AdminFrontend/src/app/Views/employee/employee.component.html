@@ -41,9 +41,7 @@
                     <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="openEmployeeModal('create')"><i class="bx bxs-plus-square"></i>Tạo nhân viên</a></div>
                     
                 </div>                 
-                <!-- <app-modal-service-image-management ></app-modal-service-image-management>
-                <app-create-modal-pet-service (addEvent) ="addNew($event)" ></app-create-modal-pet-service>
-                <app-modal-update-pet-service [statusMeaning]="statusMeaning" (updateEvent) ="update($event)" ></app-modal-update-pet-service> -->
+             
                 <app-modal-employee [statusMeaning]="statusMeaning" (createEvent) ="addNew($event)" (updateEvent) ="update($event)"></app-modal-employee>
                 <div class="table-responsive " id="#">
                     <table class="table mb-0 table-bordered">

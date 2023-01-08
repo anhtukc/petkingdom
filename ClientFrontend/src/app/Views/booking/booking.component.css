@@ -37,13 +37,21 @@
     margin-top: 20px;
     margin: 30px 10px;
   }
-  
+  .navigation-buttons button{
+    background-color: #2184be;
+    color: white;
+  }
   button {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    border: 1px solid rgb(56, 56, 56);
   }
-  
+  .submit, .remove-booking-button{
+     background-color: rgb(179, 18, 4);
+     color: white;
+     border: 1px solid;
+  }
   button:disabled {
     background-color: #bbbbbb;
     color: #eeeeee;
@@ -92,3 +100,63 @@
     background-color: rgb(5, 99, 133);
     color: white;
   }
+  .add-schedule-button:hover{
+    color: white;
+    background-color: #2184be;
+  }
+.table-schedule-available{
+  height: 500px;
+  overflow: auto;
+  padding: 10px;
+}
+.schedule{
+  border: 1px solid rgb(139, 139, 139);
+  height: 100px;
+  overflow: auto;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(245, 245, 245);
+}
+.schedule div{
+  border: 1px solid rgb(23, 23, 23);
+  background-color: white;
+  margin:  5px;
+  padding: 10px;
+}
+.section {
+  margin-bottom: 20px;
+}
+.section-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.user-info {
+  display: flex;
+}
+.user-info div {
+  margin-right: 20px;
+}
+.store-info {
+  display: flex;
+}
+.store-info div {
+  margin-right: 20px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.total {
+  font-size: 18px;
+  font-weight: bold;
+}

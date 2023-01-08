@@ -12,11 +12,11 @@ import { ServiceSingleComponent } from './Views/service-single/service-single.co
 import { BookingComponent } from './Views/booking/booking.component';
 import { LoginComponent } from './Views/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CKEditor4, CKEditorModule } from 'ckeditor4-angular';
-import { FilterByDatePipe } from './pipe/FilterByDatePipe ';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SignUpsComponent } from './Views/sign-ups/sign-ups.component';
 
 @NgModule({
   declarations: [
@@ -28,18 +28,20 @@ import { DatePipe } from '@angular/common';
     ServiceSingleComponent,
     BookingComponent,
     LoginComponent,
-    FilterByDatePipe
+    SignUpsComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule,
     NgxPaginationModule,
     SharedModule,
     NgbCarouselModule ,
     CKEditorModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

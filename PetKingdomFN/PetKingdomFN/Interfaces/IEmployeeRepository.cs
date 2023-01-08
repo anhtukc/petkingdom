@@ -5,6 +5,7 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IEmployeeRepository
     {
+        
         Task<DataList<Employee>> GetPageList(Pagination page);
         Task<DataList<Employee>> SearchEmployee(Pagination page, basedSearchObject searchObj);
         Task<Employee> GetEmployeeById(string id);

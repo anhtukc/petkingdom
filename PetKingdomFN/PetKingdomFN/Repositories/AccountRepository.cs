@@ -16,22 +16,70 @@ namespace PetKingdomFN.Repositories
         public AccountRepository(PetKingdomContext DbContext) {
             _DbContext = DbContext;
         }
-
+        public async Task<List<Account>> GetAll(string permistion)
+        {
+            return await _DbContext.Accounts.Join(_DbContext.Employees, x=>x.Id, y=>y.AccountId,
+                (x,y)=>new Account
+                {
+                    Id = x.Id,
+                    Permission = x.Permission,
+                    employee = new Employee
+                    {
+                        Id = y.Id,
+                        FirstName = y.FirstName,
+                        LastName = y.LastName, 
+                    }
+                }).Where(x=>x.Permission==permistion).ToListAsync();
+        }
         public async Task<string> CheckCustomerAccount(string username, string phonenumber, string email)
         {
          
-            var usernameExists = await _DbContext.Customers
-                .AnyAsync(x => x.Account.Username == username);
+            var usernameExists = await _DbContext.Accounts
+                .AnyAsync(x => x.Username == username);
 
-
-            var phonenumbeOrEmailExists = await _DbContext.Customers
-                .AnyAsync(x => x.Phonenumber == phonenumber ||x.Email == email);
-            if(usernameExists || phonenumbeOrEmailExists)
+            if (usernameExists )
             {
-                return "duplicate";
+                return "Tên tài khoản đã tồn tại";
+            }
+            var emailExists = await _DbContext.Customers
+                .AnyAsync(x => x.Phonenumber == phonenumber ||x.Email == email);
+            if (emailExists)
+            {
+                return "Email đã tồn tại";
+            }
+            var phonenumbeExists = await _DbContext.Customers
+                .AnyAsync(x => x.Phonenumber == phonenumber || x.Email == email);
+            if (phonenumbeExists)
+            {
+                return "Số điện thoại đã tồn tại";
             }
             return "accept";
            
+        }
+        public async Task<string> CheckEmployeeAccount(string username, string phonenumber, string email)
+        {
+
+            var usernameExists = await _DbContext.Accounts
+                .AnyAsync(x => x.Username == username);
+
+            if (usernameExists)
+            {
+                return "Tên tài khoản đã tồn tại";
+            }
+            var emailExists = await _DbContext.Employees
+                .AnyAsync(x => x.Phonenumber == phonenumber || x.Email == email);
+            if (emailExists)
+            {
+                return "Email đã tồn tại";
+            }
+            var phonenumbeExists = await _DbContext.Employees
+                .AnyAsync(x => x.Phonenumber == phonenumber || x.Email == email);
+            if (phonenumbeExists)
+            {
+                return "Số điện thoại đã tồn tại";
+            }
+            return "accept";
+
         }
         public async Task<DataList<Account>> GetPageList(Pagination page)
         {

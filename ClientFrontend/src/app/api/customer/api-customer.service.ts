@@ -14,12 +14,17 @@ export class ApiCustomerService {
     constructor(public http: HttpClient, private localJwtHelper: localStorageJwtHelper) { }
   
   
-    addNew(sa: Customer, acc:Account) {
-      const httpOptions = this.localJwtHelper.getHttpOptions("frombody");
-      sa.file = undefined;
+    addNew(sa: Customer) {
+      const HttpOptions = this.localJwtHelper.getHttpOptions("default");
   
-      const ca = { cus: sa, acc: acc, file:sa.image};
-      return this.http.post<any>(environment.apiUrl + this.controllerName + "add", ca, httpOptions)
+      const formData: FormData = new FormData();
+      for (var key in sa) {
+        formData.append(key, sa[key]);
+      }
+      if(sa.file !== null){
+        formData.set('file', sa.file, sa.file.name);
+      }
+      return this.http.post<any>(environment.apiUrl + this.controllerName + "add", formData, HttpOptions)
     }
     
     getById(id: string) {

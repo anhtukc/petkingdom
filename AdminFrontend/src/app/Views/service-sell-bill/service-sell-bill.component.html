@@ -1,0 +1,145 @@
+
+<div class="page-wrapper">
+  <div class="page-content">
+      <!--breadcrumb-->
+      <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        
+          <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mb-0 p-0">
+                      <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">Hóa đơn đặt lịch</li>
+                  </ol>
+              </nav>
+          </div>
+          
+      </div>
+     
+      
+ 
+     
+    
+   <div class="card">
+          <div class="card-body">
+              <div class="d-lg-flex align-items-center mb-4 gap-3">
+                  
+                  <div class="position-relative d-flex">
+                      <button class=" extend-search-btn" (click)="changeExtendSearchDivVisible()"><i class="bx bx-down-arrow extend-search-icon"></i></button>
+
+                     <div style="position: relative;">
+                      <input type="text" class="form-control ps-4 main-search-box" placeholder="Nhập số điện thoại khách hàng..." [(ngModel)]="searchObject.phoneNumber"> 
+                      <div class="fancy-div"  [ngClass]="{'show': isSearchDivVisible}" style="top:-100px !important;">
+                          <div class="form-group">
+                            <label for="name" class="form-label">Từ ngày:</label>
+                            <input type="date" name="" class="form-control col-12" id="" [(ngModel)]="searchObject.startDate">
+                            <label for="name" class="form-label">Đến ngày:</label>
+                            <input type="date" name="" class="form-control col-12" id="" [(ngModel)]="searchObject.endDate">
+
+                            </div>
+                      </div>
+                     </div>
+                      <button class="btn search-btn-custom" (click)="search()"><i class="bx bx-search"></i></button>
+                  </div>
+                  <button class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="resetSearching()"><i class="bx bx-reset"></i>Reset tìm kiếm</button>
+                  <!-- <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0" (click)="openCreateForm()"><i class="bx bxs-plus-square"></i>Tạo dịch vụ</a></div> -->
+                  
+              </div>                 
+              <nav class="nav nav-tabs">
+                <button class="btn" [ngClass]="{'show': isSearchDivVisible}" (click)="changeStatus(0)">Chưa xử lý <span class="status">{{ CountStatus[0].quantityOfStatus == undefined? 0: CountStatus[0].quantityOfStatus}}</span></button>
+                <button class="btn" (click)="changeStatus(1)" >Đang xử lý <span class="status">{{ CountStatus.length >0?  CountStatus[1].quantityOfStatus:0}}</span></button> 
+                <button class="btn" (click)="changeStatus(2)" >Chưa thanh toán <span class="status">{{ CountStatus.length >1?  CountStatus[2].quantityOfStatus:0}}</span></button>
+                <button class="btn" (click)="changeStatus(3)" >Đã thanh toán <span class="status">{{ CountStatus.length >2?  CountStatus[3].quantityOfStatus:0}}</span></button> 
+              </nav>
+              <!-- <app-modal-service-image-management ></app-modal-service-image-management>
+              <app-create-modal-pet-service (addEvent) ="addNew($event)" ></app-create-modal-pet-service>
+              <app-modal-update-pet-service [statusMeaning]="statusMeaning" (updateEvent) ="update($event)" ></app-modal-update-pet-service> -->
+            <app-modal-service-sell-bill [statusMeaning]="statusMeaning" (updateEvent) ="update($event)"></app-modal-service-sell-bill>
+              <div class="table-responsive " id="#">
+                  <table class="table mb-0 table-bordered">
+                      <thead class="table-light">
+                          <tr>
+                              <th>STT</th>
+                              <th> <span class="col">Họ</span>  </th>                   
+                          
+                             <th>
+                                <span class="col">Tên</span>          
+                             </th>
+                             <th>
+                                <span class="col">Số điện thoại</span>          
+                             </th>
+                             <th>
+                                <span class="col">email</span>          
+                             </th>
+                              <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('totalPaid')">
+                                  <span class="col">Tổng tiền </span>
+                                  <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'totalPaid'"></i>
+                                  <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'totalPaid'"></i>
+                                  <i class="fa fa-sort" *ngIf="page.sortColumn != 'totalPaid'||page.sortOrder ==''"></i></a>
+                              </th>
+                              <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('status')">
+                                  <span class="col">trạng thái </span>
+                                  <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'status'"></i>
+                                  <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'status'"></i>
+                                  <i class="fa fa-sort" *ngIf="page.sortColumn != 'status'||page.sortOrder ==''"></i></a>
+                              </th>
+                              <th><a href="#" rel="noopener noreferrer" role="button" class="blank-link" (click)="GetSortColumn('createDate')">
+                                <span class="col">Ngày tạo </span>
+                                <i class='fas fa-caret-down' *ngIf="page.sortOrder =='DESC' && page.sortColumn == 'createDate'"></i>
+                                <i class='fas fa-caret-up' *ngIf="page.sortOrder =='ASC' && page.sortColumn == 'createDate'"></i>
+                                <i class="fa fa-sort" *ngIf="page.sortColumn != 'createDate'||page.sortOrder ==''"></i></a>
+                            </th>
+                              <th><span >Hành động</span></th>
+                          </tr>
+                      </thead>
+                      <tbody *ngIf="totalData>0">
+                        <tr *ngFor="let i = index;let item of data |paginate
+                        : {
+                            itemsPerPage:page.pageSize,
+                            currentPage: page.currentPage,
+                            totalItems: totalData
+                          }">
+                          <td>{{(page.currentPage-1)*page.pageSize+1+i}}</td>
+                          <td>{{item.customer.lastName}}</td>
+                          <td>{{item.customer.firstName}}</td>
+                          <td>{{item.customer.phonenumber}}</td>
+                          <td>{{item.customer.email}}</td>
+                            <td>{{item.totalPaid}}</td>
+                            <td>{{statusMeaning[item.status]}}</td>
+                            <td>{{item.updateDate|date:"dd-MM-yyyy"}}</td>
+                            <td>
+                                <div class="d-flex order-actions">
+                                   
+                                    <a href="javascript:;" class="ms-2" (click)="openModal('edit',item.id)"><i class='bx bxs-edit'></i></a>
+                                    <a href="javascript:;" class="ms-2" (click)="delete(item.id)"><i class='bx bxs-trash'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                     
+                    </tbody>
+                  </table>
+
+
+              </div> 
+        <div class="form-group" class="d-flex" >
+                  <p style="margin-top: 25px;width: 150px;">Tổng số:{{totalData}}bản ghi</p>
+                  <div class="input-group" style="justify-content: right; margin-top: 10px;">
+                      <select class="form-select" aria-label="Default select example" style=" max-height: 45px;max-width: 20%;" [(ngModel)]="page.pageSize" >
+                          <option  value="10" >10 bản ghi trên 1 trang</option>
+                          <option  value="20" selected>20 bản ghi trên 1 trang</option>
+                          <option  value="30">30 bản ghi trên 1 trang</option>
+                          <option  value="50">50 bản ghi trên 1 trang</option>
+                          <option  value="100">100 bản ghi trên 1 trang</option>
+
+                        </select>
+                      <pagination-controls
+                      style="padding-top: 10px;"
+                          class="pagi"
+                          (pageChange)="renderPage($event)">
+                      </pagination-controls>
+                  </div>
+              </div>
+          </div>
+        
+      </div>
+  

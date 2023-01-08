@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetKingdomFN.Models;
 
@@ -28,6 +29,9 @@ public partial class Account
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    [NotMapped]
+    public Employee? employee { get; set; }
 
     public virtual ICollection<Customer> Customers { get; } = new List<Customer>();
 

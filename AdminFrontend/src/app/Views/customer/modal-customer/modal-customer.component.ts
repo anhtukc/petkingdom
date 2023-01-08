@@ -7,6 +7,7 @@ import { ApiCustomerService } from '../api-customer.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Account } from 'src/app/Class/Account';
+import { ApiAccountService } from 'src/app/api/account/api-account.service';
 @Component({
   selector: 'app-modal-customer',
   templateUrl: './modal-customer.component.html',
@@ -15,7 +16,7 @@ import { Account } from 'src/app/Class/Account';
 export class ModalCustomerComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
-    private api: ApiCustomerService,private sanitizer: DomSanitizer) { }
+    private api: ApiCustomerService,private apiAccount:ApiAccountService) { }
 
   ngOnInit(): void {
 
@@ -141,14 +142,25 @@ export class ModalCustomerComponent implements OnInit {
   public async create() {
 
     if (this.formGroup.valid ) {
-      this.api.addNew(this.customer,this.account).subscribe(result => {
-        if (result.status == 0) {
-          alert("Thêm mới thất bại")
+      this.apiAccount.checkCustomerAccount(this.account.username, this.customer.email, this.customer.phonenumber).subscribe(result=>{
+        if(result.status == 1){
+          this.apiAccount.addNew(this.account).subscribe(resultacc=>{
+            this.account = resultacc.obj;
+          })
+          this.customer.accountId = this.account.id;
+          this.api.addNew(this.customer).subscribe(result => {
+            if (result.status == 0) {
+              alert("Thêm mới thất bại")
+            }
+            if (result.status == 1) {
+              alert("Thêm mới thành công")
+              this.customer = result.obj;
+              this.createEvent.emit(this.customer);
+            }
+          })
         }
-        if (result.status == 1) {
-          alert("Thêm mới thành công")
-          this.customer = result.obj;
-          this.createEvent.emit(this.customer);
+        else{
+          alert(result.message);
         }
       })
     }

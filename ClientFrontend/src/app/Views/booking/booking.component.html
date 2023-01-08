@@ -74,17 +74,19 @@
     <div *ngIf="currentStep==2">
         <button *ngIf="showPetForm==false" (click)="openAndClosePetForm()" class="add-pet-button">Nhập thú nuôi</button>
         <hr>
-        <h4>Lựa chọn thú cưng:</h4>
+        <h4 *ngIf="petList && petList.length > 0 &&showPetForm==false">Lựa chọn thú cưng:</h4>
 
         <div *ngIf="petList && petList.length > 0 &&showPetForm==false">
-            <form  class="pet-list">
-                <div *ngFor="let pet of petList" class="pet-item" >
-                  <input class="select-pet-radio" id="{{pet.id}}" type="radio" name="selectedPet" (click)="selectPet(pet)" >
-                  <label class="select-pet-label" [style.backgroundImage]="'url(' + pet.image + ')'" for="{{pet.id}}"></label>
-                  <span class="pet-name">{{pet.name}}</span>
+            <form class="pet-list">
+                <div *ngFor="let pet of petList" class="pet-item">
+                    <input class="select-pet-radio" id="{{pet.id}}" type="radio" name="selectedPet"
+                        (click)="selectPet(pet)">
+                    <label class="select-pet-label" [style.backgroundImage]="'url(' + pet.image + ')'"
+                        for="{{pet.id}}"></label>
+                    <span class="pet-name">{{pet.name}}</span>
                 </div>
-              </form>
-           
+            </form>
+
         </div>
 
         <!-- Pet form -->
@@ -140,7 +142,7 @@
                         <input type="file" class="form-control-file" class="form-control" id="image"
                             (change)="upload($event)">
                     </div>
-                    <div  class="form-group col-6">
+                    <div class="form-group col-6">
                         <img [src]="pet.image" alt="" srcset="" style="height:200px; width:200px;">
                     </div>
                 </div>
@@ -158,46 +160,107 @@
             <div class="form-group">
                 <div>
                     <!-- Select input for selecting pet service -->
-                    <label for="pet-service">Pet Service:</label>
-                    <select id="pet-service" [(ngModel)]="selectedServiceId" (change)="selectService()" class="form-control" [ngModelOptions]="{standalone: true}">
-                      <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
+                    <label for="pet-service">Chọn dịch vụ:</label>
+                    <select id="pet-service" [(ngModel)]="selectedServiceId" (change)="selectService()"
+                        class="form-control" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
                     </select>
-                  </div>
-                  <div class="service-options">
-                    <button *ngFor="let option of displayServiceOptions"
-                            class="btn"
-                            [ngClass]="{ 'selected': option === selectedOption }"
-                            (click)="selectOption(option)">
-                      {{option.name}} - {{option.price}}
+                </div>
+                <div class="service-options">
+                    <button *ngFor="let option of displayServiceOptions" class="btn"
+                        [ngClass]="{ 'selected': option === selectedOption }" (click)="selectOption(option)">
+                        {{option.name}} - {{option.price}}
                     </button>
-                  </div>
-              <label for="startDate">Chọn ngày:</label>
-              <input type="date" class="form-control" id="startDate" [(ngModel)]="startedDateFormat" [ngModelOptions]="{standalone: true}" >
-              <button (click)="getScheduleData()" [disabled]="selectedOption.id == '' ">Tìm kiếm</button>
+                </div>
+                <label for="startDate">Chọn ngày:</label>
+                <input type="date" class="form-control col-3" id="startDate" [(ngModel)]="startedDateFormat"
+                    [ngModelOptions]="{standalone: true}" [min]="minStartedDate" >
+                <button (click)="getScheduleData()" class="btn btn-primary" [disabled]="selectedOption.id == '' ">Tìm kiếm</button>
             </div>
-          </form>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th *ngFor="let date of tableHead">{{ date|date:'dd-MM-yyyy' }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td *ngFor="let date of tableHead">
-                  <div *ngFor="let item of gethour(date)">
-                    <button>{{item.scheduleHour }}</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        </form>
+        <hr>
+        <h5>Lịch hẹn</h5>
+        <div class="schedule">
+           
+            <div *ngFor="let item of bookingDateList">
+                <p><small>Dịch vụ: {{item.serviceOptionName}}</small></p>
+               <p> <small>Ngày: {{item.bookingDate|date:'dd-MM-yyyy'}} lúc {{item.bookingHour}} <input class="remove-booking-button" value="x"
+                type="button" (click)="removeBooking(item.id)"></small></p>
+            </div>
+        </div>
+        <hr>
+        <h5>Bảng thời gian đặt lịch</h5>
+        <div class="table-schedule-available">
+            <table class=" table table-bordered">
+                <thead>
+                    <tr>
+                        <th *ngFor="let date of tableHead">{{ date|date:'dd-MM-yyyy' }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngFor="let date of tableHead">
+                            <div *ngFor="let item of gethour(date)">
+                                <button class="add-schedule-button" [disabled]="item.selected == true"
+                                    (click)="addSchedule(item)">{{item.scheduleHour}}</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    
+    <div *ngIf="currentStep==4">
+ 
+        <div class="section">
+          <div class="section-header">Thông tin của bạn</div>
+          <div class="user-info">
+            <div>Họ tên: {{customer.lastName}} {{customer.firstName}}</div>
+            <div>Địa chỉ: {{customer.address}}</div>
+            <div>Số điện thoại: {{customer.phonenumber}}</div>
+          </div>
+        </div>
+        
+
+        <div class="section">
+          <div class="section-header">Thông tin thú cưng</div>
+          <div class="store-info">
+            <div>Tên: {{selectedPet.name}}</div>
+            <div>Cân nặng: {{selectedPet.weight}}</div>
+            <div>Giống: {{selectedPet.breed}}</div>
+          </div>
+        </div>
+        
+     
+        <div class="section">
+          <div class="section-header">Dịch vụ</div>
+          <table>
+            <tr>
+              <th>Tên</th>
+              <th>Ngày</th>
+              <th>Giờ</th>
+              <th>Giá</th>
+            </tr>
+            <tr *ngFor="let item of bookingDateList">
+              <td>{{item.serviceOptionName}}</td>
+              <td>{{item.bookingDate|date:"dd-MM-yyyy"}}</td>
+              <td>{{item.bookingHour}}</td>
+              <td>{{item.grandPaid|number}} VNĐ</td>
+            </tr>
+          
+        </table>
+      </div>
+      
+  
+      <div class="section">
+        <div class="total">Tổng tiền: {{sellBill.totalPaid|number}} VNĐ</div>
+      </div>
+    </div>
 </div>
 
 <div class="navigation-buttons">
     <button (click)="previousStep()" *ngIf="currentStep > 1 ">Back</button>
-    <button (click)="nextStep()" *ngIf="currentStep < 4 && isLogin ==true " [disabled]="selectedPet.id == '' && currentStep == 2">Next</button>
-    <button (click)="submit()" *ngIf="currentStep === 4">Submit</button>
+    <button (click)="nextStep()" *ngIf="currentStep < 4 && isLogin ==true "
+        [disabled]="selectedPet.id == '' && currentStep == 2">Next</button>
+    <button class="submit" (click)="submit()" *ngIf="currentStep === 4">Submit</button>
 </div>

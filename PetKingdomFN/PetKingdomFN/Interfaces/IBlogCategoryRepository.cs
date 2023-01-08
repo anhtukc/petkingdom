@@ -5,7 +5,10 @@ namespace PetKingdomFN.Interfaces
 {
     public interface IBlogCategoryRepository
     {
+        Task<List<BlogCategory>> GetAll();
+
         Task<DataList<BlogCategory>> GetPageList(Pagination page);
+
         Task<DataList<BlogCategory>> SearchBlogCategory(Pagination page, basedSearchObject searchObj);
         Task<BlogCategory> GetBlogCategoryById(string id);
         Task<BlogCategory> AddBlogCategory(BlogCategory acc);
